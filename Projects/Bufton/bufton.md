@@ -7,9 +7,6 @@ Buffon'e Needle Problem was first proposed by Georges Buffon in 1737. By randoml
 
 Your task is to develop an algorithm that calculates pi based on the above description, and write a program to implement this  algorithm.
 
-Use this mathematical expression:  $$ pi = 2l\tP
-
-
 ### Rules ###
 
 #### How to submit code ####
