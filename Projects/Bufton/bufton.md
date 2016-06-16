@@ -1,9 +1,14 @@
 [gimmick: math]()
-Project 0: Bufton's Needle Experiment
+Project 0: Buffon's Needle Experiment
 --------------------------
 *Due date: May ? at 11:59p*
 
-Describe the Bufton Needle Experiment
+Buffon'e Needle Problem was first proposed by Georges Buffon in 1737. By randomly throwing needles onto a hard floor marked with equally spaced lines, Buffon was able to derive a mathematial expression which could be used to calculate the value of pi. The accuracy of this experimental value of pi increases with an increasing number of random throws. We will make the assumption that the length of the needle is less than or equal to the separation distance between the lines on the floor (for needles longer than the length of separation, a slightly different expression is used).
+
+Your task is to develop an algorithm that calculates pi based on the above description, and write a program to implement this  algorithm.
+
+Use this mathematical expression:  $$ pi = 2l\tP
+
 
 ### Rules ###
 
