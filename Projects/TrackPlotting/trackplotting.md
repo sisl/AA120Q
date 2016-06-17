@@ -57,7 +57,7 @@ Your task is to write a program to load these trajectories and plot them.
 #### Propose a Statistical Model
 
 [TODO: maybe Shahram can expand on this] ==> here it is:
-Now that you are familiar with the Probabilistic Models discussed in class (and described in section 2.1 of the text book), you will propose a model which best captures features from the plotted data. Your must explan the reasoning behind your decision to propose the model you chose.
+Now that you are familiar with the Probabilistic Models discussed in class (and described in section 2.1 of the text book), you will propose a model which best captures features from the plotted data. Your must explan the reasoning behind your decision to propose the model you chose, and describe what are the key features which make the proposed model best suited for this data set.
 
 #### How to submit code ####
 
