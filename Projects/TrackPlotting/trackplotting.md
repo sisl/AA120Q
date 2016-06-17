@@ -1,13 +1,44 @@
 [gimmick: math]()
-Project 0: Buffon's Needle Experiment
+Project 1: Track Plotting
 --------------------------
 *Due date: May ? at 11:59p*
 
-Buffon'e Needle Problem was first proposed by Georges Buffon in 1737. By randomly throwing needles onto a hard floor marked with equally spaced lines, Buffon was able to derive a mathematial expression which could be used to calculate the value of pi. The accuracy of this experimental value of pi increases with an increasing number of random throws. See https://en.wikipedia.org/wiki/Buffon%27s_needle for a detailed description of the probllem.
+### Assignment ###
 
-Your task is to develop an algorithm that calculates pi based on the above description, and write a program to implement this  algorithm.
+Your task is to:
 
-### Rules ###
+1.  Load example aircraft tracks from a file and plot them.
+2.  Propose a statistical model for capturing features from the data.
+
+#### Aircraft Tracks
+
+An airspace encounter consists of two components - the initial conditions and the transitions over time.
+One file is provided for each.
+
+The initial conditions file, `initial.txt`, contains a table with the following columns:
+
+| Variable | Type | Description |
+| -------- |:----:| ----------- |
+| id       | Int  | trace id    |
+| $A$      | Int  | index corresponding to the airspace class (i.e., B, C, D, or other) |
+| $L$      | Int  | index corresponding to the altitude layer with boundaries 500, 1200, 3000, 5000, and 12,500ft |
+| $\chi$   | Int  | index corresponding to bearing of intruder relative to own aircraft at time of closest approach |
+| $\beta$  | Float | approach angle at time of closest approach [deg] |
+| $C_1$    | Int   | category of aircraft 1 |
+| $C_2$    | Int   | category of aircraft 2 |
+| $v_1$    | Float | airspeed of aircraft 1 [kt] |
+| $v_2$    | Float | airpseed of aircraft 2 [kt] |
+| $\dot v_1$ | Float | airspeed acceleration of aircraft 1 [kt/s] | 
+| $\dot v_2$ | Float | airspeed acceleration of aircraft 2 [kt/s] | 
+| $\dot h_1$ | Float | vertical rate of aircraft 1 [ft/min] |
+| $\dot h_2$ | Float | vertical rate of aircraft 2 [ft/min] |
+| $\dot \psi_1$ | Float | turn rate of aircraft 1 [deg/s] |
+| $\dot \psi_2$ | Float | turn rate of aircraft 2 [deg/s] |
+| $hmd$ | Float | horizontal miss distance at time of closest approach [kt] |
+| $vmd$ | Float | vertical miss distance at time of closest approach [ft] |
+
+
+
 
 #### How to submit code ####
 
