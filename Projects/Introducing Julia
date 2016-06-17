@@ -1,3 +1,3 @@
-See [WikiBooks](https://en.wikibooks.org/wiki/Introducing_Julia/Getting_started) for a detailed descrition of how to install Julia in your system.
+See [WikiBooks](https://en.wikibooks.org/wiki/Introducing_Julia/Getting_started) for a detailed description of how to install Julia in your system.
 See [Learn Julia in Y Minutes](https://learnxinyminutes.com/docs/julia/)To learn Julia language syntax.
 You will need to install the following [graphics libraries](http://nbviewer.jupyter.org/github/sisl/PGFPlots.jl/blob/master/doc/PGFPlots.ipynb) in order to plot your data.
