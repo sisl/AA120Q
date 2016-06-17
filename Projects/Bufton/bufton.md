@@ -5,11 +5,21 @@ Project 0: Buffon's Needle Experiment
 
 <img src="http://andreiformiga.com/blog/wp-content/uploads/2013/03/buffon.png" alt="Tossing Needles" width="600" align="middle">
 
-Buffon's Needle Problem was first proposed by Georges Buffon in 1737. By randomly throwing needles onto a hard floor marked with equally spaced lines, Buffon was able to derive a mathematial expression which could be used to calculate the value of pi. The accuracy of this experimental value of pi increases with an increasing number of random throws. See [Wikipedia](https://en.wikipedia.org/wiki/Buffon%27s_needle) for a detailed description of the problem.
+Buffon's Needle Problem was first proposed by Georges Buffon in 1737. By randomly throwing needles onto a hard floor marked with equally spaced lines, Buffon was able to derive a mathematial expression which could be used to calculate the value of pi. Specifically, the probability that a needle of $b$ overlaps with a line is $\frac{2}{\pi}$. 
 
-Your task is to develop an algorithm that calculates pi based on the above description, and write a program to implement this  algorithm.
+One can estimate pi by dropping a large number of pins and using the ratio of overlaps to non-overlaps to estimate pi.
+The accuracy of this experimental value of pi increases with an increasing number of random throws. 
+See [Wikipedia](https://en.wikipedia.org/wiki/Buffon%27s_needle) for a detailed problem description and background.
 
-### Rules ###
+### Assignment ###
+
+Your task is to develop an algorithm that estimates pi based on the above description, and write a program to implement this  algorithm.
+
+1.	Your algorithm must be implemented from scratch in Julia.
+2.	Your function should have the following signature: `bufton(n::Int)`.
+3.  Your function should return $\hat{\pi}$, your estimate for pi.
+4.  Plot how your algorithm converges as the sample count is increased using [PGFPlots](https://github.com/sisl/PGFPlots.jl), [PyPlot.jl](https://github.com/stevengj/PyPlot.jl), or [Gadfly.jl](https://github.com/dcjones/Gadfly.jl)
+5.	Although you may discuss your algorithm with others, you must not share code.
 
 #### How to submit code ####
 
