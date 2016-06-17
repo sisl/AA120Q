@@ -15,7 +15,7 @@ Your task is to:
 An airspace encounter consists of two components - the initial conditions and the transitions over time.
 One file is provided for each.
 
-The initial conditions file, `initial.txt`, contains a table with the following columns:
+The initial conditions file, [`initial.txt`](initial.txt), contains a table with the following columns:
 
 | Variable | Type | Description |
 | -------- |:----:| ----------- |
