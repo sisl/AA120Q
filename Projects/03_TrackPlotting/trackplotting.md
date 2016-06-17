@@ -37,8 +37,28 @@ The initial conditions file, [`initial.txt`](initial.txt), contains a table with
 | $hmd$ | Float | horizontal miss distance at time of closest approach [kt] |
 | $vmd$ | Float | vertical miss distance at time of closest approach [ft] |
 
+The transitions file, [`transition.txt`](transition.txt), contains a table with the following columns:
 
+| Variable | Type | Description |
+| -------- |:----:| ----------- |
+| initial_id          | Int   | trace id, same as in `initial.txt`    |
+| t                   | Int   | time in 1s intervals from 0:49    |
+| $\dot h_1(t+1)$     | Float | vertical rate of aircraft 1 [ft/min] |
+| $\dot h_2(t+1)$     | Float | vertical rate of aircraft 2 [ft/min] |
+| $\dot \psi_1(t+1)$  | Float | turn rate of aircraft 1 [deg/s] |
+| $\dot \psi_1(t+1)$  | Float | turn rate of aircraft 2 [deg/s] |
 
+Your task is to write a program to load these trajectories and plot them.
+
+1.  Your algorithm must be implemented from scratch in Julia.
+2.  Overlay all traces on a single top-down plot with the ownship starting at (0,0) pointing along the positive x-axis. using PGFPlots, PyPlot.jl, or Gadfly.jl [TODO: example plot]
+3.  Although you may discuss your algorithm with others, you must not share code.
+
+#### Propose a Statistical Model
+
+[TODO: maybe Shahram can expand on this] here it is:
+
+Now that you are familiar with the Probabilistic Models discussed in class (and described in section 2.1 of the text book), you will propose a model which best captures features from the plotted data. Your must explan the reasoning behind your decision to propose the model you chose, and describe what are the key features which make your proposed model best suited for this data set.
 
 #### How to submit code ####
 
