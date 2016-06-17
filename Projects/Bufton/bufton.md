@@ -21,7 +21,7 @@ Your task is to develop an algorithm that estimates pi based on the above descri
 4.  Plot how your algorithm converges as the sample count is increased using [PGFPlots](https://github.com/sisl/PGFPlots.jl), [PyPlot.jl](https://github.com/stevengj/PyPlot.jl), or [Gadfly.jl](https://github.com/dcjones/Gadfly.jl)
 5.	Although you may discuss your algorithm with others, you must not share code.
 
-#### How to submit code ####
+#### Submission ####
 
 Submit your code under the name `project2.jl` using the submission procedure described below:
 
