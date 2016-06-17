@@ -3,7 +3,7 @@ Project 0: Buffon's Needle Experiment
 --------------------------
 *Due date: May ? at 11:59p*
 
-![Tossing Needles](https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Buffon_needle.svg/220px-Buffon_needle.svg.png)
+<img src="http://andreiformiga.com/blog/wp-content/uploads/2013/03/buffon.png" alt="Tossing Needles" width="600" align="middle">
 
 Buffon's Needle Problem was first proposed by Georges Buffon in 1737. By randomly throwing needles onto a hard floor marked with equally spaced lines, Buffon was able to derive a mathematial expression which could be used to calculate the value of pi. The accuracy of this experimental value of pi increases with an increasing number of random throws. See [Wikipedia](https://en.wikipedia.org/wiki/Buffon%27s_needle) for a detailed description of the problem.
 
