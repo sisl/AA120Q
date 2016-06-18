@@ -1,0 +1,8 @@
+
+# launch julia
+clear; /home/tim/Desktop/julia3/julia-80aa77986e/bin/julia
+using SISLES, HDF5, JLD
+d = JLD.load("result.jld", "data")
+
+# to run simulations -> outputs to result.jld
+clear; /home/tim/Desktop/julia3/julia-80aa77986e/bin/julia /home/tim/.julia/v0.3/SISLES/src/examples/simulate.jl generate -n 1000000
