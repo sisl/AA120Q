@@ -1,5 +1,5 @@
 [gimmick: math]()
-Project 1: Track Plotting
+Week 3: Track Plotting
 --------------------------
 *Due date: May ? at 11:59p*
 
