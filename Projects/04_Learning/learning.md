@@ -1,5 +1,5 @@
 [gimmick: math]()
-Project 2: Encounter Learning
+Week 4: Encounter Learning
 -----------------------------
 *Due date: May ? at 11:59p*
 
