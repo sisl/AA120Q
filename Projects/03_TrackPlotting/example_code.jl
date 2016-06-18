@@ -1,21 +1,6 @@
 using DataFrames
 using PGFPlots
 
-# initial = readtable("initial.txt")
-# transition = readtable("transition.txt")
-
-# type AircraftState
-#     t::Float64
-#     x::Float64
-#     y::Float64
-#     h::Float64
-#     vx::Float64
-#     vy::Float64
-#     vh::Float64
-
-#     AircraftState() = new(0.0,0.0,0.0,0.0,0.0,0.0,0.0)
-# end
-
 immutable AircraftAction
     Δh::Float64 # climb rate [ft/min]
     Δψ::Float64 # turnrate [deg/s]
