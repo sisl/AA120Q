@@ -22,14 +22,14 @@ The initial conditions file, [`initial.txt`](initial.txt), contains a table with
 | id       | Int  | trace id    |
 | $A$      | Int  | index corresponding to the airspace class (i.e., B, C, D, or other) |
 | $L$      | Int  | index corresponding to the altitude layer with boundaries 500, 1200, 3000, 5000, and 12,500ft |
-| $\chi$   | Int  | index corresponding to bearing of intruder relative to own aircraft at time of closest approach |
+| $\chi$   | Int  | index identifying the polarity of the intruder bearing at time of closest approach |
 | $\beta$  | Float | approach angle at time of closest approach [deg] |
 | $C_1$    | Int   | category of aircraft 1 |
 | $C_2$    | Int   | category of aircraft 2 |
 | $v_1$    | Float | airspeed of aircraft 1 [kt] |
 | $v_2$    | Float | airpseed of aircraft 2 [kt] |
-| $\dot v_1$ | Float | airspeed acceleration of aircraft 1 [kt/s] | 
-| $\dot v_2$ | Float | airspeed acceleration of aircraft 2 [kt/s] | 
+| $\dot v_1$ | Float | airspeed acceleration of aircraft 1 [kt/s] |
+| $\dot v_2$ | Float | airspeed acceleration of aircraft 2 [kt/s] |
 | $\dot h_1$ | Float | vertical rate of aircraft 1 [ft/min] |
 | $\dot h_2$ | Float | vertical rate of aircraft 2 [ft/min] |
 | $\dot \psi_1$ | Float | turn rate of aircraft 1 [deg/s] |
@@ -86,7 +86,7 @@ Submit your code under the name `project2.jl` using the submission procedure des
 
 3. **Submit code**
 
-    Submit your code as a file named `project2.jl` or `project2.py` in a directory named `project2` as follows: 
+    Submit your code as a file named `project2.jl` or `project2.py` in a directory named `project2` as follows:
 
     Usage: **submit submit &lt;nickname&gt; &lt;project number&gt; &lt;dirname&gt;**
 
