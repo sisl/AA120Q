@@ -3,7 +3,7 @@ using PGFPlots
 
 function buffon(n::int)
 
-    # write code here...
+    # write algorithm here...
     
 end
 
