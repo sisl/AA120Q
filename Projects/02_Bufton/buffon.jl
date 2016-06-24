@@ -7,3 +7,5 @@ function buffon(n::int)
     
 end
 
+# Do your plot to show convergence of algorithm here
+
