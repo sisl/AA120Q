@@ -1,5 +1,4 @@
-using DataFrames
-using PGFPlots
+using AA120Q.jl
 
 function buffon(n::int)
 
