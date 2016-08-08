@@ -535,7 +535,7 @@ end
 function evaluate(cas::CollisionAvoidanceSystem, encounters::Vector{Encounter}, nsamples::Int)
     n_advisories = 0
     n_NMACs = 0
-
+    total_penalty = 0.0
     sample_range = 1:length(encounters)
 
     for i in 1 : nsamples
