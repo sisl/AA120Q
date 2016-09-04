@@ -1,11 +1,11 @@
-const RANGE_STDEV = 50 # [ft²]
+const RANGE_STDEV = 50 # [ft]
 const BEARING_STDEV = 5 # [deg]
 const RELATIVE_ALTITUDE_DISC = LinearDiscretizer([-Inf, -1000, -500, -250, -100, 0, 100, 250, 500, 1000, Inf])
 
 immutable SensorReading
     r::Float64 # range [ft], horizontal distance AC1 → AC2
-    b::Float64 # bearing [deg], positive to AC1's left
-    a::Int # discretized relative altitude [-]. See RELATIVE_ALTITUDE_DISC for bins
+    α::Float64 # bearing [deg], positive to AC1's left
+    d::Int # discretized relative altitude [-]. See RELATIVE_ALTITUDE_DISC for bins
 end
 function SensorReading(s1::AircraftState, s2::AircraftState)
 
@@ -18,8 +18,8 @@ function SensorReading(s1::AircraftState, s2::AircraftState)
 
     # add sensor noise
     r += randn()*RANGE_STDEV
-    b = mod(b + randn()*BEARING_STDEV, 360) # ensure is in range [0,360)
-    a = encode(RELATIVE_ALTITUDE_DISC, a_cont)
+    α = mod(b + randn()*BEARING_STDEV, 360) # ensure is in range [0,360)
+    d = encode(RELATIVE_ALTITUDE_DISC, a_cont)
 
-    SensorReading(r, b, a)
+    SensorReading(r, α, d)
 end

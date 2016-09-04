@@ -1,4 +1,4 @@
-const AIRPLANE_IMAGE = read_from_png(Pkg.dir("AA120Q", "data", "airplane-top-view.png")
+const AIRPLANE_IMAGE = read_from_png(Pkg.dir("AA120Q", "data", "airplane-top-view.png"))
 const AIRPLANE_LENGTH = 70.7136 # meters
 const AIRPLANE_SCALE = AIRPLANE_LENGTH/AIRPLANE_IMAGE.width
 
