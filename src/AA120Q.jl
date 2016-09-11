@@ -801,7 +801,7 @@ function get_canvas_and_context(canvas_width::Int, canvas_height::Int;
     s = CairoRGBSurface(canvas_width, canvas_height)
     ctx = creategc(s)
 
-    # clear background
+    # clear background to white
     set_source_rgb(ctx, 1.0,1.0,1.0)
     paint(ctx)
 
@@ -849,7 +849,8 @@ end
 
 function render!(ctx::CairoContext, trace::Vector{AircraftState}, color::Tuple{Float64,Float64,Float64,Float64})
     Cairo.save(ctx)
-    set_source_rgba(ctx,0.0,0.0,1.0,1.0)
+    # set_source_rgba(ctx,0.0,0.0,1.0,1.0)
+    set_source_rgba(ctx,color...)
     set_line_width(ctx,0.5)
 
     move_to(ctx, trace[1].e, trace[1].n)
@@ -858,6 +859,7 @@ function render!(ctx::CairoContext, trace::Vector{AircraftState}, color::Tuple{F
     end
     Cairo.stroke(ctx)
     restore(ctx)
+    ctx
 end
 
 function render(enc::Encounter, t::Float64;
