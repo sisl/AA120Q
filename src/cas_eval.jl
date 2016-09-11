@@ -97,7 +97,7 @@ function evaluate(cas::CollisionAvoidanceSystem, encounters::Vector{Encounter}, 
     CASEval(nsamples, n_advisories, n_NMACs, total_penalty)
 end
 
-const MISS_DISTANCE_DISC = LinearDiscretizer(collect(linspace(0.0, 10000.0, 21)))
+const MISS_DISTANCE_DISC = LinearDiscretizer(collect(linspace(0.0, 25000.0, 21)))
 function get_miss_distance_counts(encounters::Vector{Encounter}, disc::LinearDiscretizer=MISS_DISTANCE_DISC)
     counts = zeros(Int, nlabels(disc))
     for enc in encounters
