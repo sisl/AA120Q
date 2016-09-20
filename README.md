@@ -1,5 +1,6 @@
-# Establishing Trust in Autonomous Systems
-## AA120Q
+# AA120Q
+## Establishing Trust in Autonomous Systems
+
 
 This package supports Establishing Trust in Autonomous Systems, AA120Q, offered at Stanford.
 
