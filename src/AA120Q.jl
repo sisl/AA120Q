@@ -1,5 +1,3 @@
-VERSION >= v"0.4.0-dev+6521" && __precompile__(true)
-
 module AA120Q
 
 using Reexport
@@ -8,7 +6,6 @@ using Cairo
 @reexport using Distributions
 @reexport using Discretizers
 @reexport using Plots
-plotlyjs()
 
 export
     Advisory,
