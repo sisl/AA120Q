@@ -123,7 +123,7 @@ function GridWorld()
 end
 
 function colorval(val, brightness::Real = 1.0)
-  x = 255 - min(255, 255 * (abs(val) ./ 10.0) .^ brightness)
+  x = [255 - min(255, 255 * (abs(v) ./ 10.0) .^ brightness) for v in val]
   r = 255 * ones(size(val))
   g = 255 * ones(size(val))
   b = 255 * ones(size(val))
