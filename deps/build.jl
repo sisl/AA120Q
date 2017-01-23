@@ -1,4 +1,6 @@
-const DATA_DOWNLOAD_URL =
+Pkg.checkout("Reactive")
+
+# const DATA_DOWNLOAD_URL =
 
 data_dir = Pkg.dir("AA120Q", "data")
 if !isdir(data_dir)
