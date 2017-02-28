@@ -20,3 +20,4 @@ end
 
 fetch_dset("small")
 fetch_dset("large")
+fetch_dset("cas")
