@@ -1,4 +1,4 @@
-type TCAS <: FullyObservableCollisionAvoidanceSystem
+mutable struct TCAS <: FullyObservableCollisionAvoidanceSystem
     advisory::Advisory
     climb_rate::Float64
     TCAS(climb_rate::Float64=1500/60, advisory::Advisory=ADVISORY_NONE) = new(advisory, min(abs(climb_rate), CLIMB_RATE_MAX))
@@ -14,17 +14,18 @@ function update!(tcas::TCAS, s1::AircraftState, s2::AircraftState, params::Encou
         # test for a threat
 
         # pull TCAS observations
-        x1, y1, h1, vx1, vy1, h1_dot = s1.e, s1.n, s1.h, s1.v*cosd(90 + s1.ψ), s1.v*sind(90 + s1.ψ), s1.hd
-        x2, y2, h2, vx2, vy2, h2_dot = s2.e, s2.n, s2.h, s2.v*cosd(90 + s2.ψ), s2.v*sind(90 + s2.ψ), s2.hd
+        x1, y1, vx1, vy1, = s1.x, s1.y, s1.v, s1.u
+        
+        x2, y2, vx2, vy2, = s2.x, s2.y, s2.v, s2.u
 
         dxy = [(x2 - x1), (y2 - y1)]
         dvxy = [(vx2 - vx1), (vy2 - vy1)]
 
-        r = norm(dxy) # range [ft]
-        r_dot = dot(dxy,dvxy) / norm(dxy) # range rate [ft/s]
+        r = norm(dxy) # range [m]
+        r_dot = dot(dxy,dvxy) / norm(dxy) # range rate [m/s]
 
-        a = abs(h1 - h2) # relative altitude [ft]
-        a_dot = sign(h2 - h1) * (h2_dot - h1_dot) # relative altitude rate of change [ft/s]
+        # a = abs(h1 - h2) # relative altitude [ft]
+        # a_dot = sign(h2 - h1) * (h2_dot - h1_dot) # relative altitude rate of change [ft/s]
 
         # get range parameters based on our altitude
         if h1 < 1000

@@ -3,7 +3,7 @@ const ADVISORY_MAGNITUDE_PENALTY =    1.0 # penalty proportional to magnitude of
 const ADVISORY_REVERSAL_PENALTY  =   50.0 # penalty for a reversal (changing sign of advisory)
 const NMAC_PENALTY               =    1e5 # penalty for an NMAC
 
-immutable CASEval
+struct CASEval
     n_encounters::Int
     n_advisories::Int
     n_NMACs::Int
@@ -11,30 +11,31 @@ immutable CASEval
 end
 Base.show(io::IO, e::CASEval) = @printf(io, "CASEval(n_encounters: %d, n_advisories: %d, n_NMACs: %d, penalty: %.2f, normalized: %.2f)", e.n_encounters, e.n_advisories, e.n_NMACs, e.total_penalty, e.total_penalty/e.n_encounters)
 
-function _evaluate(cas::CollisionAvoidanceSystem, enc::Encounter)
+function _evaluate(cas::CollisionAvoidanceSystem, traj::Trajectory)
     reset!(cas) # re-initialize the CAS
 
-    params = EncounterSimParams(length(enc.trace1)-1, enc.Δt)
+    params = EncounterSimParams(length(enc.stats)-1, enc.Δt) # change this
 
     # infer all actions
     actions1 = Array(AircraftAction, params.nsteps)
     actions2 = Array(AircraftAction, params.nsteps)
     for i in 1 : params.nsteps
-        s11 = enc.trace1[i]
-        s12 = enc.trace1[i+1]
+        s11 = traj[i].plane1
+        s12 = traj[i+1].plane1
         actions1[i] = AircraftAction((s12.v - s11.v)/params.Δt,
-                                     (s12.h - s11.h)/params.Δt,
-                                     rad2deg(atan2(sind(s12.ψ - s11.ψ), cosd(s12.ψ - s11.ψ)))/params.Δt)
-        s21 = enc.trace2[i]
-        s22 = enc.trace2[i+1]
+                                     (s12.u - s11.u)/params.Δt
+                                    )
+        
+        s21 = traj[i].plane2
+        s22 = traj[i+1].plane2
         actions2[i] = AircraftAction((s22.v - s21.v)/params.Δt,
-                                     (s22.h - s21.h)/params.Δt,
-                                     rad2deg(atan2(sind(s22.ψ - s21.ψ), cosd(s22.ψ - s21.ψ)))/params.Δt)
+                                     (s22.u - s21.u)/params.Δt
+                                    )
     end
 
     # simulate to get the traces
-    s1 = enc.trace1[1]
-    s2 = enc.trace2[1]
+    s1 = traj[1].plane1
+    s2 = traj[1].plane2
     n_advisories = 0
     prev_advisory = NaN
     total_penalty = 0.0
@@ -42,12 +43,12 @@ function _evaluate(cas::CollisionAvoidanceSystem, enc::Encounter)
     for i in 1 : params.nsteps
 
         a1, a2 = actions1[i], actions2[i]
-
         advisory = update!(cas, s1, s2, params)
+        
         if !is_no_advisory(advisory)
             # replace response with that of advisory
             climb_rate = clamp(advisory.climb_rate, CLIMB_RATE_MIN, CLIMB_RATE_MAX)
-            a1 = AircraftAction(a1.Δv, climb_rate, a1.Δψ)
+            a1 = AircraftAction(a1.Δu, climb_rate)
 
             if !isapprox(climb_rate, prev_advisory)
                 n_advisories += 1
@@ -59,8 +60,8 @@ function _evaluate(cas::CollisionAvoidanceSystem, enc::Encounter)
             end
         end
 
-        s1 = update_state(s1, a1, params.Δt)
-        s2 = update_state(s2, a2, params.Δt)
+        s1 = update_state(s1) #a1, params.Δt)
+        s2 = update_state(s2) #a2, params.Δt)
 
         if is_nmac(s1, s2)
             return (true, n_advisories, total_penalty)
@@ -69,7 +70,7 @@ function _evaluate(cas::CollisionAvoidanceSystem, enc::Encounter)
 
     (false, n_advisories, total_penalty)
 end
-function evaluate(cas::CollisionAvoidanceSystem, encounters::Vector{Encounter})
+function evaluate(cas::CollisionAvoidanceSystem, trajectories::Vector{Trajectory})
     n_advisories = 0
     n_NMACs = 0
     total_penalty = 0.0
@@ -81,7 +82,7 @@ function evaluate(cas::CollisionAvoidanceSystem, encounters::Vector{Encounter})
     end
     CASEval(length(encounters), n_advisories, n_NMACs, total_penalty)
 end
-function evaluate(cas::CollisionAvoidanceSystem, encounters::Vector{Encounter}, nsamples::Int)
+function evaluate(cas::CollisionAvoidanceSystem, trajectories::Vector{Trajectory}, nsamples::Int)
     n_advisories = 0
     n_NMACs = 0
     total_penalty = 0.0

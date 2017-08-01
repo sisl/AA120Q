@@ -23,11 +23,11 @@ function get_canvas_and_context(canvas_width::Int, canvas_height::Int;
 end
 
 function center_on_aircraft!(ctx::CairoContext, states::AircraftState...)
-    n = 0.0
-    e = 0.0
+    x = 0.0
+    y = 0.0
     for s in states
-        n += s.n
-        e += s.e
+        x += s.x
+        y += s.y
     end
     Cairo.translate(ctx, -e/length(states), -n/length(states))
     ctx
@@ -35,7 +35,7 @@ end
 
 function render!(ctx::CairoContext, s::AircraftState)
     Cairo.save(ctx)
-    Cairo.translate(ctx, s.e, s.n)
+    Cairo.translate(ctx, s.x, s.y)
     Cairo.rotate(ctx, π/2+deg2rad(s.ψ))
     Cairo.translate(ctx,-AIRPLANE_LENGTH/2, -AIRPLANE_LENGTH/2)
     scale(ctx, AIRPLANE_SCALE, AIRPLANE_SCALE)

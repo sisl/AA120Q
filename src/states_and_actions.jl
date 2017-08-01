@@ -1,49 +1,33 @@
-immutable AircraftAction
-    Δv::Float64 # acceleration [ft/s²]
-    Δh::Float64 # climb rate [ft/s]
-    Δψ::Float64 # turnrate [deg/s]
+struct AircraftAction
+    Δu::Float64 # acceleration [m/s²]
+    Δv::Float64 # acceleration [m/s²]
 end
 
-immutable AircraftState
-    n::Float64  # northing   [ft]
-    e::Float64  # easting    [ft]
-    h::Float64  # altitude   [ft]
-    ψ::Float64  # heading    [deg] (angle CCW from north)
-    v::Float64  # speed      [ft/s] (total speed in 3D)
-    hd::Float64 # climb rate [ft/s] (vertical speed component)
+struct AircraftState
+    x::Float64  # horizontal distance  [m]
+    y::Float64  # vertical distance    [m]
+    u::Float64  # speed                [m/s]
+    v::Float64  # speed                [m/s]
 end
 
 start_state(v::Float64) = AircraftState(0.0,0.0,0.0,0.0,v,0.0)
 function interpolate_state(a::AircraftState, b::AircraftState, z::Float64)
     AircraftState(
-            a.n + (b.n - a.n)*z,
-            a.e + (b.e - a.e)*z,
-            a.h + (b.h - a.h)*z,
-            a.ψ + atan2(sin(b.ψ-a.ψ), cos(b.ψ-a.ψ))*z,
+            a.x + (b.x - a.x)*z,
+            a.y + (b.y - a.y)*z,
+            a.u + (b.u - a.u)*z,
             a.v + (b.v - a.v)*z,
-            a.hd + (b.hd - a.hd)*z,
         )
 end
-function update_state(s::AircraftState, a::AircraftAction, Δt::Float64;
-    theta_regulated::Float64 = 45.0, # [deg]
-    )
+function update_state(s::AircraftState, a::AircraftAction, Δt::Float64)
 
-    x, y, h, ψ, v = s.n, -s.e, s.h, s.ψ, s.v
-    Δv, Δh, Δψ  = a.Δv, a.Δh, a.Δψ
+    x, y, u, v = s.x, -s.y, s.u, s.v
+    Δu, Δv  = a.Δu, a.Δv
+    
+    u₂ = u + Δu * Δt  # m/s
+    v₂ = v + Δv * Δt  # m/s
 
-    if abs(Δh) > abs(v) * sind(theta_regulated)
-        Δh = sign(Δh) * abs(v) * sind(theta_regulated)
-    end
-
-    x₂ = x + sqrt(v^2 - Δh^2) * cosd(ψ) * Δt
-    y₂ = y + sqrt(v^2 - Δh^2) * sind(ψ) * Δt
-
-    v₂ = v + Δv * Δt  # ft/s
-    h₂ = h + Δh * Δt  # ft
-    ψ₂ = ψ + Δψ * Δt  # deg
-    hd₂ = Δh
-
-    AircraftState(x₂, -y₂, h₂, ψ₂, v₂, hd₂)
+    AircraftState(x₂, y₂, v₂, u₂)
 end
 
 function get_interpolated_state(trace::Vector{AircraftState}, Δt::Float64, t::Float64)

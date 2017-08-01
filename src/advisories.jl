@@ -7,10 +7,10 @@
 
     The simulated pilot will begin following the advisory exactly at t ∼ U(0, pilot_delay)
 """
-immutable Advisory
-    climb_rate::Float64 # ft/s
+struct Advisory
+    climb_rate::Float64 # m/s
 end
-const CLIMB_RATE_MAX =  4400/60 # ft/s
-const CLIMB_RATE_MIN = -4400/60 # ft/s
+const CLIMB_RATE_MAX =  1350/60 # m/s
+const CLIMB_RATE_MIN = -1350/60 # m/s
 const ADVISORY_NONE = Advisory(NaN)
 is_no_advisory(a::Advisory) = isnan(a.climb_rate)

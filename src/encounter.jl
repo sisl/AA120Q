@@ -1,100 +1,119 @@
 
-type Encounter
-    A::Int  # aircraft type
-    C1::Int # category of aircraft 1
-    C2::Int # category of aircraft 2
-    Δt::Float64 # constant timestep between frames [sec]
-    trace1::Vector{AircraftState}
-    trace2::Vector{AircraftState}
+mutable struct EncounterState
+    plane1::AircraftState
+    plane2::AircraftState
+    t::Float64 # constant timestep between frames [sec]
+end
+
+const Trajectory = Vector{EncounterState}
+
+struct Encounter
+    traj::Trajectory
     advisories::Vector{Advisory}
-
-    function Encounter(
-        A::Int,
-        C1::Int,
-        C2::Int,
-        Δt::Float64,
-        trace1::Vector{AircraftState},
-        trace2::Vector{AircraftState},
-        advisories::Vector{Advisory}=fill(ADVISORY_NONE, max(length(trace1)-1, 0))
-        )
-
-        retval = new()
-        retval.A = A
-        retval.C1 = C1
-        retval.C2 = C2
-        retval.Δt = Δt
-        retval.trace1 = trace1
-        retval.trace2 = trace2
-        retval.advisories = advisories
-        retval
-    end
 end
 
-function get_miss_distance(enc::Encounter)
-    trace1, trace2 = enc.trace1, enc.trace2
-    d, i = findmin([norm([trace1[i].e - trace2[i].e, trace1[i].n - trace2[i].n, trace1[i].h - trace2[i].h]) for i in 1 : length(trace1)])
-    d # [ft]
-end
+get_separation(state::EncounterState) = hypot(state.plane1.x - state.plane2.x,
+                                              state.plane1.y - state.plane2.y)
+get_separation_x(state::EncounterState) = abs(state.plane1.x - state.plane2.x)
+get_separation_y(state::EncounterState) = abs(state.plane1.y - state.plane2.y)
 
-const NMAC_THRESOLD_VERT = 100.0 # [ft]
-const NMAC_THRESOLD_HORZ = 500.0 # [ft]
+get_min_separation(traj::Trajectory) = minimum(get_separation(s) for s in traj)
+find_min_separation(traj::Trajectory) = indmin(get_separation(s) for s in traj)
+
+get_min_x_separation(traj::Trajectory) = minimum(get_separation_x(s) for s in traj)
+find_min_x_separation(traj::Trajectory) = indmin(get_separation_x(s) for s in traj)
+
+get_min_y_separation(traj::Trajectory) = minimum(get_separation_y(s) for s in traj)
+find_min_y_separation(traj::Trajectory) = indmin(get_separation_y(s) for s in traj)
+
+const NMAC_THRESOLD_VERT = 30.0 # [m]
+const NMAC_THRESOLD_HORZ = 150.0 # [m]
 function is_nmac(s1::AircraftState, s2::AircraftState)
-    Δvert = abs(s1.h - s2.h)
-    Δhorz = norm([s1.e - s2.e, s1.n - s2.n])
+    Δvert = abs(s1.y - s2.y)
+    Δhorz = abs(s1.x - s2.x)
     Δvert ≤ NMAC_THRESOLD_VERT && Δhorz ≤ NMAC_THRESOLD_HORZ
 end
-function has_nmac(enc::Encounter)
-    trace1, trace2 = enc.trace1, enc.trace2
-    for i in 1 : length(trace1)
-        if is_nmac(trace1[i], trace2[i])
+function has_nmac(traj::Trajectory)
+    # plane1, plane2 = enc.plane1, enc.plane2
+    for i in 1 : length(traj)
+        if is_nmac(traj[i].plane1, traj[i].plane2)
             return true
         end
     end
     false
 end
 
-function plot_encounter(enc::Encounter)
-
-    trace1, trace2 = enc.trace1, enc.trace2
-
-    # grab the index at which they are closest, and the dist
-    d, i = findmin([norm([trace1[i].e - trace2[i].e, trace1[i].n - trace2[i].n, trace1[i].h - trace2[i].h]) for i in 1 : length(trace1)])
+# plot using the vector of trajectories
+function plot_encounter(traj::Trajectory, index::Int)
+    
+    d = get_min_separation(traj)  # closest dist 
+    i = find_min_separation(traj) # index of closest dist
 
     palette=[colorant"0x52E3F6", colorant"0x79ABFF", colorant"0xFF007F"]
-    t_arr = (collect(1:length(trace1)).-1) .* enc.Δt
+    t_arr = (collect(1:length(traj)).-1) #.* traj.Δt
 
-    e1_arr = map(s->s.e,trace1)
-    n1_arr = map(s->s.n,trace1)
-    e2_arr = map(s->s.e,trace2)
-    n2_arr = map(s->s.n,trace2)
+    x1_arr = map(s->s.plane1.x,traj)
+    y1_arr = map(s->s.plane1.y,traj)
+    x2_arr = map(s->s.plane2.x,traj)
+    y2_arr = map(s->s.plane2.y,traj)
 
-    min_e1, max_e1 = extrema(e1_arr)
-    min_n1, max_n1 = extrema(n1_arr)
-    min_e2, max_e2 = extrema(e2_arr)
-    min_n2, max_n2 = extrema(n2_arr)
+    min_x1, max_x1 = extrema(x1_arr)
+    min_y1, max_y1 = extrema(y1_arr)
+    min_x2, max_x2 = extrema(x2_arr)
+    min_y2, max_y2 = extrema(y2_arr)
 
-    max_e = max(max_e1, max_e2)
-    max_n = max(max_n1, max_n2)
-    min_e = min(min_e1, min_e2)
-    min_n = min(min_n1, min_n2)
+    max_x = max(max_x1, max_x2)
+    max_y = max(max_y1, max_y2)
+    min_x = min(min_x1, min_x2)
+    min_y = min(min_y1, min_y2)
 
-    w = max(abs(max_e), abs(min_e), abs(max_n), abs(min_n)) + 500
+    w = max(abs(max_x), abs(min_x), abs(max_y), abs(min_y)) + 150
 
-    p1 = plot(Vector{Float64}[e1_arr, e2_arr, [trace1[i].e, trace2[i].e]],
-              Vector{Float64}[n1_arr, n2_arr, [trace1[i].n, trace2[i].n]],
-              xlabel="East (ft)", ylabel="North (ft)", palette=palette, linewidth=4, xlims=(-w,w), ylims=(-w,w))
-    scatter!(p1, Vector{Float64}[Float64[trace1[1].e], Float64[trace2[1].e]],
-                 Vector{Float64}[Float64[trace1[1].n], Float64[trace2[1].n]])
+    p1 = plot(Vector{Float64}[x1_arr, x2_arr, [plane1[i].x, plane2[i].x]],
+              Vector{Float64}[y1_arr, y2_arr, [plane1[i].y, plane2[i].y]],
+              xlabel="Horizontal Distance (m)", ylabel="Vertical Distance (m)", palette=palette, linewidth=4, xlims=(-w,w), ylims=(-w,w))
+    scatter!(p1, Vector{Float64}[Float64[traj[1].plane1.x], Float64[traj[1].plane2.x]],
+                 Vector{Float64}[Float64[traj[1].plane1.y], Float64[traj[1].plane2.y]])
+    
+    plot(p1, size=(950,400))
+end    
+    
+function plot_encounter(enc::Encounter)
+    
+    traj = enc.traj
 
+    d = get_min_separation(traj)  # closest dist 
+    i = find_min_separation(traj) # index of closest dist
+    
+    palette=[colorant"0x52E3F6", colorant"0x79ABFF", colorant"0xFF007F"]
+    t_arr = (collect(1:length(traj1)).-1) #.* enc.Δt
 
-    p2 = plot(Vector{Float64}[t_arr, t_arr, [(i-1)*enc.Δt,(i-1)*enc.Δt]],
-              Vector{Float64}[map(s->s.h,trace1), map(s->s.h,trace2), [trace1[i].h, trace2[i].h]],
-              xlabel="Time (s)", ylabel="Altitude (ft)", leg=false, palette=palette, linewidth=4,
-              annotations=(i,(trace1[i].h+trace2[i].h)/2, Plots.text(@sprintf("mid dist: %.0f ft", d))))
+    x1_arr = map(s->s.plane1.x,traj)
+    y1_arr = map(s->s.plane1.y,traj)
+    x2_arr = map(s->s.plane2.x,traj)
+    y2_arr = map(s->s.plane2.y,traj)
+
+    min_x1, max_x1 = extrema(x1_arr)
+    min_y1, max_y1 = extrema(y1_arr)
+    min_x2, max_x2 = extrema(x2_arr)
+    min_y2, max_y2 = extrema(y2_arr)
+
+    max_x = max(max_x1, max_x2)
+    max_y = max(max_y1, max_y2)
+    min_x = min(min_x1, min_x2)
+    min_y = min(min_y1, min_y2)
+
+    w = max(abs(max_x), abs(min_x), abs(max_y), abs(min_y)) + 150
+
+    p1 = plot(Vector{Float64}[x1_arr, x2_arr, [traj1[i].x, traj2[i].x]],
+              Vector{Float64}[y1_arr, y2_arr, [traj1[i].y, traj2[i].y]],
+              xlabel="Horizontal Distance (m)", ylabel="Vertical Distance (m)", palette=palette, linewidth=4, xlims=(-w,w), ylims=(-w,w))
+    scatter!(p1, Vector{Float64}[Float64[traj1[1].x], Float64[traj2[1].x]],
+                 Vector{Float64}[Float64[traj1[1].y], Float64[traj2[1].y]])
 
     # indicate when advisories were issued
     advisory_t_vals = Float64[]
-    advisory_h_vals = Float64[]
+    advisory_y_vals = Float64[]
 
     prev_climb_rate = NaN
 
@@ -104,49 +123,37 @@ function plot_encounter(enc::Encounter)
             if !is_no_advisory(advisory) && !isapprox(advisory.climb_rate, prev_climb_rate)
                 prev_climb_rate = advisory.climb_rate
                 push!(advisory_t_vals, t)
-                push!(advisory_h_vals, enc.trace1[i].h)
+                push!(advisory_y_vals, traj[i].plane1.y)
             end
-            t += enc.Δt
+            t += 1.0
         end
     end
 
     scatter!(p2, advisory_t_vals, advisory_h_vals)
 
-
     plot(p1, p2, size=(950,400))
 end
 
-function pull_encounters(initial::DataFrame, traces::DataFrame, N::Int=nrow(initial))
-
-    N = clamp(N, 0, nrow(initial))
-    arr = Array(Encounter, N)
-    j = 1
-    traceids = traces[:id]
-    for id in 1 : N
-        j = findnext(traceids, id, j)
-        j_end = findlast(traceids, id)
-        Δt = convert(Float64, traces[j+1, :t] - traces[j, :t])
-
-        m = j_end - j + 1
-        trace1 = Array(AircraftState, m)
-        trace2 = Array(AircraftState, m)
-
-        for k in 1 : m
-            j2 = j + k - 1
-
-            if k < m
-                hd1, hd2 = (traces[j2+1, :h1] - traces[j2, :h1]) / Δt,
-                           (traces[j2+1, :h2] - traces[j2, :h2]) / Δt
-            else
-                hd1, hd2 = (traces[j2, :h1] - traces[j2-1, :h1]) / Δt,
-                           (traces[j2, :h2] - traces[j2-1, :h2]) / Δt
-            end
-
-            trace1[k] = AircraftState(traces[j2, :n1], traces[j2, :e1], traces[j2, :h1], traces[j2, :ψ1], traces[j2, :v1], hd1)
-            trace2[k] = AircraftState(traces[j2, :n2], traces[j2, :e2], traces[j2, :h2], traces[j2, :ψ2], traces[j2, :v2], hd2)
-        end
-
-        arr[id] = Encounter(initial[id, :A], initial[id, :C1], initial[id, :C2], Δt, trace1, trace2)
+function pull_trajectory(flights::DataFrame, id::Int)
+    flightids = flights[:id]
+    i = findfirst(flightids, id)
+    j = findlast(flightids, id)
+    traj = Vector{EncounterState}(j-i+1)
+    
+    for (idx,frame) in enumerate(i : j)
+        
+        t = idx - 1.0 # set initial time to zero
+        
+        plane1 = AircraftState(flights[frame, :x1], flights[frame, :y1], flights[frame, :u1], flights[frame, :v1])
+        
+        plane2 = AircraftState(flights[frame, :x2], flights[frame, :y2], flights[frame, :u2], flights[frame, :v2])
+        
+        traj[idx] = EncounterState(plane1, plane2, t)
     end
-    arr
+    return traj
+end
+
+function pull_trajectories(flights::DataFrame, N::Int=nrow(initial))
+    N = clamp(N, 0, nrow(initial))
+    return [pull_trajectory(flights, id) for id in 1:N]
 end
