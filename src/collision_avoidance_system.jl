@@ -40,7 +40,7 @@ function Base.rand(
     Encounter(params.Δt, trajectory, advisories)
 end
 function Base.rand(
-    traj::trajectory, # human-generated encounter
+    traj::Trajectory, # human-generated encounter
     cas::CollisionAvoidanceSystem, # advisory policy
     )
 
