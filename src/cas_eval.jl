@@ -99,11 +99,11 @@ function evaluate(cas::CollisionAvoidanceSystem, trajectories::Vector{Trajectory
 end
 
 const MISS_DISTANCE_DISC = LinearDiscretizer(collect(linspace(0.0, 25000.0, 21)))
-function get_miss_distance_counts(encounters::Vector{Encounter}, disc::LinearDiscretizer=MISS_DISTANCE_DISC)
+function get_min_separation_counts(encounters::Vector{Encounter}, disc::LinearDiscretizer=MISS_DISTANCE_DISC)
     counts = zeros(Int, nlabels(disc))
     for enc in encounters
-        miss_dist = get_miss_distance(enc)
-        counts[encode(disc, miss_dist)] += 1
+        min_sep = get_min_separation(enc)
+        counts[encode(disc, min_sep)] += 1
     end
     counts
 end
@@ -120,6 +120,6 @@ function plot_miss_distance_histogram(counts::Vector{Int}, disc::LinearDiscretiz
     end
 
     plot(xarr, yarr, fill = (0, 1.0),
-        xlabel="minimum miss distance",
+        xlabel="minimum separation distance",
         ylabel="counts",)
 end
