@@ -99,7 +99,7 @@ function evaluate(cas::CollisionAvoidanceSystem, trajectories::Vector{Trajectory
 end
 
 const MISS_DISTANCE_DISC = LinearDiscretizer(collect(linspace(0.0, 25000.0, 21)))
-function get_min_separation_counts(encounters::Vector{Encounter}, disc::LinearDiscretizer=MISS_DISTANCE_DISC)
+function get_miss_distance_counts(encounters::Vector{Encounter}, disc::LinearDiscretizer=MISS_DISTANCE_DISC)
     counts = zeros(Int, nlabels(disc))
     for enc in encounters
         min_sep = get_min_separation(enc)
