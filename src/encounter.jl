@@ -34,13 +34,27 @@ function is_nmac(s1::AircraftState, s2::AircraftState)
     Δvert ≤ NMAC_THRESOLD_VERT && Δhorz ≤ NMAC_THRESOLD_HORZ
 end
 function has_nmac(traj::Trajectory)
-    # plane1, plane2 = enc.plane1, enc.plane2
     for i in 1 : length(traj)
         if is_nmac(traj[i].plane1, traj[i].plane2)
             return true
         end
     end
     false
+end
+
+function plot_separations(traj::Trajectory)
+    palette=[colorant"0x52E3F6", colorant"0x79ABFF", colorant"0xFF007F"]
+    t_arr = (collect(1:length(traj)).-1)
+    
+    sep_arr = get_separation.(traj)        # get total separation
+    sep_x_arr = get_separation_x.(traj)    # get horizontal separation
+    sep_y_arr = get_separation_y.(traj)    # get vertical separation 
+    
+    p1 = plot(Vector{Float64}[t_arr, t_arr, t_arr], 
+              Vector{Float64}[sep_arr, sep_x_arr, sep_y_arr],
+              xlabel="Time(s)", palette=palette, linewidth=4)
+    
+    plot(p1, size=(950,400))
 end
 
 # plot using the vector of trajectories
@@ -69,8 +83,8 @@ function plot_encounter(traj::Trajectory, index::Int)
 
     w = max(abs(max_x), abs(min_x), abs(max_y), abs(min_y)) + 150
 
-    p1 = plot(Vector{Float64}[x1_arr, x2_arr, [plane1[i].x, plane2[i].x]],
-              Vector{Float64}[y1_arr, y2_arr, [plane1[i].y, plane2[i].y]],
+     p1 = plot(Vector{Float64}[x1_arr, x2_arr, [traj[i].plane1.x, traj[i].plane2.x]],
+               Vector{Float64}[y1_arr, y2_arr, [traj[i].plane1.y, traj[i].plane2.y]],
               xlabel="Horizontal Distance (m)", ylabel="Vertical Distance (m)", palette=palette, linewidth=4, xlims=(-w,w), ylims=(-w,w))
     scatter!(p1, Vector{Float64}[Float64[traj[1].plane1.x], Float64[traj[1].plane2.x]],
                  Vector{Float64}[Float64[traj[1].plane1.y], Float64[traj[1].plane2.y]])
@@ -154,6 +168,6 @@ function pull_trajectory(flights::DataFrame, id::Int)
 end
 
 function pull_trajectories(flights::DataFrame, N::Int=nrow(initial))
-    N = clamp(N, 0, nrow(initial))
+    N = clamp(N, 0, nrow(flights))
     return [pull_trajectory(flights, id) for id in 1:N]
 end
