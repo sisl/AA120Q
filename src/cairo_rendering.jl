@@ -68,7 +68,7 @@ function render!(ctx::CairoContext, trace::Vector{AircraftState}, color::Tuple{F
     restore(ctx)
 end
 
-function render(enc::Encounter, t::Float64;
+function render(traj::Trajectory, t::Float64;
     canvas_width::Int = 1000,
     canvas_height::Int = 600,
     zoom::Float64 = 0.1,
@@ -77,15 +77,15 @@ function render(enc::Encounter, t::Float64;
     s, ctx = get_canvas_and_context(canvas_width, canvas_height, camera_zoom=zoom)
 
     # pull the current aircraft positions
-    s1 = get_interpolated_state(enc.trace1, enc.Δt, t)
-    s2 = get_interpolated_state(enc.trace2, enc.Δt, t)
+    s1 = get_interpolated_state(traj.plane1, enc.Δt, t)
+    s2 = get_interpolated_state(traj.plane2, enc.Δt, t)
 
     # center
     center_on_aircraft!(ctx, s1, s2)
 
     # render the aircraft traces
-    render!(ctx, enc.trace1, (0.0,0.0,1.0,1.0))
-    render!(ctx, enc.trace2, (0.0,0.0,1.0,1.0))
+    render!(ctx, traj.plane1, (0.0,0.0,1.0,1.0))
+    render!(ctx, traj.plane2, (0.0,0.0,1.0,1.0))
 
     # render the current aircraft positions
     render!(ctx, s1)

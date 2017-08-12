@@ -12,13 +12,14 @@ export
     AircraftAction,
     AircraftState,
     SensorReading,
-    Encounter,
+    EncounterState,
     EncounterModel,
     EncounterSimParams,
     CollisionAvoidanceSystem,
     FullyObservableCollisionAvoidanceSystem,
     PartiallyObservableCollisionAvoidanceSystem,
     TCAS,
+    Trajectory,
 
     DEFAULT_SIM_PARAMS,
     CLIMB_RATE_MAX,
@@ -29,6 +30,7 @@ export
     ADVISORY_REVERSAL_PENALTY,
     NMAC_PENALTY,
 
+    get_trajectories,
     get_dataset,
     list_datasets,
     start_state,
@@ -38,10 +40,9 @@ export
     is_nmac,
     has_nmac,
     get_miss_distance,
-    plot_encounter,
-    pull_encounters,
-
-    get_dataset,
+    plot_trajectory,
+    pull_trajectory,
+    pull_trajectories,
 
     sample_initial,
     sample_transition,

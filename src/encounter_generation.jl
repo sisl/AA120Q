@@ -1,4 +1,4 @@
-function generate_encounters!(arr::Vector{Encounter}, model::EncounterModel, params::EncounterSimParams=DEFAULT_SIM_PARAMS)
+function generate_encounters!(arr::Vector{EncounterState}, model::EncounterModel, params::EncounterSimParams=DEFAULT_SIM_PARAMS)
     for i in 1 : length(arr)
         arr[i] = rand(model, params)
     end
