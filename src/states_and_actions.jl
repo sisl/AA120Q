@@ -21,13 +21,21 @@ function interpolate_state(a::AircraftState, b::AircraftState, z::Float64)
 end
 function update_state(s::AircraftState, a::AircraftAction, Δt::Float64)
 
+<<<<<<< HEAD
     x, y, u, v = s.x, s.y, s.u, s.v
+=======
+    x, y, u, v = s.x, -s.y, s.u, s.v
+>>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
     Δu, Δv  = a.Δu, a.Δv
     
     u₂ = u + Δu * Δt  # m/s
     v₂ = v + Δv * Δt  # m/s
 
+<<<<<<< HEAD
     AircraftState(x, y, v₂, u₂)
+=======
+    AircraftState(x₂, y₂, v₂, u₂)
+>>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
 end
 
 function get_interpolated_state(trace::Vector{AircraftState}, Δt::Float64, t::Float64)

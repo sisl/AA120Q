@@ -24,8 +24,13 @@ function update!(tcas::TCAS, s1::AircraftState, s2::AircraftState, params::Encou
         r = norm(dxy) # range [m]
         r_dot = dot(dxy,dvxy) / norm(dxy) # range rate [m/s]
 
+<<<<<<< HEAD
         # a = abs(y1 - y2) # relative altitude [m]
         # a_dot = sign(y2 - y1) * (y2_dot - y1_dot) # relative altitude rate of change [m/s]
+=======
+        # a = abs(h1 - h2) # relative altitude [ft]
+        # a_dot = sign(h2 - h1) * (h2_dot - h1_dot) # relative altitude rate of change [ft/s]
+>>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
 
         # get range parameters based on our altitude
         if y1 < 1000
