@@ -17,9 +17,11 @@ function Base.rand(model::EncounterModel, params::EncounterSimParams)
 
     for i in 1 : params.nsteps
         a1, a2 = sample_transition(trajectory[i].plane1, trajectory[i].plane2, model, params)
-        trajectory[i+1] = update_state(trajectory[i].plane1, trajectory[i].plane2, params.Δt)
+        trajectory[i+1] = EncounterState(update_state(trajectory[i].plane1, a1, params.Δt),
+                                         update_state(trajectory[i].plane2, a2, params.Δt),
+                                         params.Δt)
     end
 
     # return the encounter
-    trajectory
+    return trajectory
 end

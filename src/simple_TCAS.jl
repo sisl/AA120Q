@@ -14,23 +14,15 @@ function update!(tcas::TCAS, s1::AircraftState, s2::AircraftState, params::Encou
         # test for a threat
 
         # pull TCAS observations
-        x1, y1, vx1, vy1, = s1.x, s1.y, s1.v, s1.u
+        x1, y1, vx1, vy1, = s1.x, s1.y, s1.u, s1.v
         
-        x2, y2, vx2, vy2, = s2.x, s2.y, s2.v, s2.u
+        x2, y2, vx2, vy2, = s2.x, s2.y, s2.u, s2.v
 
         dxy = [(x2 - x1), (y2 - y1)]
         dvxy = [(vx2 - vx1), (vy2 - vy1)]
 
         r = norm(dxy) # range [m]
         r_dot = dot(dxy,dvxy) / norm(dxy) # range rate [m/s]
-
-<<<<<<< HEAD
-        # a = abs(y1 - y2) # relative altitude [m]
-        # a_dot = sign(y2 - y1) * (y2_dot - y1_dot) # relative altitude rate of change [m/s]
-=======
-        # a = abs(h1 - h2) # relative altitude [ft]
-        # a_dot = sign(h2 - h1) * (h2_dot - h1_dot) # relative altitude rate of change [ft/s]
->>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
 
         # get range parameters based on our altitude
         if y1 < 1000
@@ -78,7 +70,7 @@ function update!(tcas::TCAS, s1::AircraftState, s2::AircraftState, params::Encou
         end
 
         # test for activation
-        if (r_dot < 0 && (-(r - dmod) / r_dot <= tau || r < dmod)) && ((a_dot < 0 && -a / a_dot <= tau) || a <= zthr)
+        if (r_dot < 0 && (-(r - dmod) / r_dot <= tau || r < dmod))
 
             ascend_cross = false
             ascend_dist = 0
@@ -96,7 +88,7 @@ function update!(tcas::TCAS, s1::AircraftState, s2::AircraftState, params::Encou
             y1_dot_ascend = tcas.climb_rate
 
             y1_cpa = y1 + y1_dot_ascend * t_ # altitude of AC1 at closest point of approach
-            y2_cpa = y2 + y2_dot * t_       # altitude of AC2 at closest point of approach
+            y2_cpa = y2 #+ y2_dot * t_       # altitude of AC2 at closest point of approach
 
             if (y1 <= y2 && y1_cpa >= y2_cpa) || (y1 >= y2 && y1_cpa <= y2_cpa)
                 # we predict an ascend over the other aircraft or a descent under the other aircraft between now and CPA
@@ -116,7 +108,7 @@ function update!(tcas::TCAS, s1::AircraftState, s2::AircraftState, params::Encou
             y1_dot_descend = -tcas.climb_rate
 
             y1_cpa = y1 + y1_dot_descend * t_ # altitude of AC1 at closest point of approach
-            y2_cpa = y2 + y2_dot * t_         # altitude of AC2 at closest point of approach
+            y2_cpa = y2 #+ y2_dot * t_         # altitude of AC2 at closest point of approach
 
             if (y1 <= y2 && y1_cpa >= y2_cpa) || (y1 >= y2 && y1_cpa <= y2_cpa)
                 # we predict an ascend over the other aircraft or a descent under the other aircraft between now and CPA

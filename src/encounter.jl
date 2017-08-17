@@ -1,4 +1,3 @@
-
 mutable struct EncounterState
     plane1::AircraftState
     plane2::AircraftState
@@ -43,7 +42,6 @@ function has_nmac(traj::Trajectory)
 end
 
 function plot_separations(traj::Trajectory)
-<<<<<<< HEAD
     palette=[colorant"0x52E3F6", colorant"0x79ABFF", colorant"0xFF007F"]
     t_arr = (collect(1:length(traj)).-1)
     
@@ -110,7 +108,6 @@ function plot_trajectory(enc::Encounter)
 
     # indicate when advisories were issued
     advisory_x_vals = Float64[]
-=======
     palette=[colorant"0x52E3F6", colorant"0x79ABFF", colorant"0xFF007F"]
     t_arr = (collect(1:length(traj)).-1)
     
@@ -195,7 +192,6 @@ function plot_encounter(enc::Encounter)
 
     # indicate when advisories were issued
     advisory_t_vals = Float64[]
->>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
     advisory_y_vals = Float64[]
 
     prev_climb_rate = NaN
@@ -205,26 +201,19 @@ function plot_encounter(enc::Encounter)
         for (i,advisory) in enumerate(enc.advisories)
             if !is_no_advisory(advisory) && !isapprox(advisory.climb_rate, prev_climb_rate)
                 prev_climb_rate = advisory.climb_rate
-<<<<<<< HEAD
                 push!(advisory_x_vals, traj[i].plane1.x)
-=======
                 push!(advisory_t_vals, t)
->>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
                 push!(advisory_y_vals, traj[i].plane1.y)
             end
             t += 1.0
         end
     end
-
-<<<<<<< HEAD
     scatter!(p1, advisory_x_vals, advisory_y_vals, label="Advisory")
     
     plot(p1, size=(800,400))
-=======
     scatter!(p2, advisory_t_vals, advisory_h_vals)
 
     plot(p1, p2, size=(950,400))
->>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
 end
 
 function pull_trajectory(flights::DataFrame, id::Int)

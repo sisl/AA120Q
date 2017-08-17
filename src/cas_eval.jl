@@ -14,11 +14,11 @@ Base.show(io::IO, e::CASEval) = @printf(io, "CASEval(n_encounters: %d, n_advisor
 function _evaluate(cas::CollisionAvoidanceSystem, traj::Trajectory)
     reset!(cas) # re-initialize the CAS
 
-    params = EncounterSimParams(length(enc.stats)-1, enc.Δt) # change this
+    params = EncounterSimParams(length(traj)-1, 1.0) # change this
 
     # infer all actions
-    actions1 = Array(AircraftAction, params.nsteps)
-    actions2 = Array(AircraftAction, params.nsteps)
+    actions1 = Array{AircraftAction}(params.nsteps)
+    actions2 = Array{AircraftAction}(params.nsteps)
     for i in 1 : params.nsteps
         s11 = traj[i].plane1
         s12 = traj[i+1].plane1
@@ -60,8 +60,8 @@ function _evaluate(cas::CollisionAvoidanceSystem, traj::Trajectory)
             end
         end
 
-        s1 = update_state(s1) #a1, params.Δt)
-        s2 = update_state(s2) #a2, params.Δt)
+        s1 = update_state(s1, a1, params.Δt)
+        s2 = update_state(s2, a2, params.Δt)
 
         if is_nmac(s1, s2)
             return (true, n_advisories, total_penalty)
@@ -74,23 +74,23 @@ function evaluate(cas::CollisionAvoidanceSystem, trajectories::Vector{Trajectory
     n_advisories = 0
     n_NMACs = 0
     total_penalty = 0.0
-    for enc in encounters
-        had_NMAC, nadv, encounter_penalty = _evaluate(cas, enc)
+    for traj in trajectories
+        had_NMAC, nadv, encounter_penalty = _evaluate(cas, traj)
         n_advisories += nadv
         n_NMACs += had_NMAC
         total_penalty += encounter_penalty + had_NMAC*NMAC_PENALTY
     end
-    CASEval(length(encounters), n_advisories, n_NMACs, total_penalty)
+    CASEval(length(trajectories), n_advisories, n_NMACs, total_penalty)
 end
 function evaluate(cas::CollisionAvoidanceSystem, trajectories::Vector{Trajectory}, nsamples::Int)
     n_advisories = 0
     n_NMACs = 0
     total_penalty = 0.0
-    sample_range = 1:length(encounters)
+    sample_range = 1:length(trajectories)
 
     for i in 1 : nsamples
-        enc = encounters[rand(sample_range)]
-        had_NMAC, nadv, encounter_penalty = _evaluate(cas, enc)
+        traj = trajectories[rand(sample_range)]
+        had_NMAC, nadv, encounter_penalty = _evaluate(cas, traj)
         n_advisories += nadv
         n_NMACs += had_NMAC
         total_penalty += encounter_penalty + had_NMAC*NMAC_PENALTY
@@ -101,7 +101,7 @@ end
 
 # Need to change this
 const MISS_DISTANCE_DISC = LinearDiscretizer(collect(linspace(0.0, 25000.0, 21)))
-function get_miss_distance_counts(encounters::Vector{Encounter}, disc::LinearDiscretizer=MISS_DISTANCE_DISC)
+function get_miss_distance_counts(encounters::Vector{Trajectory}, disc::LinearDiscretizer=MISS_DISTANCE_DISC)
     counts = zeros(Int, nlabels(disc))
     for enc in encounters
         min_sep = get_min_separation(enc)
@@ -110,8 +110,8 @@ function get_miss_distance_counts(encounters::Vector{Encounter}, disc::LinearDis
     counts
 end
 function plot_miss_distance_histogram(counts::Vector{Int}, disc::LinearDiscretizer=MISS_DISTANCE_DISC)
-    xarr = Array(Float64, 2*length(disc.binedges))
-    yarr = Array(Float64, length(xarr))
+    xarr = Array{Float64}(2*length(disc.binedges))
+    yarr = Array{Float64}(length(xarr))
 
     j = 0
     for (i,x) in enumerate(disc.binedges)

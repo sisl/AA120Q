@@ -1,20 +1,13 @@
 const RANGE_STDEV = 15 # [m]
 const BEARING_STDEV = 5 # [deg]
-<<<<<<< HEAD
 const RELATIVE_AZIMUTH_DISC = LinearDiscretizer([-90.0, -80.0, -70.0, -60.0, -50.0, -40.0, -30.0, -20.0, -10.0, 0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0])
-=======
-const RELATIVE_AZIMUTH_DISC = LinearDiscretizer([-90, -80, -70, -60, -50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90])
->>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
 
 struct SensorReading
     r::Float64 # range [m], horizontal distance AC1 → AC2
     θ::Float64 # the discretized azimuth [deg] from ego to intruder
 end
 
-<<<<<<< HEAD
 function SensorReading(s1::AircraftState, s2::AircraftState)
-=======
->>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
     x1, y1, vx1, vy1 = s1.x, s1.y, s1.v, s1.u
     x2, y2, vx2, vy2 = s2.x, s2.y, s2.v, s2.u
 
@@ -23,11 +16,8 @@ function SensorReading(s1::AircraftState, s2::AircraftState)
 
     # add sensor noise
     r += randn()*RANGE_STDEV
-<<<<<<< HEAD
     θ = encode(RELATIVE_AZIMUTH_DISC, θ)  # encode azimuth in to 10deg bins
-=======
-    θ = endocde(RELATIVE_AZIMUTH_DISC, θ)  # encode azimuth in to 10deg bins
->>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
+    θ = encode(RELATIVE_AZIMUTH_DISC, θ)  # encode azimuth in to 10deg bins
 
     SensorReading(r, θ)
 end

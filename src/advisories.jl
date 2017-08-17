@@ -8,10 +8,7 @@
     The simulated pilot will begin following the advisory exactly at t ∼ U(0, pilot_delay)
 """
 struct Advisory
-<<<<<<< HEAD
     # change climb rate? 
-=======
->>>>>>> 34d9dd80b5f647280fd6b47c3d97bbbfabf02265
     climb_rate::Float64 # m/s
 end
 const CLIMB_RATE_MAX =  1350/60 # m/s

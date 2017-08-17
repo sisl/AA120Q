@@ -44,6 +44,16 @@ export
     pull_trajectory,
     pull_trajectories,
 
+    get_separation,
+    get_separation_x,
+    get_separation_y, 
+    get_min_separation,
+    find_min_separation,
+    get_min_x_separation,
+    find_min_x_separation,
+    get_min_y_separation,
+    find_min_y_separation,
+
     sample_initial,
     sample_transition,
 
@@ -51,6 +61,8 @@ export
     reset!,
     update!,
 
+    generate_trajectories!,
+    generate_trajectories,
     generate_encounters!,
     generate_encounters,
     get_miss_distance_counts,
