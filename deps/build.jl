@@ -12,12 +12,8 @@ function fetch_dset(name::AbstractString;
     dir::AbstractString=data_dir,
     )
 
-    init = "initial_" * name * ".txt"
-    traces = "traces_" * name * ".txt"
-    download(joinpath(url, init), joinpath(dir, init))
-    download(joinpath(url, traces), joinpath(dir, traces))
+    flights = name * ".csv"
+    download(joinpath(url, flights), joinpath(dir, flights))
 end
 
-fetch_dset("small")
-fetch_dset("large")
-fetch_dset("cas")
+fetch_dset("flights")
