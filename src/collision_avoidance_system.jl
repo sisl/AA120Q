@@ -5,7 +5,7 @@ abstract type PartiallyObservableCollisionAvoidanceSystem <: CollisionAvoidanceS
 reset!(cas::CollisionAvoidanceSystem) = cas # do nothing by default
 update!(cas::FullyObservableCollisionAvoidanceSystem, s1::AircraftState, s2::AircraftState, params::EncounterSimParams) = error("update! not implemented for FullyObservableCollisionAvoidanceSystem $cas")
 update!(cas::PartiallyObservableCollisionAvoidanceSystem, reading::SensorReading, params::EncounterSimParams) = error("update! not implemented for PartiallyObservableCollisionAvoidanceSystem $cas")
-update!(cas::PartiallyObservableCollisionAvoidanceSystem, s1::AircraftState, s2::AircraftState, params::EncounterSimParams)  = update!(cas, SensorReading(s1, s2), params)
+update!(cas::PartiallyObservableCollisionAvoidanceSystem, s1::AircraftState, s2::AircraftState, params::EncounterSimParams) = update!(cas, SensorReading(s1, s2), params)
 function Base.rand(
     model::EncounterModel, # human pilot model and initial scene generation
     cas::CollisionAvoidanceSystem, # advisory policy

@@ -17,7 +17,6 @@ function SensorReading(s1::AircraftState, s2::AircraftState)
     # add sensor noise
     r += randn()*RANGE_STDEV
     θ = encode(RELATIVE_AZIMUTH_DISC, θ)  # encode azimuth in to 10deg bins
-    θ = encode(RELATIVE_AZIMUTH_DISC, θ)  # encode azimuth in to 10deg bins
-
-    SensorReading(r, θ)
+    
+    return SensorReading(r, θ)
 end

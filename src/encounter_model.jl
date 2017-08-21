@@ -10,7 +10,7 @@ sample_transition(s1::AircraftState, s2::AircraftState, model::EncounterModel, p
 
 function Base.rand(model::EncounterModel, params::EncounterSimParams)
     s1, s2 = sample_initial(model) # get initial setup
-    
+
     # simulate to get the traces
     trajectory = Vector{EncounterState}(params.nsteps+1)
     trajectory[1] = EncounterState(s1, s2, 0.0)
