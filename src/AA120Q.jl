@@ -40,6 +40,7 @@ export
     is_nmac,
     has_nmac,
     get_miss_distance,
+    plot_encounter,
     plot_trajectory,
     pull_trajectory,
     pull_trajectories,
