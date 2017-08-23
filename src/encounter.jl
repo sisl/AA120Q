@@ -108,7 +108,6 @@ function plot_trajectory(enc::Encounter)
                  label=["Plane1 Initial" "Plane2 Initial"])
 
     # indicate when advisories were issued
-    advisory_x_vals = Float64[]
     palette=[colorant"0x52E3F6", colorant"0x79ABFF", colorant"0xFF007F"]
     t_arr = (collect(1:length(traj)).-1)
     
@@ -198,6 +197,7 @@ function plot_encounter(enc::Encounter)
 
     # indicate when advisories were issued
     advisory_t_vals = Float64[]
+    advisory_x_vals = Float64[]
     advisory_y_vals = Float64[]
 
     prev_climb_rate = NaN
@@ -208,19 +208,16 @@ function plot_encounter(enc::Encounter)
             if !is_no_advisory(advisory) && !isapprox(advisory.climb_rate, prev_climb_rate)
                 prev_climb_rate = advisory.climb_rate
                 push!(advisory_t_vals, t)
+                push!(advisory_x_vals, traj[i].plane1.x)
                 push!(advisory_y_vals, traj[i].plane1.y)
             end
             t += 1.0
         end
     end
-    # scatter!(p1, advisory_x_vals, advisory_y_vals, label="Advisory")
-
-    p2 = plot(Vector{Float64}[advisory_t_vals], 
-              Vector{Float64}[advisory_y_vals],
-              xlabel="Time(s)", palette=palette, linewidth=4)
+    
+    scatter!(p1, Vector{Float64}[advisory_x_vals], Vector{Float64}[advisory_y_vals], label="Advisory")
     
     plot(p1, size=(800,400))
-    #plot(p2, size=(800,400))
 end
 
 function pull_trajectory(flights::DataFrame, id::Int)
