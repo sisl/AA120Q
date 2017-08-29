@@ -3,7 +3,7 @@ module MDPs
 export MDP, DiscreteMDP, MappedDiscreteMDP, actions, states, numActions, numStates, reward, transition, discount, locals
 export nextStates, stateIndex, actionIndex
 
-abstract MDP
+abstract type MDP end
 
 actions(mdp::MDP) = error("$(typeof(mdp)) does not implement actions")
 states(mdp::MDP) = error("$(typeof(mdp)) does not implement states")
@@ -50,7 +50,7 @@ numStates(mdp::DiscreteMDP) = mdp.numStates
 stateIndex(mdp::DiscreteMDP, s) = s
 actionIndex(mdp::DiscreteMDP, a) = a
 
-type MappedDiscreteMDP <: MDP
+mutable struct MappedDiscreteMDP <: MDP
   S::Vector
   A::Vector
   T::Array{Float64,3}
