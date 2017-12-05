@@ -21,13 +21,15 @@ function interpolate_state(a::AircraftState, b::AircraftState, z::Float64)
 end
 function update_state(s::AircraftState, a::AircraftAction, Δt::Float64)
 
-    x, y, u, v = s.x, -s.y, s.u, s.v
+    x, y, u, v = s.x, s.y, s.u, s.v
     Δu, Δv  = a.Δu, a.Δv
     
+    x₂ = x + u * Δt
+    y₂ = y + v * Δt
     u₂ = u + Δu * Δt  # m/s
     v₂ = v + Δv * Δt  # m/s
 
-    AircraftState(x₂, y₂, v₂, u₂)
+    AircraftState(x₂, y₂, u₂, v₂)
 end
 
 function get_interpolated_state(trace::Vector{AircraftState}, Δt::Float64, t::Float64)
@@ -39,4 +41,5 @@ function get_interpolated_state(trace::Vector{AircraftState}, Δt::Float64, t::F
     z = (t - (i_lo-1)*Δt) / Δt
 
     interpolate_state(trace[i_lo], trace[i_hi], z)
+
 end
