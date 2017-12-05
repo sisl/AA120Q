@@ -16,9 +16,9 @@ function fetch_dset(name::AbstractString;
     download(joinpath(url, flights), joinpath(dir, flights))
 end
 
-fetch_dset("iniital_cas")
-fetch_dset("iniital_large")
-fetch_dset("iniital_small")
+fetch_dset("initial_cas")
+fetch_dset("initial_large")
+fetch_dset("initial_small")
 fetch_dset("traces_cas")
 fetch_dset("traces_large")
 fetch_dset("traces_small")
