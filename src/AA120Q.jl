@@ -1,5 +1,5 @@
 module AA120Q
-
+using Pkg
 using Reexport
 using Cairo
 @reexport using DataFrames
