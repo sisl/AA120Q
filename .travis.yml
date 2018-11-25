@@ -2,11 +2,7 @@ language: julia
 sudo: required
 dist: trusty
 julia:
-  - 0.6
-  - nightly
-matrix:
-  allow_failures:
-    - julia: nightly
+  - 1.0
 notifications:
   email: false
 before_install:
