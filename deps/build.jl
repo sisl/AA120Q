@@ -1,3 +1,4 @@
+using Pkg
 Pkg.checkout("Reactive")
 
 # const DATA_DOWNLOAD_URL =
