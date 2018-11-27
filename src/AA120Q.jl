@@ -2,6 +2,7 @@ module AA120Q
 using Pkg
 using Reexport
 using Cairo
+using Printf
 @reexport using DataFrames
 @reexport using Distributions
 @reexport using Discretizers
