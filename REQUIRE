@@ -9,9 +9,7 @@ CSVFiles
 DataFrames
 Discretizers
 Distributions
-HDF5
 Interact
-JLD
 LightGraphs
 NBInclude
 PGFPlots
