@@ -1,0 +1,26 @@
+julia 1.0
+BayesNets
+BSON
+Cairo
+Colors
+Compose
+CSV
+CSVFiles
+DataFrames
+Discretizers
+Distributions
+HDF5
+Interact
+JLD
+LightGraphs
+NBInclude
+PGFPlots
+Plots
+Printf
+RDatasets
+Reactive
+Reexport
+Statistics
+SymPy
+TikzPictures
+WebIO
