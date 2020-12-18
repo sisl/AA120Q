@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.3
+# v0.12.16
 
 using Markdown
 using InteractiveUtils
@@ -23,7 +23,7 @@ begin
 	AA120Q: *Building Trust in Autonomy*, Stanford University. 
 
 	## Lecture 2
-	We will dscuss how the Julia programming language is used for scientific computing and data visualization.
+	We will discuss how the Julia programming language is used for scientific computing and data visualization.
 
 	Readings:
 	- [Julia tutorial](https://learnxinyminutes.com/docs/julia/)
@@ -39,20 +39,14 @@ using DataFrames
 # ╔═╡ 4c3d23b0-0777-11eb-0541-efbd67f06b91
 using Distributions
 
-# ╔═╡ 51b59750-0777-11eb-3c41-7ba300d5abbc
-begin
-	using Random
-	Random.seed!(0) # for reproducable results
-end;
+# ╔═╡ 6e8be5e0-40c1-11eb-36a5-976734a0a2cf
+using Random
 
 # ╔═╡ 7145ddd0-077e-11eb-3514-d3736ee63693
 using Discretizers
 
-# ╔═╡ b6ec1b9e-077f-11eb-193e-e75151ba0538
-using BayesNets
-
 # ╔═╡ 0384269e-0781-11eb-17a5-7fa7f4db431d
-using Plots, PlotThemes
+using Plots
 
 # ╔═╡ e98fd5c0-0783-11eb-0719-8385ba04dcd7
 using Colors
@@ -99,8 +93,6 @@ begin
 	Pkg.add("DataFrames")
 	Pkg.add("Distributions")
 	Pkg.add("Discretizers")
-	Pkg.add("BayesNets")
-	Pkg.add("TikzGraphs")
 	Pkg.add("Plots")
 	Pkg.add("Colors")
 	Pkg.add("SymPy")
@@ -117,7 +109,6 @@ Some of the packages we will be using are:
 - DataFrames
 - Distributions
 - Discretizers
-- BayesNets
 - Plots
 - Colors
 - SymPy
@@ -147,6 +138,9 @@ md"""
 ## Distributions
 This package provides all sorts of probability distributions and methods for sampling from them and inferring them from data.
 """
+
+# ╔═╡ 51b59750-0777-11eb-3c41-7ba300d5abbc
+Random.seed!(0); # for reproducable results
 
 # ╔═╡ 5dfac3f0-0777-11eb-34e2-4fc2b0ddd28d
 dist = Normal(1, 2)
@@ -252,39 +246,6 @@ decode(lineardisc, 2)
 # ╔═╡ 6accf4b0-077f-11eb-1408-7b86c51641cf
 decode(lineardisc, [2, 1, 2])
 
-# ╔═╡ a0a85700-077f-11eb-00fc-9f3ecafb98f6
-md"""
-## BayesNets
-This package provides a Bayesian network type (`BayesNet`) and associated algorithms in Julia.
-"""
-
-# ╔═╡ ba5efb40-077f-11eb-1722-e9ed437da6cc
-bayesdata = DataFrame(c=[1,1,1,1,2,2,2,2,3,3,3,3],
-	                  b=[1,1,1,2,2,2,2,1,1,2,1,1],
-	                  a=[1,1,1,2,1,1,2,1,1,2,1,1])	
-
-# ╔═╡ ec8100d0-0a79-11eb-3af7-bb2dec5f28e3
-bn = fit(DiscreteBayesNet, bayesdata, (:a=>:b, :a=>:c, :b=>:c))
-
-# ╔═╡ 34d75e32-0780-11eb-38ab-e75ac6da2665
-md"""
-Evaluate the probability density (PDF) of a specific assignment.
-"""
-
-# ╔═╡ 2805a8fe-0780-11eb-31ae-fde22f299816
-pdf(bn, :a=>1, :b=>1, :c=>2)
-
-# ╔═╡ 43785520-0780-11eb-02f8-479c56e84584
-md"""
-Sample the network to get an assignment.
-"""
-
-# ╔═╡ 400f3980-0780-11eb-13af-b37d78dcc1fa
-rand(bn)
-
-# ╔═╡ 4b804d40-0780-11eb-19ee-61d4ee05130f
-rand(bn, 5) # returns a DataFrame
-
 # ╔═╡ c84dc3be-0780-11eb-237a-3b491dae9c4d
 md"""
 # Data Visualization and Plotting
@@ -298,7 +259,7 @@ md"""
 """
 
 # ╔═╡ 069adc80-0781-11eb-1aad-abb11200e9cf
-gr() # one of many different backends
+plotly() # one of many different backends
 
 # ╔═╡ 60250140-0a88-11eb-1d92-99f3cc279e4a
 XY = Plots.fakedata(50, 10)
@@ -428,12 +389,8 @@ Symbolic math in Julia!
 
 # ╔═╡ 99274452-078e-11eb-1d23-3528c7bbfe1b
 # Fix LaTeX display issue which was wrapping things with \text{...}
-function PlutoRunner.show_richest(io::IO, x::Union{Sym, Vector{Sym}})
-	str = repr(MIME("text/latex"), x)
-	str = replace(str, r"\\\[(.*)\\\]"=>s"\1")
-	html(io, Markdown.LaTeX(str))
-	return MIME("text/html")
-end
+# https://github.com/fonsp/Pluto.jl/issues/488
+Base.show(io::IO, ::MIME"text/latex", x::SymPy.SymbolicObject) = print(io, sympy.latex(x, mode="inline"))
 
 # ╔═╡ 0ecedef0-0787-11eb-1006-f5e89a94559f
 x = symbols("x")
@@ -454,7 +411,7 @@ z = symbols("z", real=true)
 solve(z^2 + 1)
 
 # ╔═╡ 4dc82700-0918-11eb-1d2c-7728dad5b2f9
-y1, y2 = symbols("y1, y2", positive=true);
+y1, y2 = symbols("y1, y2", positive=true)
 
 # ╔═╡ 5504045e-078a-11eb-1287-79f40457f8cb
 solve(y1 + 1) # -1 is not positive
@@ -486,9 +443,6 @@ diff(x^x, x)
 # ╔═╡ cdb95a90-078a-11eb-1f63-4be59b019e55
 integrate(x^3, x)
 
-# ╔═╡ 19afd8f0-078d-11eb-2991-c38b3cc8a43f
-PlutoUI.TableOfContents("Scientific Computing")
-
 # ╔═╡ Cell order:
 # ╟─f3d093c0-076b-11eb-21bc-d752119bd59f
 # ╟─6536e190-076c-11eb-3c75-7f594ba1ab24
@@ -505,6 +459,7 @@ PlutoUI.TableOfContents("Scientific Computing")
 # ╠═053eb370-0777-11eb-2ae5-f7e866357a0f
 # ╟─09a93980-0777-11eb-1b25-2154fbb945ec
 # ╠═4c3d23b0-0777-11eb-0541-efbd67f06b91
+# ╠═6e8be5e0-40c1-11eb-36a5-976734a0a2cf
 # ╠═51b59750-0777-11eb-3c41-7ba300d5abbc
 # ╠═5dfac3f0-0777-11eb-34e2-4fc2b0ddd28d
 # ╠═7374f700-0777-11eb-3020-2919684db10c
@@ -536,15 +491,6 @@ PlutoUI.TableOfContents("Scientific Computing")
 # ╠═6242d440-077f-11eb-09c2-7d637f3be52d
 # ╠═680e22d0-077f-11eb-2639-67723187c19f
 # ╠═6accf4b0-077f-11eb-1408-7b86c51641cf
-# ╟─a0a85700-077f-11eb-00fc-9f3ecafb98f6
-# ╠═b6ec1b9e-077f-11eb-193e-e75151ba0538
-# ╠═ba5efb40-077f-11eb-1722-e9ed437da6cc
-# ╠═ec8100d0-0a79-11eb-3af7-bb2dec5f28e3
-# ╟─34d75e32-0780-11eb-38ab-e75ac6da2665
-# ╠═2805a8fe-0780-11eb-31ae-fde22f299816
-# ╟─43785520-0780-11eb-02f8-479c56e84584
-# ╠═400f3980-0780-11eb-13af-b37d78dcc1fa
-# ╠═4b804d40-0780-11eb-19ee-61d4ee05130f
 # ╟─c84dc3be-0780-11eb-237a-3b491dae9c4d
 # ╟─e636ee20-0780-11eb-0239-4b58bcae19b7
 # ╠═0384269e-0781-11eb-17a5-7fa7f4db431d
@@ -579,7 +525,7 @@ PlutoUI.TableOfContents("Scientific Computing")
 # ╠═acd1f310-0784-11eb-2e4f-7d2da86dbee0
 # ╟─b9ced6f0-0784-11eb-0f57-5999bd3df9e2
 # ╠═0590fee0-0787-11eb-2359-21c3bad35e43
-# ╟─99274452-078e-11eb-1d23-3528c7bbfe1b
+# ╠═99274452-078e-11eb-1d23-3528c7bbfe1b
 # ╠═0ecedef0-0787-11eb-1006-f5e89a94559f
 # ╠═08aec432-0788-11eb-209d-017d9bc569e9
 # ╠═2fbe1600-078a-11eb-17b5-bf277495fd9f
@@ -597,4 +543,3 @@ PlutoUI.TableOfContents("Scientific Computing")
 # ╠═c58c2730-078a-11eb-07c3-db5c4848e151
 # ╠═ca169150-078a-11eb-2532-472d16f3fb43
 # ╠═cdb95a90-078a-11eb-1f63-4be59b019e55
-# ╠═19afd8f0-078d-11eb-2991-c38b3cc8a43f

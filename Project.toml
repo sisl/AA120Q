@@ -30,6 +30,7 @@ Reactive = "a223df75-4e93-5b7c-acf9-bdd599c0f4de"
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 SymPy = "24249f21-da20-56a4-8eb1-6a02cf4ae2e6"
+TikzGraphs = "b4f28e30-c73f-5eaf-a395-8a9db949a742"
 TikzPictures = "37f6aa50-8035-52d0-81c2-5a1d08754b2d"
 WebIO = "0f1e0344-ec1d-5b48-a673-e5cf874b6c29"
 

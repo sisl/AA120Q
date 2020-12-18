@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.3
+# v0.12.16
 
 using Markdown
 using InteractiveUtils
@@ -38,14 +38,14 @@ end
 # ╔═╡ 991297c0-0776-11eb-082c-e57372352faa
 md"""
 ## Quick Introduction to Julia
-These examples are based on [Learn X in Y Minutes](http://learnxinyminutes.com/docs/julia/). Assumes Julia `v1.0`.
+These examples are based on [Learn X in Y Minutes](http://learnxinyminutes.com/docs/julia/). Assumes Julia `v1.5`.
 
 > Note, the output of code is *above* each cell in Pluto notebooks.
 """
 
 # ╔═╡ 50caeb00-073c-11eb-36ac-5b8839bb70ab
 md"""
-### Types
+## Types
 
 These are different types of numbers.
 """
@@ -90,7 +90,7 @@ typeof(true)
 
 # ╔═╡ b4ad4aa0-073c-11eb-238e-a913116c0944
 md"""
-### Boolean Operators
+## Boolean Operators
 
 Negation is done with `!`
 """
@@ -120,7 +120,7 @@ Comparisons can be chains. This is equivalent to `1 < 2 && 2 < 3`
 
 # ╔═╡ e3846930-073c-11eb-384a-b1b2e27d16cc
 md"""
-### Strings
+## Strings
 Use double quotes for strings.
 """
 
@@ -162,7 +162,7 @@ md"""
 
 # ╔═╡ f99743b0-0745-11eb-049e-71c7b72884d1
 md"""
-### Printing
+## Printing
 In Pluto, printing is (by default) output to the console window in the background. But we can print using the `with_terminal()` function from `PlutoUI`, wrapped around our code with a `do` block.
 """
 
@@ -183,7 +183,7 @@ end
 
 # ╔═╡ 62c9ce6e-0746-11eb-0911-afc23d8b351c
 md"""
-### Variables
+## Variables
 """
 
 # ╔═╡ 64f36530-0746-11eb-3c66-59091a9c7d7d
@@ -207,7 +207,7 @@ x_marks_the_spot_to_dig = 1
 
 # ╔═╡ 85101160-0746-11eb-1501-3101c2006157
 md"""
-### Arrays
+## Arrays
 """
 
 # ╔═╡ 97a54cf0-0746-11eb-391d-d70312796ded
@@ -284,7 +284,7 @@ length(A)
 
 # ╔═╡ 410c4e10-0747-11eb-0acf-116ff6073047
 md"""
-### Tuples
+## Tuples
 Think of them as immutable arrays.
 """
 
@@ -342,7 +342,7 @@ typeof((1,))
 
 # ╔═╡ 84d7d870-0748-11eb-2a11-5797476719b5
 md"""
-### Dictionaries
+## Dictionaries
 Dictionaries let you map `keys` to `values`.
 """
 
@@ -372,7 +372,7 @@ haskey(d, 1)
 
 # ╔═╡ bb233aa0-0748-11eb-3488-8d316224bdf8
 md"""
-### Control Flow
+## Control Flow
 `if` statements, `for`-loops, and `while`-loops.
 """
 
@@ -434,7 +434,7 @@ end
 
 # ╔═╡ 9ef92ff2-0749-11eb-119e-35edd2a409c4
 md"""
-### Functions
+## Functions
 """
 
 # ╔═╡ c3ac5430-0749-11eb-13f0-cde5ec9409cb
@@ -543,7 +543,7 @@ filter(x -> x > 5, [3, 4, 5, 6, 7])
 
 # ╔═╡ 90db2f30-074a-11eb-2990-112df2b43ff3
 md"""
-### Composite Types
+## Composite Types
 These are custom defined data structures.
 """
 
@@ -577,6 +577,12 @@ You can define more constructors for your type. Just define a function of the sa
 > `<:` is the subtyping operator.
 """
 
+# ╔═╡ 2754b1f0-0914-11eb-1052-1159804bcc1c
+struct Lion <: Cat # Lion is a subtype of Cat
+	mane_color
+	roar::AbstractString
+end
+
 # ╔═╡ 0bb9a6f0-074b-11eb-0cd5-55f6817db5fd
 struct Panther <: Cat # Panther is also a subtype of Cat
 	eye_color
@@ -590,7 +596,7 @@ subtypes(Cat)
 
 # ╔═╡ 573a1ce0-074b-11eb-2c5d-8ddb9d0c07ed
 md"""
-### Multiple Dispatch
+## Multiple Dispatch
 """
 
 # ╔═╡ 3827f232-0914-11eb-3365-35e127a537ce
@@ -619,7 +625,7 @@ meow(Panther())
 
 # ╔═╡ c05cf030-074b-11eb-2f35-c3e65947c7b0
 md"""
-### Native Code
+## Native Code
 You can observe the machine code that Julia compiles down to.
 """
 
@@ -672,18 +678,6 @@ Pluto, like Jupyter, is a notebook-style environment. We recommend this engadgin
 
 # ╔═╡ 4a4f2872-074d-11eb-0ec8-13783b11ffd7
 var^3
-
-# ╔═╡ 234fbd10-07b7-11eb-1c9e-7de76e278ecd
-PlutoUI.TableOfContents("Notebook Outline")
-
-# ╔═╡ e731633e-074a-11eb-3855-df706a91128f
-Lion(roar::AbstractString) = Lion("green", roar) # another constructor
-
-# ╔═╡ 2754b1f0-0914-11eb-1052-1159804bcc1c
-struct Lion <: Cat # Lion is a subtype of Cat
-	mane_color
-	roar::AbstractString
-end
 
 # ╔═╡ Cell order:
 # ╟─f1a3a270-073b-11eb-1741-37897aa84974
@@ -826,7 +820,6 @@ end
 # ╠═d37ea9c0-074a-11eb-075b-ef2a3aa472d0
 # ╟─f447e9a0-074a-11eb-1a5b-738a852d47a0
 # ╠═2754b1f0-0914-11eb-1052-1159804bcc1c
-# ╠═e731633e-074a-11eb-3855-df706a91128f
 # ╠═0bb9a6f0-074b-11eb-0cd5-55f6817db5fd
 # ╠═34216ec0-074b-11eb-0ec5-b933ea8ecf34
 # ╟─573a1ce0-074b-11eb-2c5d-8ddb9d0c07ed
@@ -845,4 +838,3 @@ end
 # ╟─6efb1630-074c-11eb-3186-b3ea3cc6d33b
 # ╠═433a69f0-074d-11eb-0698-f9113d9939c3
 # ╠═4a4f2872-074d-11eb-0ec8-13783b11ffd7
-# ╟─234fbd10-07b7-11eb-1c9e-7de76e278ecd

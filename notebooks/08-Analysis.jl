@@ -64,8 +64,6 @@ Autonomous agents are often trained to maximize their reward. Does your agent re
 
 Wrong.
 
-> **TODO?** <GIF from max of agents optimizing rewards but doing weird stuff>
-
 We care about the performance of the system in the real world, and the real world is never perfectly modeled.
 
 """

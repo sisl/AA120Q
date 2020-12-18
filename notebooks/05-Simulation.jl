@@ -51,7 +51,7 @@ using LinearAlgebra
 @add using PGFPlots
 
 # ╔═╡ ae4f0f02-38cd-11eb-3604-b3cc1ad1af36
-@add using BayesNets
+@add using TikzGraphs, BayesNets
 
 # ╔═╡ 2ffe09f0-38c6-11eb-1587-ff867b0af6a4
 PlutoUI.LocalResource("./figures/sim_circle.png")
@@ -271,7 +271,7 @@ md"""
 """
 
 # ╔═╡ 616636d2-38ca-11eb-2823-2fd57ad86cea
-PlutoUI.TableOfContents("Simulation")
+# PlutoUI.TableOfContents("Simulation")
 
 # ╔═╡ Cell order:
 # ╟─d0efeeb0-38c5-11eb-3b9a-5bcbc9103863

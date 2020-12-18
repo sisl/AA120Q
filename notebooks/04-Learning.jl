@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.14
+# v0.12.16
 
 using Markdown
 using InteractiveUtils
@@ -16,18 +16,15 @@ begin
 	## Lecture 4
 
 	Readings:
-	- [Decision Making Under Uncertainty, Chapter 2.3 and 2.4, *Parameter Learning* and *Structure Learning*](https://ieeexplore.ieee.org/document/7288676)
+	- [Decision Making Under Uncertainty, Chapter 2.3, *Parameter Learning*](https://ieeexplore.ieee.org/document/7288676)
 	"""
 end
 
-# ╔═╡ 81f6512e-38bd-11eb-3f18-479e2a2a124a
-using AddPackage
-
 # ╔═╡ 86261830-38bd-11eb-3c82-d1b1a33d7e67
-@add using RDatasets, PGFPlots, Distributions
+using RDatasets, PGFPlots, Distributions
 
 # ╔═╡ 0a3d5f90-38c1-11eb-0d44-512351fc824f
-@add using BayesNets
+using BayesNets
 
 # ╔═╡ 484ccfe0-38bd-11eb-1024-2fc198591f32
 md"""
@@ -62,10 +59,6 @@ g = Axis([
 # ╔═╡ 8db197e0-38be-11eb-2822-0d804bbcf572
 md"""
 ## Bayesian parameter learning
-
-A *Bayesian network* is a graphical and condensed representation of a joint probability distribution. Each node in the network represents a random variable. Each directed edge indicates a relationship between nodes. Note that cycles are prohibited in Bayesian networks.
-
-> **Bayesian networks** reduce the number of independent parameters we need to represent a joint distribution.
 """
 
 # ╔═╡ da97c2de-38bf-11eb-01d3-39b22e344502
@@ -137,6 +130,9 @@ gp
 # ╔═╡ c8b65180-38c0-11eb-12f4-959a32c434ac
 md"""
 # Structure learning
+A *Bayesian network* is a graphical and condensed representation of a joint probability distribution. Each node in the network represents a random variable. Each directed edge indicates a relationship between nodes. Note that cycles are prohibited in Bayesian networks.
+
+> **Bayesian networks** reduce the number of independent parameters we need to represent a joint distribution.
 """
 
 # ╔═╡ 1326de10-38c1-11eb-2973-6b9cb97fe385
@@ -280,17 +276,8 @@ Now normalize.
 # ╔═╡ 395cade0-38c5-11eb-2a83-8b2939127916
 distr / sum(distr)
 
-# ╔═╡ 6722a000-38c4-11eb-0979-5163844fce8f
-md"""
----
-"""
-
-# ╔═╡ 1c26a6e0-38c5-11eb-0896-adba21c8a7eb
-PlutoUI.TableOfContents("Learning")
-
 # ╔═╡ Cell order:
 # ╟─ed1e11b2-38bc-11eb-07a0-d9b89d86cdd3
-# ╠═81f6512e-38bd-11eb-3f18-479e2a2a124a
 # ╟─484ccfe0-38bd-11eb-1024-2fc198591f32
 # ╠═86261830-38bd-11eb-3c82-d1b1a33d7e67
 # ╟─9351ad30-38bd-11eb-3d7c-99b3f6e91c50
@@ -339,7 +326,5 @@ PlutoUI.TableOfContents("Learning")
 # ╠═0c41dac0-38c4-11eb-04f6-fd70b4125216
 # ╟─2d51f230-38c5-11eb-09cd-3d85c3f1df48
 # ╠═40781890-38c4-11eb-167b-1ff6007421c6
-# ╠═29b9d752-38c5-11eb-0167-fd5237f39f73
+# ╟─29b9d752-38c5-11eb-0167-fd5237f39f73
 # ╠═395cade0-38c5-11eb-2a83-8b2939127916
-# ╟─6722a000-38c4-11eb-0979-5163844fce8f
-# ╠═1c26a6e0-38c5-11eb-0896-adba21c8a7eb

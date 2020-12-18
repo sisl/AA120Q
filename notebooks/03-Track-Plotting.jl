@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.14
+# v0.12.16
 
 using Markdown
 using InteractiveUtils
@@ -34,9 +34,6 @@ end
 
 # ╔═╡ c713edf2-07b1-11eb-31e0-8d1bbd52df85
 @add using PGFPlots, Distributions, BayesNets
-
-# ╔═╡ f3771ea0-0917-11eb-3627-d79108f27d4b
-@add using TikzGraphs
 
 # ╔═╡ 18baf1ce-07b2-11eb-2f7c-772a9ebc3202
 md"""
@@ -184,61 +181,6 @@ begin
 	g2
 end
 
-# ╔═╡ 8df17a20-07b5-11eb-3d26-cde372a79f8c
-md"""
-### Bayesian Networks
-A *Bayesian network* is a directed acyclic graph (DAG) comprised of conditional probability distributions.
-"""
-
-# ╔═╡ acf478f0-07b5-11eb-0cb2-1d69f40492f0
-bn = DiscreteBayesNet()
-
-# ╔═╡ b4a37ba0-07b5-11eb-09c1-f71e6c322272
-begin
-	push!(bn, DiscreteCPD(:B, [0.1, 0.9]))
-	push!(bn, DiscreteCPD(:S, [0.5, 0.5]))
-	push!(bn, rand_cpd(bn, 2, :E, [:B, :S]))
-	push!(bn, rand_cpd(bn, 2, :D, [:E]))
-	push!(bn, rand_cpd(bn, 2, :C, [:E]))
-end
-
-# ╔═╡ e7e45cf0-07b5-11eb-2acd-d5d0971f6100
-md"""
-Let's compute the probabilty of an assignment using the chain rule.
-"""
-
-# ╔═╡ ee9095a0-07b5-11eb-359f-2f9f8ad565f7
-asgn = Assignment(:B=>1,
-                  :S=>2,
-                  :E=>1,
-                  :D=>2,
-                  :C=>2)
-
-# ╔═╡ 374170d0-07b6-11eb-3cd9-4d5f693570a7
-md"""
-Here are the conditional probabilities.
-"""
-
-# ╔═╡ 3cdf94de-07b6-11eb-30cc-05cc6ef1bb1e
-[pdf(get(bn, name), asgn) for name in names(bn)]
-
-# ╔═╡ 4551e78e-07b6-11eb-39ca-f36d64cff3d7
-prod([pdf(get(bn, name), asgn) for name in names(bn)])
-
-# ╔═╡ 5bca77d0-07b6-11eb-23a8-b5b137fac077
-md"""
-The `BayesNets` library implements this for you.
-"""
-
-# ╔═╡ 8ab67df0-07b6-11eb-1a8e-3f86cd820726
-pdf(bn, asgn)
-
-# ╔═╡ 1f33ddd0-0918-11eb-0937-55f97adeae68
-md"---"
-
-# ╔═╡ 3a312140-07b7-11eb-0a4e-2fd0215f7700
-PlutoUI.TableOfContents("Statistical Models")
-
 # ╔═╡ Cell order:
 # ╟─6ec76820-07b1-11eb-1370-332e40369ea0
 # ╟─18baf1ce-07b2-11eb-2f7c-772a9ebc3202
@@ -275,16 +217,3 @@ PlutoUI.TableOfContents("Statistical Models")
 # ╠═19d5a940-07b5-11eb-184f-fd1cb3b4f9cc
 # ╠═498a2f80-07b5-11eb-2fcb-b3c22834a70b
 # ╠═70c1b4b0-07b5-11eb-24b3-578bb547dc70
-# ╟─8df17a20-07b5-11eb-3d26-cde372a79f8c
-# ╠═f3771ea0-0917-11eb-3627-d79108f27d4b
-# ╠═acf478f0-07b5-11eb-0cb2-1d69f40492f0
-# ╠═b4a37ba0-07b5-11eb-09c1-f71e6c322272
-# ╟─e7e45cf0-07b5-11eb-2acd-d5d0971f6100
-# ╠═ee9095a0-07b5-11eb-359f-2f9f8ad565f7
-# ╟─374170d0-07b6-11eb-3cd9-4d5f693570a7
-# ╠═3cdf94de-07b6-11eb-30cc-05cc6ef1bb1e
-# ╠═4551e78e-07b6-11eb-39ca-f36d64cff3d7
-# ╟─5bca77d0-07b6-11eb-23a8-b5b137fac077
-# ╠═8ab67df0-07b6-11eb-1a8e-3f86cd820726
-# ╟─1f33ddd0-0918-11eb-0937-55f97adeae68
-# ╠═3a312140-07b7-11eb-0a4e-2fd0215f7700
