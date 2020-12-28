@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.16
+# v0.12.17
 
 using Markdown
 using InteractiveUtils
@@ -77,13 +77,13 @@ Julia is a high-level dynamic programming language$^{[\href{https://en.wikipedia
 
 **Two language problem.**$\;\;$One typically uses a high-level language like MATLAB to do scientific computing and create prototypes, but a low-level language like C to implement resulting solutions.
 
-Julia is both fast and easy to prototype in, and supports a wide range of features suck as a built-in package manager (so reproducing someones exact development environment can be done for verification purposes), distributed computing, C and Python interfaces, a powerful REPL (command line, stands for Read, Eval, Print, Loop), and an elegant type system.
+Julia is both fast and easy to prototype in, and supports a wide range of features such as a built-in package manager (so reproducing someone's exact development environment can be done for verification purposes), distributed computing, C and Python interfaces, a powerful REPL (command line, stands for Read, Eval, Print, Loop), and an elegant type system.
 """
 
 # ╔═╡ 91b3c700-076d-11eb-2090-f340640ff2f0
 md"""
 ### Installing Packages
-Julia makes it easyto install packages (and specific versions of packages too).
+Julia makes it easy to install packages (and specific versions of packages too).
 
 Julia also makes it easy to obtain packages from Github.
 """
@@ -101,7 +101,7 @@ end
 # ╔═╡ 8a655ae0-076d-11eb-196b-c5af3ec9148f
 md"""
 # Scientific Computing Packages
-Julia offers a wide range of [official packages](https://juliahub.com/). There are many custom packages that are not inthe official listing as well.
+Julia offers a wide range of [official packages](https://juliahub.com/). There are many custom packages that are not in the official listing as well.
 
 You can go to a package's documentation, typically from Github, to view all of its features.
 
@@ -131,7 +131,7 @@ df[2, :animal]
 df[2, 1]
 
 # ╔═╡ 053eb370-0777-11eb-2ae5-f7e866357a0f
-df[:legs]
+df[!, :legs]
 
 # ╔═╡ 09a93980-0777-11eb-1b25-2154fbb945ec
 md"""
@@ -157,7 +157,7 @@ fit(Normal, data)
 # ╔═╡ 62ef3650-077e-11eb-345f-8720b68ebfd5
 md"""
 ## Discretizers
-This package provides an easy way to discretize daya or map between labels and integer vaules.
+This package provides an easy way to discretize data or map between labels and integer vaules.
 """
 
 # ╔═╡ 72e8ea00-077f-11eb-195a-2d558e885ca6

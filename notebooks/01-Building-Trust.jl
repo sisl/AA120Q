@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.16
+# v0.12.17
 
 using Markdown
 using InteractiveUtils
@@ -653,7 +653,7 @@ end
 # ╔═╡ 6efb1630-074c-11eb-3186-b3ea3cc6d33b
 md"""
 ## Pluto
-Pluto, like Jupyter, is a notebook-style environment. We recommend this engadging presentation for a nice introduction: [https://www.youtube.com/watch?v=IAF8DjrQSSk](https://www.youtube.com/watch?v=IAF8DjrQSSk)
+Pluto, like Jupyter, is a notebook-style environment. We recommend this engaging presentation for a nice introduction: [https://www.youtube.com/watch?v=IAF8DjrQSSk](https://www.youtube.com/watch?v=IAF8DjrQSSk)
 
 1. Output of a cell is above the code (unlike Jupyter notebooks)
 1. Changing a variable in one cell affects other dependent cells (interactive)
