@@ -1,8 +1,17 @@
 ### A Pluto.jl notebook ###
-# v0.12.16
+# v0.12.18
 
 using Markdown
 using InteractiveUtils
+
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+macro bind(def, element)
+    quote
+        local el = $(esc(element))
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        el
+    end
+end
 
 # ╔═╡ f2d4b6c0-3f12-11eb-0b8f-abd68dc8ade7
 using PlutoUI
@@ -14,38 +23,26 @@ using DataFrames, CSV
 # ╔═╡ 564e3080-3f15-11eb-1fb6-5b851a6e23ad
 using Plots; gr()
 
-# ╔═╡ c3104aa0-3f15-11eb-2b59-cfa5ec97547d
-using LinearAlgebra # for `norm`
-
 # ╔═╡ d923dee0-3f12-11eb-0fb8-dffb2e9b3b2a
 md"""
-# Assignment 2: TCAS Encounters
+# Assignment 2: Encounter Plotting
 """
 
 # ╔═╡ f4ae58c0-3f12-11eb-2d1b-65a2947915e3
 PlutoUI.LocalResource("./figures/TCAS_Volume.png")
 
-# ╔═╡ 01fba690-3f13-11eb-0b60-a14415602118
+# ╔═╡ 081da510-4fb1-11eb-3334-63534dbae588
 md"""
-## Week 3 Assignment: Encounter Plotting
-
-### **Your task is to:**
-
-1.  Load example aircraft tracks from a file and plot them.
-2.  Propose a statistical model for capturing features from the data.
-
-### **What is turned in:**
-Edit the contents of this notebook and turn in your final Julia notebook file (.jl), and any associated code files you wrote to Coursework. Do not use any external code or Julia packages other than those used in the class materials. For the second part of this assignment, please submit a document describing your proposed statistical model. 
-
+In this assignment, you will become become familiar with loading data and plotting it in Julia. In particular, you will be working with aircraft encounters, which consist of 50 second snippets of the trajectories for two aircraft that come in close proximity with one another. These encounters may be used to test the effectiveness of aircraft collision avoidance systems.
 """
 
 # ╔═╡ 31d14960-3f13-11eb-3d8a-7531c02990cf
 md"""
-### Aircraft Tracks
+### Aircraft Encounters
 
 $(PlutoUI.LocalResource("./figures/encounter_plot.png"))
 
-An airspace encounter consists of two components: the initial conditions and the transitions over time.
+An airspace encounter consists of two components: the initial conditions for each aircraft and the transitions over time.
 One file is provided for each.
 
 The data file, [`flights.csv`](http://web.stanford.edu/class/aa120q/data/flights.txt), contains a table with the following columns:
@@ -64,43 +61,37 @@ The data file, [`flights.csv`](http://web.stanford.edu/class/aa120q/data/flights
 | **v2**   | Float   | airplane 2 horizontal speed [m/s] |
 """
 
-# ╔═╡ b325cea0-3f13-11eb-2b57-4dc1b8fb3bb5
+# ╔═╡ 01fba690-3f13-11eb-0b60-a14415602118
 md"""
-Write a program to load these trajectories and plot them.
+### **Your task is to:**
 
-1.  Your algorithm must be implemented from scratch in Julia.
-2.  Although you may discuss your algorithm with others, you must not share code.
+1.  Load example aircraft encounter from a file and plot them.
+2.  Propose a statistical model for capturing features from the data.
 
-Directions
+### **What is turned in:**
+Edit the contents of this notebook and turn in your final Julia notebook file (.jl), and any associated code files you wrote to Coursework. Do not use any external code or Julia packages other than those used in the class materials. For the second part of this assignment, please submit a document describing your proposed statistical model. 
 
-* Implement `pull_trajectory` to load a specific `Trajectory` from flights
-* Modify `plot_trajectory` to indicate the location of minimim separation
 """
 
 # ╔═╡ c01ff35e-3f13-11eb-0c18-8d438600c210
 md"""
-# Milestone One: Implement Pull_Trajectory
+## Milestone One: Implement `pull_encounter`
 
-Your task is to implement `pull_trajectory(flights::DataFrame, id::Int)`. The function `pull_encounter` takes in two parameters, the `DataFrame` that stores the transitions over time and the trace `id`. This function will prepare an "Encounter" data structure for plotting, by initializing an array of 51 `EncounterStates` that reveals the `AircraftState` of both airplanes at each second in the 51 second time interval. 
+Your task is to implement `pull_encounter(flights::DataFrame, id::Int)`. The function `pull_encounter` takes in two parameters, the `DataFrame` that stores the transitions over time and the trace `id`. This function will prepare an "Encounter" data structure for plotting, by initializing an array of 51 `EncounterStates` that reveals the `AircraftState` of both airplanes at each second in the 51 second time interval. 
 """
 
 # ╔═╡ e9f18460-3f13-11eb-315b-1f0dedb99c48
 md"""
 ## Data Structures
 
-Below, we will first load the data from our "flights.csv" text file which stores information about the position and velocities of both aircraftat at each time step. We have also defined two types, `AircraftState` which describes the position and velocity of an aircraft and `EncounterState`, which defines the states of both aircraft at a given time step. We also have a constant called `Trajectory` which is a vector of `EncounterStates`. You will be using the data structure along with these two types to load the data into the `Trajectory` constant and analyze the trajectories of both aircraft.
+Below, we will first load the data from our "flights.csv" text file which stores information about the position and velocities of both aircraftat at each time step. We have also defined two types, `AircraftState` which describes the position and velocity of an aircraft and `EncounterState`, which defines the states of both aircraft at a given time step. We also have a constant called `Encounter` which is a vector of `EncounterStates`. You will be using the data structure along with these two types to load the data into the `Encounter` constant and analyze the trajectories of both aircraft.
 """
 
 # ╔═╡ 0b426ad0-3f14-11eb-3ec3-d9d0697376eb
 md"""
 ### DataFrames
 
-Remember that an airplane encounter consists of the initial conditions and the transitions over time. To implement `pull_encounter`, you will be given one data frame `EncounterState`, that stores the states of both aircraft over each second of the time interval. You will need to load an array with the values of both aircraft states.
-"""
-
-# ╔═╡ 1e76f3a0-3f14-11eb-0ac6-73acb51003b1
-md"""
-#### Inital Conditions DataFrame
+Remember that an airplane encounter consists of the initial conditions and the transitions over time. To implement `pull_encounter`, you will be given one data frame `flights` that stores the states of both aircraft over each second of the time interval.
 """
 
 # ╔═╡ 258a2b80-3f14-11eb-0e0e-5f5d5d2c9de2
@@ -112,7 +103,7 @@ md"""
 
 ##### `AircraftState`
 
-This is a type which describes the aircraft state. You will need to create air craft states for each time step given by the data set above. 
+This is a type which describes the aircraft state. You will need to create aircraft states for each time step given by the data set above. 
 """
 
 # ╔═╡ 832be580-3f14-11eb-1432-45c804cfef07
@@ -127,7 +118,7 @@ end
 md"""
 ##### `EncounterState`
 
-This is a type which describes an encounter between two aircraft by defining the two aircrafts's current state at the given time interval. This is the data structure that you will need to initialize in `pull_encoutner`.
+This is a type which describes an encounter between two aircraft by defining the two aircraft's current state at the given time interval. This is a data structure that you will need to initialize in `pull_encounter`.
 """
 
 # ╔═╡ 9a3a2610-3f14-11eb-39c5-4f8d78790b10
@@ -139,50 +130,63 @@ end
 
 # ╔═╡ 9ebc79e0-3f14-11eb-3ba2-59f292cf3cd6
 md"""
-##### `Trajectory`
+##### `Encounter`
 """
 
 # ╔═╡ a1bcc190-3f14-11eb-2663-9bf3dc4e4ab7
-const Trajectory = Vector{EncounterState}
+const Encounter = Vector{EncounterState}
 
 # ╔═╡ adef026e-3f14-11eb-10e2-3b600bdc9b28
 md"""
-## `pull_trajectory`
+## `pull_encounter`
 
-We have already loaded the data from "flights.csv" into a variable called flights above. Your task now is to get the data in flights, and store it into a `Trajectory` constant. This means that you will need to go through each time step and store the state of both aircraft into an `EncounterState` and load that into a vector. Your function should produce a vector of length 51 for each state of both your ego and intruder from time 0 to 50. 
+We have already loaded the data from "flights.csv" into a variable called flights above. Your task now is to get the data in flights, and store it into an `Encounter` constant. This means that you will need to go through each time step and store the state of both aircraft into an `EncounterState` and load that into a vector. Your function should produce a vector of length 51 for each state of both your ego and intruder from time 0 to 50. 
 
-This function will return a `Trajectory`, or a vector of `EncounterStates`. You will need to initialize the trajectory vector with the data from the flights.csv file that we loaded above. You will load them into a vector of 51 elements, one for each time step. 
+This function will return an `Encounter`, or a vector of `EncounterStates`. You will need to initialize the encounter vector with the data from the flights.csv file that we loaded above. You will load them into a vector of 51 elements, one for each time step. 
+"""
+
+# ╔═╡ 18897df6-4fb7-11eb-06d0-e97126e7d981
+md"""
+**Hint:** the following line will return a dataframe that contains data for only encounter 1.
+	
+`data = flights[flights.id .== 1, :]`
 """
 
 # ╔═╡ cbeee920-3f14-11eb-399e-e58572fdee25
 html"""
-<h5><font color=crimson>💻 Implement this function <code>pull_trajectory(flights::DataFrame, id::Int)</code></font></h5>
+<h5><font color=crimson>💻 Implement this function <code>pull_encounter(flights::DataFrame, id::Int)</code></font></h5>
 """
 
 # ╔═╡ d0557792-3f14-11eb-2771-41457c500985
-function pull_trajectory(flights::DataFrame, id::Int)
+function pull_encounter(flights::DataFrame, id::Int)
 
     flightids = flights[:id] # Gets the data from the specific ID we pass in	
-	traj = Trajectory()
+	enc = Encounter()
 
     # STUDENT CODE START
     # STUDENT CODE END
 
-    return traj # returns the vector of EncounterStates
+    return enc # returns the vector of EncounterStates
 end
 
+# ╔═╡ 6bd311f4-4fb2-11eb-0ccb-11ba7b30f2d1
+md"""
+### Check
+The following cell should output a vector of 51 encounter states once you have implemented `pull_encounter`.
+"""
+
 # ╔═╡ 2a1d04a2-3f15-11eb-1906-6560c5a1ed28
-pull_trajectory(flights, 1) # Test if function works
+pull_encounter(flights, 1) # Test if function works
 
 # ╔═╡ 2fb1b2d0-3f15-11eb-3e08-17fec41f2ff8
 md"""
 ## Implement `plot_separations`
 
-Now that you have the aircraft states loaded into an array you can graphically display the trajectories of the two aircraft over a period of time. We have done this for you with the plot_trajectory function below have given you the code. We would now like you to implement plot_separations, which will display the horizontal, vertical, and total separations of the two aircraft on the same plot. 
+Now that you have the aircraft states loaded into an array you can graphically display the trajectories of the two aircraft over a period of time. We have done this for you with the `plot_encounter` function below. We would now like you to implement `plot_separations`, which will display the horizontal, vertical, and total separations of the two aircraft on the same plot. 
 
-Take time to step through the function yourself and see how it is implemented because in the next part you will be asked to implement plot_separations, which will display the distance between the two aircraft horizontally, vertically, and in total.
+Take time to step through the `plot_encounter` function and its helper functions yourself and see how it is implemented in order to prepare yourself to write the `plot_separations` section.
 
-### `plot_trajectory`
+### `plot_encounter`
 
 This is the plot for the trajectories of both aircraft. It displays the path that both aircraft follow on an x-y plane. 
 
@@ -190,54 +194,64 @@ This is the plot for the trajectories of both aircraft. It displays the path tha
 """
 
 # ╔═╡ 59e86e40-3f15-11eb-3866-bb34687092e7
-# Finds the overall serparation between two aircraft
+# Finds the overall separation between two aircraft
 get_separation(state::EncounterState) = hypot(state.plane1.x - state.plane2.x,
                                               state.plane1.y - state.plane2.y)
 
 # ╔═╡ 62fe05d0-3f15-11eb-2d82-a150166203f5
-# Determines what is the minimum serparation between the two aircraft
-get_min_separation(traj::Trajectory) = minimum(get_separation(s) for s in traj) 
+# Determines what is the minimum separation between the two aircraft
+get_min_separation(enc::Encounter) = minimum(get_separation(s) for s in enc) 
 
 # ╔═╡ 67ca5af2-3f15-11eb-0216-7d861a98b690
-# Finds the index of the minimum serparation 
-find_min_separation(traj::Trajectory) = argmin([get_separation(s) for s in traj])
+# Finds the index of the minimuencparation 
+find_min_separation(enc::Encounter) = argmin([get_separation(s) for s in enc])
 
 # ╔═╡ 53961560-3f15-11eb-2417-373528498f93
-function plot_trajectory(traj::Trajectory) 
-    d = get_min_separation(traj)  # closest dist 
-    i = find_min_separation(traj) # index of closest dist
+function plot_encounter(enc::Encounter) 
+    d = get_min_separation(enc)  # closest dist 
+    i = find_min_separation(enc) # index of closest dist
 
     palette=[colorant"0x52E3F6", colorant"0x79ABFF", colorant"0xFF007F"]
-    t_arr = collect(1:length(traj)) .- 1 # time interval
+    t_arr = collect(1:length(enc)) .- 1 # time interval
     
     # Gets the x and y values for both planes 
-    x1_arr = map(s->s.plane1.x, traj)
-    y1_arr = map(s->s.plane1.y, traj)
-    x2_arr = map(s->s.plane2.x, traj)
-    y2_arr = map(s->s.plane2.y, traj)
+    x1_arr = map(s->s.plane1.x, enc)
+    y1_arr = map(s->s.plane1.y, enc)
+    x2_arr = map(s->s.plane2.x, enc)
+    y2_arr = map(s->s.plane2.y, enc)
 
     # Plots the trajectories 
-    p1 = plot(Vector{Float64}[x1_arr, x2_arr, [traj[i].plane1.x, traj[i].plane2.x]],
-              Vector{Float64}[y1_arr, y2_arr, [traj[i].plane1.y, traj[i].plane2.y]],
+    p1 = plot(Vector{Float64}[x1_arr, x2_arr, [enc[i].plane1.x, enc[i].plane2.x]],
+              Vector{Float64}[y1_arr, y2_arr, [enc[i].plane1.y, enc[i].plane2.y]],
               xlabel="x [m]", ylabel="y [m]",
 		      label=["Plane1" "Plane2" "Min Separation"],
               palette=palette, linewidth=4)
     
     # Plots the point where the minimum separation occurs 
-    scatter!(p1, Vector{Float64}[Float64[traj[1].plane1.x],
-			 Float64[traj[1].plane2.x]],
-		     Vector{Float64}[Float64[traj[1].plane1.y], Float64[traj[1].plane2.y]],
-             label=["Plane1 Initial", "Plane2 Initial"])
+    scatter!(p1, Vector{Float64}[Float64[enc[1].plane1.x],
+			 Float64[enc[1].plane2.x]],
+		     Vector{Float64}[Float64[enc[1].plane1.y], Float64[enc[1].plane2.y]],
+             label=["Plane1 Initial" "Plane2 Initial"])
 
     plot(p1, size=(800,400))
 end
 
+# ╔═╡ 97afc1b8-4fb6-11eb-2e97-7bbe6cf0ad84
+md"""
+### Check
+The plot should show up below. Play around with a few encounter indices. If you implemented `pull_encounter` correctly, the first encounter index should look like the encounter shown at the beginning of the assignment.
+"""
+
+# ╔═╡ 9fcb9086-4fb4-11eb-09c9-8d80bb68904e
+md"""
+Control the encounter id: $(@bind id NumberField(1:1000, default=1))
+"""
+
 # ╔═╡ 84cafa12-3f15-11eb-2954-d52c7b90ed68
-# To test function
-trajectory = pull_trajectory(flights,1)
+encounter = pull_encounter(flights, id);
 
 # ╔═╡ 90c64c70-3f15-11eb-0962-49d8ea62f6b0
-plot_trajectory(trajectory) # this will fail if `trajectory` is an empty vector
+plot_encounter(encounter) # this will fail if `encounter` is an empty vector
 
 # ╔═╡ 9d2a4bb0-3f15-11eb-2f79-2bb801a6582e
 md"""
@@ -247,14 +261,13 @@ Now that you are familiar with `plot_trajectory`, you will need to implement `pl
 2. x-position separation $\left(\Delta x\right)$
 3. y-position separation $\left(\Delta y\right)$
 
-**Note:** You'll find `hypot`, `abs`, `indmin`, and `norm` useful in your implementation. If you're unfamiliar with these functions, look them up on the Julia documentation. 
+**Note:** You'll find `abs` useful in your implementation.
 """
 
 # ╔═╡ ee4dc7b0-3f15-11eb-2824-716bcf3a5c6c
 md"""
-Make use of these functions in your implementation:
-- `get_min_separation`
-- `find_min_separation`.
+Make use of the following function in your implementation:
+- `get_separation`
 """
 
 # ╔═╡ e15af5f0-3f15-11eb-3588-d90ea5b66545
@@ -263,35 +276,45 @@ html"""
 """
 
 # ╔═╡ e682b180-3f15-11eb-1244-edbee1195ed2
-function plot_separations(traj::Trajectory)
+function plot_separations(enc::Encounter)
     
     palette = [colorant"0x52E3F6", colorant"0x79ABFF", colorant"0xFF007F"]
-    t_arr = collect(1:length(traj)) .- 1
+    t_arr = collect(1:length(enc)) .- 1
     
     # REPLACE THE COMMENTS WITH YOUR CODE
     
-    # sep_arr =    # total separation for each time interval
+    # STUDENT CODE START
+	
+	# sep_arr =    # total separation for each time interval
     # sep_x_arr =  # x-position separation for each time interval
     # sep_y_arr =  # y-position separation for each time interval
-    
-    # STUDENT CODE START
+	
     # STUDENT CODE END
     
     # Plots the three separations
     plot(t_arr, Vector{Float64}[sep_arr, sep_x_arr, sep_y_arr],
          xlabel="Time [s]",
 		 ylabel="Separation [m]", 
-         lab=["Total Separation [m]",
-			  "Horizontal Separation [m]",
-			  "Vertical Separation [m]"],
+         label=["Total Separation [m]" "Horizontal Separation [m]" "Vertical Separation [m]"],
          palette=palette, linewidth=4,size=(800,400))
 end
 
+# ╔═╡ d2a2b5a6-4fb5-11eb-2ce0-8b7ab0d8a82b
+md"""
+### Check
+Your plot should show up below. Play around with a few encounter indices. Aircraft should gradually get closer, reach a minimum separation, and begin to spread out again.
+"""
+
+# ╔═╡ ba844d2c-4fb5-11eb-3a80-0fb40c9005fb
+md"""
+Control the encounter id: $(@bind id2 NumberField(1:1000, default=1))
+"""
+
 # ╔═╡ 9fead5d0-3f16-11eb-3ace-dd3c5998d723
-trajectory2 = pull_trajectory(flights,1)
+encounter2 = pull_encounter(flights, id2);
 
 # ╔═╡ a64ee1f0-3f16-11eb-14e6-ab43afc20b77
-plot_separations(trajectory2) # test (will fail if not fully implemented yet)
+plot_separations(encounter2) # test (will fail if not fully implemented yet)
 
 # ╔═╡ bf9697c0-3f16-11eb-2f00-23dd7b44cba4
 md"""
@@ -305,14 +328,13 @@ You must explain the reasoning behind your decision, how it captures the initial
 # ╔═╡ Cell order:
 # ╟─d923dee0-3f12-11eb-0fb8-dffb2e9b3b2a
 # ╠═f2d4b6c0-3f12-11eb-0b8f-abd68dc8ade7
-# ╠═f4ae58c0-3f12-11eb-2d1b-65a2947915e3
-# ╟─01fba690-3f13-11eb-0b60-a14415602118
+# ╟─f4ae58c0-3f12-11eb-2d1b-65a2947915e3
+# ╟─081da510-4fb1-11eb-3334-63534dbae588
 # ╟─31d14960-3f13-11eb-3d8a-7531c02990cf
-# ╟─b325cea0-3f13-11eb-2b57-4dc1b8fb3bb5
+# ╟─01fba690-3f13-11eb-0b60-a14415602118
 # ╟─c01ff35e-3f13-11eb-0c18-8d438600c210
 # ╟─e9f18460-3f13-11eb-315b-1f0dedb99c48
 # ╟─0b426ad0-3f14-11eb-3ec3-d9d0697376eb
-# ╟─1e76f3a0-3f14-11eb-0ac6-73acb51003b1
 # ╠═22e45fde-3f14-11eb-304e-917d13dccee4
 # ╠═258a2b80-3f14-11eb-0e0e-5f5d5d2c9de2
 # ╟─75f490b0-3f14-11eb-12be-27f3646793f1
@@ -322,8 +344,10 @@ You must explain the reasoning behind your decision, how it captures the initial
 # ╟─9ebc79e0-3f14-11eb-3ba2-59f292cf3cd6
 # ╠═a1bcc190-3f14-11eb-2663-9bf3dc4e4ab7
 # ╟─adef026e-3f14-11eb-10e2-3b600bdc9b28
+# ╟─18897df6-4fb7-11eb-06d0-e97126e7d981
 # ╟─cbeee920-3f14-11eb-399e-e58572fdee25
 # ╠═d0557792-3f14-11eb-2771-41457c500985
+# ╟─6bd311f4-4fb2-11eb-0ccb-11ba7b30f2d1
 # ╠═2a1d04a2-3f15-11eb-1906-6560c5a1ed28
 # ╟─2fb1b2d0-3f15-11eb-3e08-17fec41f2ff8
 # ╠═564e3080-3f15-11eb-1fb6-5b851a6e23ad
@@ -331,13 +355,16 @@ You must explain the reasoning behind your decision, how it captures the initial
 # ╠═62fe05d0-3f15-11eb-2d82-a150166203f5
 # ╠═67ca5af2-3f15-11eb-0216-7d861a98b690
 # ╠═53961560-3f15-11eb-2417-373528498f93
+# ╟─97afc1b8-4fb6-11eb-2e97-7bbe6cf0ad84
+# ╟─9fcb9086-4fb4-11eb-09c9-8d80bb68904e
 # ╠═84cafa12-3f15-11eb-2954-d52c7b90ed68
 # ╠═90c64c70-3f15-11eb-0962-49d8ea62f6b0
 # ╟─9d2a4bb0-3f15-11eb-2f79-2bb801a6582e
-# ╠═c3104aa0-3f15-11eb-2b59-cfa5ec97547d
 # ╟─ee4dc7b0-3f15-11eb-2824-716bcf3a5c6c
 # ╟─e15af5f0-3f15-11eb-3588-d90ea5b66545
 # ╠═e682b180-3f15-11eb-1244-edbee1195ed2
+# ╟─d2a2b5a6-4fb5-11eb-2ce0-8b7ab0d8a82b
+# ╟─ba844d2c-4fb5-11eb-3a80-0fb40c9005fb
 # ╠═9fead5d0-3f16-11eb-3ace-dd3c5998d723
 # ╠═a64ee1f0-3f16-11eb-14e6-ab43afc20b77
 # ╟─bf9697c0-3f16-11eb-2f00-23dd7b44cba4
