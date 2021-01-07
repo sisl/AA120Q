@@ -36,6 +36,12 @@ md"""
 In this assignment, you will become become familiar with loading data and plotting it in Julia. In particular, you will be working with aircraft encounters, which consist of 50 second snippets of the trajectories for two aircraft that come in close proximity with one another. These encounters may be used to test the effectiveness of aircraft collision avoidance systems.
 """
 
+# ╔═╡ cfff9088-511c-11eb-36f4-936646282096
+md"""
+## What is Turned In:
+Edit the contents of this notebook and turn in your final Pluto notebook file (.jl) to Canvas. Do not use any external code or Julia packages other than those used in the class materials.
+"""
+
 # ╔═╡ 31d14960-3f13-11eb-3d8a-7531c02990cf
 md"""
 ### Aircraft Encounters
@@ -65,11 +71,8 @@ The data file, [`flights.csv`](http://web.stanford.edu/class/aa120q/data/flights
 md"""
 ### **Your task is to:**
 
-1.  Load example aircraft encounter from a file and plot them.
-2.  Propose a statistical model for capturing features from the data.
-
-### **What is turned in:**
-Edit the contents of this notebook and turn in your final Julia notebook file (.jl), and any associated code files you wrote to Coursework. Do not use any external code or Julia packages other than those used in the class materials. For the second part of this assignment, please submit a document describing your proposed statistical model. 
+1.  Load example aircraft encounters from a file.
+2.  Plot various features of them.
 
 """
 
@@ -164,6 +167,7 @@ function pull_encounter(flights::DataFrame, id::Int)
 	enc = Encounter()
 
     # STUDENT CODE START
+
     # STUDENT CODE END
 
     return enc # returns the vector of EncounterStates
@@ -180,7 +184,7 @@ pull_encounter(flights, 1) # Test if function works
 
 # ╔═╡ 2fb1b2d0-3f15-11eb-3e08-17fec41f2ff8
 md"""
-## Implement `plot_separations`
+## Milestone Two: Implement Plotting Functions
 
 Now that you have the aircraft states loaded into an array you can graphically display the trajectories of the two aircraft over a period of time. We have done this for you with the `plot_encounter` function below. We would now like you to implement `plot_separations`, which will display the horizontal, vertical, and total separations of the two aircraft on the same plot. 
 
@@ -233,7 +237,7 @@ function plot_encounter(enc::Encounter)
 		     Vector{Float64}[Float64[enc[1].plane1.y], Float64[enc[1].plane2.y]],
              label=["Plane1 Initial" "Plane2 Initial"])
 
-    plot(p1, size=(800,400))
+    plot(p1, size=(600,400))
 end
 
 # ╔═╡ 97afc1b8-4fb6-11eb-2e97-7bbe6cf0ad84
@@ -288,7 +292,7 @@ function plot_separations(enc::Encounter)
 	# sep_arr =    # total separation for each time interval
     # sep_x_arr =  # x-position separation for each time interval
     # sep_y_arr =  # y-position separation for each time interval
-	
+
     # STUDENT CODE END
     
     # Plots the three separations
@@ -296,7 +300,7 @@ function plot_separations(enc::Encounter)
          xlabel="Time [s]",
 		 ylabel="Separation [m]", 
          label=["Total Separation [m]" "Horizontal Separation [m]" "Vertical Separation [m]"],
-         palette=palette, linewidth=4,size=(800,400))
+         palette=palette, linewidth=4,size=(600,400))
 end
 
 # ╔═╡ d2a2b5a6-4fb5-11eb-2ce0-8b7ab0d8a82b
@@ -316,20 +320,12 @@ encounter2 = pull_encounter(flights, id2);
 # ╔═╡ a64ee1f0-3f16-11eb-14e6-ab43afc20b77
 plot_separations(encounter2) # test (will fail if not fully implemented yet)
 
-# ╔═╡ bf9697c0-3f16-11eb-2f00-23dd7b44cba4
-md"""
-## Propose an Encounter Model
-
-Now that you are familiar with the Probabilistic Models discussed in class (and described in section 2.1 of DMU), you will propose an encounter model. Your model should be designed such that you can sample from it and produce initial positions for each aircraft. Your model should also support propagating the aircraft forward — i.e. describe how the encounter changes over time from the initial setup.
-
-You must explain the reasoning behind your decision, how it captures the initial and transition distributions, and how it can be learned from large initial and transition data tables.
-"""
-
 # ╔═╡ Cell order:
 # ╟─d923dee0-3f12-11eb-0fb8-dffb2e9b3b2a
 # ╠═f2d4b6c0-3f12-11eb-0b8f-abd68dc8ade7
 # ╟─f4ae58c0-3f12-11eb-2d1b-65a2947915e3
 # ╟─081da510-4fb1-11eb-3334-63534dbae588
+# ╟─cfff9088-511c-11eb-36f4-936646282096
 # ╟─31d14960-3f13-11eb-3d8a-7531c02990cf
 # ╟─01fba690-3f13-11eb-0b60-a14415602118
 # ╟─c01ff35e-3f13-11eb-0c18-8d438600c210
@@ -367,4 +363,3 @@ You must explain the reasoning behind your decision, how it captures the initial
 # ╟─ba844d2c-4fb5-11eb-3a80-0fb40c9005fb
 # ╠═9fead5d0-3f16-11eb-3ace-dd3c5998d723
 # ╠═a64ee1f0-3f16-11eb-14e6-ab43afc20b77
-# ╟─bf9697c0-3f16-11eb-2f00-23dd7b44cba4

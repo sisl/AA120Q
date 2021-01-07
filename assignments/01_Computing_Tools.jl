@@ -30,6 +30,12 @@ The accuracy of this experimental value of pi increases with an increasing numbe
 See [Wikipedia](https://en.wikipedia.org/wiki/Buffon%27s_needle) for a detailed problem description and background.
 """
 
+# ╔═╡ b97e1c52-511b-11eb-0dfe-410b622089cc
+md"""
+## What is Turned In:
+Edit the contents of this notebook and turn in your final Pluto notebook file (.jl) to Canvas. Do not use any external code or Julia packages other than those used in the class materials.
+"""
+
 # ╔═╡ 3d40d020-3f0b-11eb-285a-6d25e30d92c9
 md"""
 # Buffon's Needles Problem
@@ -72,7 +78,11 @@ Returns the <code>x</code> and <code>θ</code> value for a randomly thrown needl
 
 # ╔═╡ a689a200-3f0b-11eb-2354-357e2b8a25aa
 function throw_needle()
-    # STUDENT CODE START
+    x = 0
+	θ = 0
+	
+	# STUDENT CODE START
+	
     # STUDENT CODE END
 
     return (x,θ) # returns values
@@ -119,8 +129,13 @@ html"""
 
 # ╔═╡ 1c42b2b0-3f0d-11eb-1b92-4b252ac6c319
 function needle_overlaps(x::Float64, θ::Float64)
-    # STUDENT CODE START 
+	overlaps = true
+	
+	# STUDENT CODE START
+
     # STUDENT CODE END
+	
+	return overlaps
 end
 
 # ╔═╡ 2416a280-3f0d-11eb-04c2-b34b546b1d50
@@ -142,7 +157,10 @@ Estimate $\pi$ using `n` thrown needles.
 
 # ╔═╡ 41787470-3f0d-11eb-0e8c-9bf6be69db81
 function buffon_calc(n::Int)
+	π̂ = 0
+	
 	# STUDENT CODE START
+
     # STUDENT CODE END
 
 	return π̂ # returns your calculated estimate for π
@@ -211,6 +229,7 @@ function run_trials()
 	stderr_y = zeros(15)
 
     # STUDENT CODE START
+
     # STUDENT CODE END
 
     return mean_y, stderr_y # return the trials for each of the 15 sample sizes 
@@ -250,6 +269,7 @@ md"""
 # ╠═15ff38d2-3f0b-11eb-3b70-110e0233924e
 # ╟─1f625420-3f0b-11eb-1a97-73752639a1cd
 # ╟─b583aae0-3f0a-11eb-1560-03c21f877727
+# ╟─b97e1c52-511b-11eb-0dfe-410b622089cc
 # ╟─3d40d020-3f0b-11eb-285a-6d25e30d92c9
 # ╟─5b66dc70-3f0b-11eb-00e3-6910d8ffaf21
 # ╟─890f8d20-3f0b-11eb-0ab6-b54cd1c0f0e7
