@@ -20,7 +20,7 @@ using PlutoUI
 using BayesNets, LightGraphs, Random, BSON, Discretizers, Distributions, LinearAlgebra
 
 # ╔═╡ 0c5d23e0-5066-11eb-068e-7fbf46e297c4
-using Plots; gr()
+using Plots; plotly()
 
 # ╔═╡ ee57b148-5055-11eb-14fa-d75faeafeb31
 include("support_code/em_support_code.jl")

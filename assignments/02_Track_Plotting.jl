@@ -21,7 +21,7 @@ using PlutoUI
 using DataFrames, CSV
 
 # ╔═╡ 564e3080-3f15-11eb-1fb6-5b851a6e23ad
-using Plots; gr()
+using Plots; plotly()
 
 # ╔═╡ d923dee0-3f12-11eb-0fb8-dffb2e9b3b2a
 md"""

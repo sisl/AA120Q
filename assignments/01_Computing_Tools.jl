@@ -11,7 +11,7 @@ using PlutoUI
 using Statistics
 
 # ╔═╡ 2b7adf62-4f8b-11eb-2de5-5709efe602a8
-using Plots; gr()
+using Plots; plotly()
 
 # ╔═╡ 2ed7b212-3f0b-11eb-21f0-3d47dc28865b
 md"""

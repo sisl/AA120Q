@@ -20,7 +20,7 @@ using PlutoUI
 using CSV, DataFrames
 
 # ╔═╡ 45f36978-5115-11eb-0540-33937e278f6d
-using Plots; gr()
+using Plots; plotly()
 
 # ╔═╡ 578b9c82-5115-11eb-2db9-bf97dae1bcdd
 include("support_code/CAS_support_code.jl");
