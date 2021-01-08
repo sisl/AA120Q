@@ -119,7 +119,7 @@ Control the encounter number: $(@bind enc_ind NumberField(1:1000, default=1))
 """
 
 # ╔═╡ 2cfc05ea-5072-11eb-029e-31f9af45d159
-plot_encounter(encounter_set[enc_ind])
+length(encounter_set) > 0 ? plot_encounter(encounter_set[enc_ind]) : nothing
 
 # ╔═╡ aa4f2df6-5072-11eb-30c3-2d52fc0e0072
 md"""
@@ -157,10 +157,10 @@ Let's plot the a histogram of the miss distances for the encounter set we create
 """
 
 # ╔═╡ df79c3a0-5073-11eb-1fba-1b8ac9151259
-miss_distances = get_miss_distances(encounter_set)
+length(encounter_set) > 0 ? miss_distances = get_miss_distances(encounter_set) : nothing
 
 # ╔═╡ 1585febe-5074-11eb-08a0-1f852b60e37c
-plot(histogram(miss_distances), ylabel="Number of Encounters", xlabel = "Miss Distance [m]", legend = false)
+length(encounter_set) > 0 ? plot(histogram(miss_distances), ylabel="Number of Encounters", xlabel = "Miss Distance [m]", legend = false) : nothing
 
 # ╔═╡ 6d4c7f7e-5074-11eb-1b7a-538a43191a4f
 md"""

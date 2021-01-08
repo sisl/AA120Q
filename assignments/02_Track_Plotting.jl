@@ -255,7 +255,7 @@ Control the encounter id: $(@bind id NumberField(1:1000, default=1))
 encounter = pull_encounter(flights, id);
 
 # ╔═╡ 90c64c70-3f15-11eb-0962-49d8ea62f6b0
-plot_encounter(encounter) # this will fail if `encounter` is an empty vector
+length(encounter) > 0 ? plot_encounter(encounter) : nothing
 
 # ╔═╡ 9d2a4bb0-3f15-11eb-2f79-2bb801a6582e
 md"""
@@ -284,8 +284,13 @@ function plot_separations(enc::Encounter)
     
     palette = [colorant"0x52E3F6", colorant"0x79ABFF", colorant"0xFF007F"]
     t_arr = collect(1:length(enc)) .- 1
+	
+	# Output placeholders
+	sep_arr =  zeros(51)
+    sep_x_arr = zeros(51)
+    sep_y_arr = zeros(51)
     
-    # REPLACE THE COMMENTS WITH YOUR CODE
+    # REPLACE THE COMMENTS WITH YOUR CODE TO SPECIFY THE CORRECT VECTOR FOR EACH VARIABLE
     
     # STUDENT CODE START
 	
@@ -318,7 +323,7 @@ Control the encounter id: $(@bind id2 NumberField(1:1000, default=1))
 encounter2 = pull_encounter(flights, id2);
 
 # ╔═╡ a64ee1f0-3f16-11eb-14e6-ab43afc20b77
-plot_separations(encounter2) # test (will fail if not fully implemented yet)
+length(encounter2) > 0 ? plot_separations(encounter2) : nothing
 
 # ╔═╡ Cell order:
 # ╟─d923dee0-3f12-11eb-0fb8-dffb2e9b3b2a
