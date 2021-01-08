@@ -6,7 +6,7 @@ using AA120Q
 assignment_dir = joinpath(dirname(pathof(AA120Q)), "..", "assignments")
 for d in readdir(assignment_dir)
     if startswith(d, "0") && endswith(d, ".jl")
-        fullpath = joinpath(lecture_dir, d)
+        fullpath = joinpath(assignment_dir, d)
         include(fullpath)
     end
 end
