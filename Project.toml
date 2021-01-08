@@ -39,7 +39,7 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
 
 [targets]
-test = ["Markdown", Test"]
+test = ["Test", "Markdown"]
 
 [compat]
 julia = "1.5"
