@@ -286,6 +286,15 @@ rand(bn5) # random assignment
 # ╔═╡ 324e0b33-24af-4246-b597-47d820b2fc59
 rand(bn5, 5)
 
+# ╔═╡ c62ca870-5232-11eb-24ac-d5a957a8a882
+md"""
+### You have completed the assignment!
+---
+"""
+
+# ╔═╡ c5fb864e-5232-11eb-3fb5-990f55a3ba58
+PlutoUI.TableOfContents(title="Bayesian Networks")
+
 # ╔═╡ Cell order:
 # ╟─87b6ba50-40c0-11eb-3e37-99699a3af348
 # ╟─f5c953d0-40c1-11eb-264a-1fb03c3eb399
@@ -337,3 +346,5 @@ rand(bn5, 5)
 # ╠═6697b805-c76c-469e-a278-e9d950a88967
 # ╠═4dd8bfdb-6ae5-4f0c-9855-c98cffc9e7a4
 # ╠═324e0b33-24af-4246-b597-47d820b2fc59
+# ╟─c62ca870-5232-11eb-24ac-d5a957a8a882
+# ╠═c5fb864e-5232-11eb-3fb5-990f55a3ba58
