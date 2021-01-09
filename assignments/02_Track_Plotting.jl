@@ -38,7 +38,7 @@ In this assignment, you will become become familiar with loading data and plotti
 
 # ╔═╡ cfff9088-511c-11eb-36f4-936646282096
 md"""
-## What is Turned In:
+## What is Turned In
 Edit the contents of this notebook and turn in your final Pluto notebook file (.jl) to Canvas. Do not use any external code or Julia packages other than those used in the class materials.
 """
 
@@ -69,7 +69,7 @@ The data file, [`flights.csv`](http://web.stanford.edu/class/aa120q/data/flights
 
 # ╔═╡ 01fba690-3f13-11eb-0b60-a14415602118
 md"""
-### **Your task is to:**
+#### **Your task is to:**
 
 1.  Load example aircraft encounters from a file.
 2.  Plot various features of them.
@@ -85,14 +85,15 @@ Your task is to implement `pull_encounter(flights::DataFrame, id::Int)`. The fun
 
 # ╔═╡ e9f18460-3f13-11eb-315b-1f0dedb99c48
 md"""
-## Data Structures
+### Data Structures
+---
 
 Below, we will first load the data from our "flights.csv" text file which stores information about the position and velocities of both aircraftat at each time step. We have also defined two types, `AircraftState` which describes the position and velocity of an aircraft and `EncounterState`, which defines the states of both aircraft at a given time step. We also have a constant called `Encounter` which is a vector of `EncounterStates`. You will be using the data structure along with these two types to load the data into the `Encounter` constant and analyze the trajectories of both aircraft.
 """
 
 # ╔═╡ 0b426ad0-3f14-11eb-3ec3-d9d0697376eb
 md"""
-### DataFrames
+#### DataFrames
 
 Remember that an airplane encounter consists of the initial conditions and the transitions over time. To implement `pull_encounter`, you will be given one data frame `flights` that stores the states of both aircraft over each second of the time interval.
 """
@@ -103,6 +104,7 @@ flights = CSV.read(joinpath(@__DIR__, "..", "data", "flights.csv"), DataFrame)
 # ╔═╡ 75f490b0-3f14-11eb-12be-27f3646793f1
 md"""
 ### Types
+---
 
 ##### `AircraftState`
 
@@ -141,7 +143,8 @@ const Encounter = Vector{EncounterState}
 
 # ╔═╡ adef026e-3f14-11eb-10e2-3b600bdc9b28
 md"""
-## `pull_encounter`
+### `pull_encounter`
+---
 
 We have already loaded the data from "flights.csv" into a variable called flights above. Your task now is to get the data in flights, and store it into an `Encounter` constant. This means that you will need to go through each time step and store the state of both aircraft into an `EncounterState` and load that into a vector. Your function should produce a vector of length 51 for each state of both your ego and intruder from time 0 to 50. 
 
@@ -191,6 +194,7 @@ Now that you have the aircraft states loaded into an array you can graphically d
 Take time to step through the `plot_encounter` function and its helper functions yourself and see how it is implemented in order to prepare yourself to write the `plot_separations` section.
 
 ### `plot_encounter`
+---
 
 This is the plot for the trajectories of both aircraft. It displays the path that both aircraft follow on an x-y plane. 
 
@@ -325,6 +329,15 @@ encounter2 = pull_encounter(flights, id2);
 # ╔═╡ a64ee1f0-3f16-11eb-14e6-ab43afc20b77
 length(encounter2) > 0 ? plot_separations(encounter2) : nothing
 
+# ╔═╡ 1b9da107-0084-4a80-a042-1989bc254a54
+md"""
+### You have completed the assignment!
+---
+"""
+
+# ╔═╡ de7e9fb6-2e8d-467c-a316-e1f524a41b07
+PlutoUI.TableOfContents(title="Encounter Plotting")
+
 # ╔═╡ Cell order:
 # ╟─d923dee0-3f12-11eb-0fb8-dffb2e9b3b2a
 # ╠═f2d4b6c0-3f12-11eb-0b8f-abd68dc8ade7
@@ -368,3 +381,5 @@ length(encounter2) > 0 ? plot_separations(encounter2) : nothing
 # ╟─ba844d2c-4fb5-11eb-3a80-0fb40c9005fb
 # ╠═9fead5d0-3f16-11eb-3ace-dd3c5998d723
 # ╠═a64ee1f0-3f16-11eb-14e6-ab43afc20b77
+# ╠═1b9da107-0084-4a80-a042-1989bc254a54
+# ╠═de7e9fb6-2e8d-467c-a316-e1f524a41b07

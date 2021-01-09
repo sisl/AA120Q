@@ -37,7 +37,7 @@ In this assignment, you will be implementing a simple collision avoidance system
 
 # ╔═╡ 08b19b88-5083-11eb-0daa-b5d1c148e2b3
 md"""
-## What is Turned In:
+## What is Turned In
 Edit the contents of this notebook and turn in your final Pluto notebook file (.jl) to Canvas. Do not use any external code or Julia packages other than those used in the class materials.
 """
 
@@ -122,7 +122,7 @@ end
 
 # ╔═╡ dde45b22-508c-11eb-04a6-bf0ee25ab2b9
 md"""
-### Check:
+### Check
 Let's see how this system works. First, let's simulate our simple collision avoidance system on our encounter set and store the results. We have already written a simple simulation function for you that takes in an encounter and a CAS function and returns the results of the simulation. The results are tuples with the first value being the simulated encounter and the second value a vector of the advisories given at each time step.
 """
 
@@ -204,7 +204,7 @@ end
 
 # ╔═╡ bd06461e-5090-11eb-3e4c-cf4290bec77e
 md"""
-### Check:
+### Check
 Let's see how this system works. First, let's simulate our constrained simple collision avoidance system on our encounter set and store the results. We will start with a value of 500 meters for the `threshold_dist`.
 """
 
@@ -293,6 +293,15 @@ md"""
 Now, we can easily visualize the tradeoff between safety and efficiency! How do we select a point? We may present this to regulators so that they can decide where on the curve they would like to be based on their preferred balance between safety and efficiency.
 """
 
+# ╔═╡ e873645c-ad98-480f-aaca-5c004bd9d1c7
+md"""
+### You have completed the assignment!
+---
+"""
+
+# ╔═╡ 768ab4fb-5f69-435a-9358-59e0dc68f946
+PlutoUI.TableOfContents(title="Collision Avoidance System")
+
 # ╔═╡ Cell order:
 # ╟─2aae23e4-5078-11eb-321f-fbe32b39f01c
 # ╟─7b045ab4-5078-11eb-33b9-ab772ff09af9
@@ -343,3 +352,5 @@ Now, we can easily visualize the tradeoff between safety and efficiency! How do 
 # ╟─286dfd2c-5096-11eb-31f2-878035167af7
 # ╠═5e31d030-5096-11eb-1257-834c5ec9d53c
 # ╟─96224c88-5096-11eb-2e6f-2d5908c1c245
+# ╟─e873645c-ad98-480f-aaca-5c004bd9d1c7
+# ╠═768ab4fb-5f69-435a-9358-59e0dc68f946

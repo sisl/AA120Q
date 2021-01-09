@@ -39,7 +39,7 @@ We have already created the encounter model for you based on the data using a pr
 
 # ╔═╡ dd0bf9b8-5045-11eb-2099-43fa6e4e605c
 md"""
-## What is Turned In:
+## What is Turned In
 Edit the contents of this notebook and turn in your final Pluto notebook file (.jl) to Canvas. Do not use any external code or Julia packages other than those used in the class materials.
 """
 
@@ -98,7 +98,7 @@ end
 
 # ╔═╡ dd3854d2-5071-11eb-24b2-f3df5296f75b
 md"""
-### Check: 
+### Check
 Let's use the function to create a set of 1,000 encounters.
 """
 
@@ -152,7 +152,7 @@ end
 
 # ╔═╡ cade9ad8-5073-11eb-1590-8778a2baa3c8
 md"""
-### Check:
+### Check
 Let's plot the a histogram of the miss distances for the encounter set we created.
 """
 
@@ -238,7 +238,7 @@ end
 
 # ╔═╡ 9c1f0e4a-5077-11eb-3546-354793b10551
 md"""
-### Check:
+### Check
 Now, we can see how many NMACs the encounter set contains. You should see a number around 62, meaning 62 of the 1,000 encounters we created contain result in a near midair collision with no collision avoidance system in place.
 
 Number of NMACs:
@@ -246,6 +246,15 @@ Number of NMACs:
 
 # ╔═╡ 8b3cecc0-5075-11eb-181f-4b81477f1bbb
 sum([is_nmac(enc) for enc in encounter_set])
+
+# ╔═╡ e35709df-0f37-4798-9913-5b2209f22e94
+md"""
+### You have completed the assignment!
+---
+"""
+
+# ╔═╡ f4030d1a-723c-46e8-af13-d6c8fd0b79da
+PlutoUI.TableOfContents(title="Simulation")
 
 # ╔═╡ Cell order:
 # ╟─91ad6858-5045-11eb-3385-e5ba7a7a2d9f
@@ -288,3 +297,5 @@ sum([is_nmac(enc) for enc in encounter_set])
 # ╠═5d459eca-5075-11eb-0ea6-2974b785ae76
 # ╟─9c1f0e4a-5077-11eb-3546-354793b10551
 # ╠═8b3cecc0-5075-11eb-181f-4b81477f1bbb
+# ╟─e35709df-0f37-4798-9913-5b2209f22e94
+# ╠═f4030d1a-723c-46e8-af13-d6c8fd0b79da

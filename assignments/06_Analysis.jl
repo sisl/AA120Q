@@ -37,7 +37,7 @@ In this assignment, you will look back at the collision avoidance system you des
 
 # ╔═╡ 0ef3bcb4-5115-11eb-385d-dfcaa74621f6
 md"""
-## What is Turned In:
+## What is Turned In
 Edit the contents of this notebook and turn in your final Pluto notebook file (.jl) to Canvas. Do not use any external code or Julia packages other than those used in the class materials.
 """
 
@@ -126,6 +126,7 @@ html"""
 # ╔═╡ 3e1d90be-5117-11eb-2ef1-3928b154f9ea
 md"""
 Write your summary here!
+
 """
 
 # ╔═╡ f97094f2-5116-11eb-143f-9fba4377f713
@@ -139,6 +140,7 @@ html"""
 # ╔═╡ 44de014a-5117-11eb-0ef5-bf5137132a88
 md"""
 Write your summary here!
+
 """
 
 # ╔═╡ fa38e4f2-5116-11eb-0f88-f9af477959f5
@@ -152,6 +154,7 @@ html"""
 # ╔═╡ 47059438-5117-11eb-3b69-3d9687e5922a
 md"""
 Write your summary here!
+
 """
 
 # ╔═╡ 49ca25d0-5117-11eb-213f-cb761b37d5b5
@@ -172,6 +175,7 @@ html"""
 # ╔═╡ c1e61a14-5118-11eb-16ab-eb980f555c5c
 md"""
 Write your summary here!
+
 """
 
 # ╔═╡ c8d5318c-5118-11eb-0e9b-d54734bf2b2b
@@ -187,12 +191,17 @@ html"""
 # ╔═╡ bda9d58e-5119-11eb-3192-1786a830c084
 md"""
 Write your summary here!
+
 """
 
 # ╔═╡ d91245fe-5119-11eb-3c29-516d33c9525f
 md"""
-### Congrats! You have completed the Pluto portion of the AA120Q assignments!
+---
+> **Congrats! You have completed the Pluto portion of the AA120Q assignments!**
 """
+
+# ╔═╡ 7d61000f-d6c4-4181-bcd6-06b7589fdc26
+PlutoUI.TableOfContents(title="Analysis")
 
 # ╔═╡ Cell order:
 # ╟─f3d1a84c-5113-11eb-08a2-938ec13fdcbc
@@ -230,3 +239,4 @@ md"""
 # ╟─b0e4c16a-5119-11eb-1aa7-513244ba1a7d
 # ╠═bda9d58e-5119-11eb-3192-1786a830c084
 # ╟─d91245fe-5119-11eb-3c29-516d33c9525f
+# ╠═7d61000f-d6c4-4181-bcd6-06b7589fdc26

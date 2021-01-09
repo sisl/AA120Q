@@ -320,6 +320,15 @@ D_transition = D_trans
 # ╔═╡ 2c4fdf06-504d-11eb-1eb1-dda2dfb6c84a
 @save "myencountermodel.bson" bn_initial D_initial bn_transition D_transition
 
+# ╔═╡ a243f7f8-a499-4cce-a915-2068b2e89a19
+md"""
+### You have completed the assignment!
+---
+"""
+
+# ╔═╡ 382c475d-5d44-44d6-af7e-c5c281fcdb8b
+PlutoUI.TableOfContents(title="Bayesian Networks")
+
 # ╔═╡ Cell order:
 # ╟─fe8b582e-4fb7-11eb-0588-a77025e0f59d
 # ╠═4bcea5e4-4fba-11eb-2457-e9a88f33bb3b
@@ -372,3 +381,5 @@ D_transition = D_trans
 # ╠═4cd1091c-504d-11eb-3a55-252b479bc4ef
 # ╠═6c6c7aae-504d-11eb-0b45-4158ced31329
 # ╠═2c4fdf06-504d-11eb-1eb1-dda2dfb6c84a
+# ╟─a243f7f8-a499-4cce-a915-2068b2e89a19
+# ╠═382c475d-5d44-44d6-af7e-c5c281fcdb8b

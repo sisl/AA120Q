@@ -6,12 +6,12 @@
 This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offered at Stanford.
 
 ### Lecture Notebooks
-1. [Introduction to Julia](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/01_Building_Trust.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/01_Building_Trust.jl)]</sup>
+1. [Introduction to Julia](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/01_Julia.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/01_Julia.jl)]</sup>
 2. [Scientific Computing](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/02_Computing_Tools.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/02_Computing_Tools.jl)]</sup>
 3. [Statistical Models](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/03_Track_Plotting.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/03_Track_Plotting.jl)]</sup>
 4. [Learning](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/04_Learning.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/04_Learning.jl)]</sup>
 5. [Simulation](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/05_Simulation.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/05_Simulation.jl)]</sup>
-6. [Building Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/06_CollisionAvoidanceSystem.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/06_CollisionAvoidanceSystem.jl)]</sup>
+6. [Building Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/06_Collision_Avoidance_System.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/06_Collision_Avoidance_System.jl)]</sup>
 7. [Robustness to Sensor Error](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/07_Sensors.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/07_Sensors.jl)]</sup>
 8. [Analysis of Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/08_Analysis.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/08_Analysis.jl)]</sup>
 9. [Case Studies of Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/09_Case_Studies.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/09_Case_Studies.jl)]</sup>
@@ -26,7 +26,7 @@ This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offere
 4. [Simple Collision Avoidance System](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/04_Simple_CAS.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/05_CAS_Design.jl)]</sup>
 5. [Collision Avoidance System Design](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/05_CAS_Design.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/04_Simple_CAS.jl)]</sup>
 6. [Analysis](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/06_Analysis.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/06_Analysis.jl)]</sup>
-- [Optional Assignment: Bayesian Network Learning](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/Optional_Bayesian_Networks.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/04_Simple_CAS.jl)]</sup>
+- [Optional Assignment: Bayesian Network Learning](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/Optional_Bayesian_Networks.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/Optional_Bayesian_Networks.jl)]</sup>
 
 ## Installation
 

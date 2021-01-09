@@ -37,7 +37,7 @@ In the previous assignment, you tested a very simple collision avoidance system 
 
 # ╔═╡ f4e98cc8-510b-11eb-19a6-33c9e8f8902b
 md"""
-## What is Turned In:
+## What is Turned In
 Edit the contents of this notebook and turn in your final Pluto notebook file (.jl) to Canvas. Do not use any external code or Julia packages other than those used in the class materials.
 
 Once everyone has submitted their assignments, we will create a AA120Q class Pareto curve using the results of everyone's optimized collision avoidance systems!
@@ -170,7 +170,7 @@ num_nmacs = length(nmac_inds)
 
 # ╔═╡ 005a6090-5112-11eb-386f-9501cd41a86a
 md"""
-### Frequency of Alerts:
+### Frequency of Alerts
 """
 
 # ╔═╡ 1dec998c-5112-11eb-1b54-67fdf55f2180
@@ -195,7 +195,18 @@ html"""
 # ╔═╡ e8d86b30-5114-11eb-2c55-e5e0b20bd9ba
 md"""
 Write your summary here!
+
+
 """
+
+# ╔═╡ 93a744d8-d60a-4c06-ba4c-e03c2da705fe
+md"""
+### You have completed the assignment!
+---
+"""
+
+# ╔═╡ ca249df8-1820-4faf-bf3d-63650a31f9ca
+PlutoUI.TableOfContents(title="Collision Avoidance System")
 
 # ╔═╡ Cell order:
 # ╟─f219a34e-510a-11eb-3366-9f6ad716fb7e
@@ -228,3 +239,5 @@ Write your summary here!
 # ╟─47d846ea-5114-11eb-0d34-9d77fbc42f6c
 # ╟─53435de6-5114-11eb-2f59-afe859ec5fd1
 # ╠═e8d86b30-5114-11eb-2c55-e5e0b20bd9ba
+# ╟─93a744d8-d60a-4c06-ba4c-e03c2da705fe
+# ╠═ca249df8-1820-4faf-bf3d-63650a31f9ca

@@ -267,7 +267,11 @@ Your plot should look like it is converging to the true value of $\pi$.
 # ╔═╡ a3e5d614-4f8b-11eb-274e-33c03641e2e8
 md"""
 ### You have completed the assignment!
+---
 """
+
+# ╔═╡ a21e4ae3-acab-45f3-834b-e67a449c2f1b
+PlutoUI.TableOfContents(title="Estimating π")
 
 # ╔═╡ Cell order:
 # ╟─2ed7b212-3f0b-11eb-21f0-3d47dc28865b
@@ -306,3 +310,4 @@ md"""
 # ╟─72dcdb26-4f8b-11eb-33e4-a3d1903d95fb
 # ╟─7da83cc6-4f8b-11eb-260e-09a9c541d3f5
 # ╟─a3e5d614-4f8b-11eb-274e-33c03641e2e8
+# ╠═a21e4ae3-acab-45f3-834b-e67a449c2f1b
