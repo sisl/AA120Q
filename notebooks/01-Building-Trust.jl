@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.17
+# v0.12.18
 
 using Markdown
 using InteractiveUtils
@@ -21,9 +21,6 @@ using Printf
 
 # ╔═╡ f1a3a270-073b-11eb-1741-37897aa84974
 begin
-	# using PlutoUI
-	# pkg"add https://github.com/shashankp/PlutoUI.jl#TableOfContents-element"
-
 	md"""
 	# Building Trust in Aircraft and Automobile Safety Systems
 	AA120Q: *Building Trust in Autonomy*, Stanford University. 
@@ -37,8 +34,18 @@ end
 
 # ╔═╡ 991297c0-0776-11eb-082c-e57372352faa
 md"""
-## Quick Introduction to Julia
-These examples are based on [Learn X in Y Minutes](http://learnxinyminutes.com/docs/julia/). Assumes Julia `v1.5`.
+# Quick Introduction to Julia
+
+![](https://julialang.org/assets/infra/logo.svg)
+
+
+Julia is a high-level dynamic programming language$^{[\href{https://en.wikipedia.org/wiki/Julia_(programming_language)}{2}]}$ that was designed to solve the two-language problem.
+
+**Two language problem.**$\;\;$One typically uses a high-level language like MATLAB to do scientific computing and create prototypes, but a low-level language like C to implement resulting solutions.
+
+Julia is both fast and easy to prototype in, and supports a wide range of features such as a built-in package manager (so reproducing someone's exact development environment can be done for verification purposes), distributed computing, C and Python interfaces, a powerful REPL (command line, stands for Read, Eval, Print, Loop), and an elegant type system.
+
+The following examples are based on [Learn X in Y Minutes](http://learnxinyminutes.com/docs/julia/). Assumes Julia `v1.5`.
 
 > Note, the output of code is *above* each cell in Pluto notebooks.
 """
@@ -679,6 +686,12 @@ Pluto, like Jupyter, is a notebook-style environment. We recommend this engaging
 # ╔═╡ 4a4f2872-074d-11eb-0ec8-13783b11ffd7
 var^3
 
+# ╔═╡ d4934a74-c0c8-4198-bcb7-ba8c9964a544
+md"---"
+
+# ╔═╡ fc57da22-fb5c-4a95-86f3-d899dfe10043
+PlutoUI.TableOfContents(title="Ensuring Trust in Autonomy")
+
 # ╔═╡ Cell order:
 # ╟─f1a3a270-073b-11eb-1741-37897aa84974
 # ╟─991297c0-0776-11eb-082c-e57372352faa
@@ -838,3 +851,5 @@ var^3
 # ╟─6efb1630-074c-11eb-3186-b3ea3cc6d33b
 # ╠═433a69f0-074d-11eb-0698-f9113d9939c3
 # ╠═4a4f2872-074d-11eb-0ec8-13783b11ffd7
+# ╟─d4934a74-c0c8-4198-bcb7-ba8c9964a544
+# ╠═fc57da22-fb5c-4a95-86f3-d899dfe10043

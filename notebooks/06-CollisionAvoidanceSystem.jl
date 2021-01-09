@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.16
+# v0.12.18
 
 using Markdown
 using InteractiveUtils
@@ -90,7 +90,9 @@ agent = TCAS()
 md"""
 The TCAS agent is a `FullyObservableCollisionAvoidanceSystem`, meaning it assumes perfect state information.
 
-	TCAS <: FullyObservableCollisionAvoidanceSystem
+```julia
+TCAS <: FullyObservableCollisionAvoidanceSystem
+```
 
 It implements two functions: `reset!` and `update!`
 """
@@ -355,7 +357,7 @@ md"""
 """
 
 # ╔═╡ 2c3b3292-38e7-11eb-2ee1-518ce8840823
-# PlutoUI.TableOfContents("Building Autonomous Systems")
+PlutoUI.TableOfContents(title="Building Autonomous Systems")
 
 # ╔═╡ Cell order:
 # ╟─1ecaaeb0-38ce-11eb-2304-65c70a221e0a

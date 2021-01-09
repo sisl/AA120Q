@@ -1,14 +1,11 @@
 ### A Pluto.jl notebook ###
-# v0.12.16
+# v0.12.18
 
 using Markdown
 using InteractiveUtils
 
 # ╔═╡ a696ba40-398d-11eb-3295-656f95b21302
 begin
-	using PlutoUI
-	# pkg"add https://github.com/shashankp/PlutoUI.jl#TableOfContents-element"
-
 	md"""
 	# Case Studies of Autonomous Systems
 	AA120Q: *Building Trust in Autonomy*, Stanford University. 

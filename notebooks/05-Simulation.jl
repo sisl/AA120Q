@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.16
+# v0.12.18
 
 using Markdown
 using InteractiveUtils
@@ -35,23 +35,17 @@ begin
 	"""
 end
 
-# ╔═╡ 09f7d8d0-38c6-11eb-064b-f74fcccdfc49
-using AddPackage
-
 # ╔═╡ 1c57d390-38c6-11eb-1516-e15b05666ff9
-@add using Compose, Colors, Random
+using Compose, Colors, Random
 
 # ╔═╡ 0b899500-38c9-11eb-013b-f9c6614b1e4b
 using LinearAlgebra
 
 # ╔═╡ 282b0050-38cd-11eb-07c3-2fdb007a1e5c
-@add using Distributions
+using Distributions
 
 # ╔═╡ 43b37e60-38cd-11eb-1238-c1f9485e589d
-@add using PGFPlots
-
-# ╔═╡ ae4f0f02-38cd-11eb-3604-b3cc1ad1af36
-@add using TikzGraphs, BayesNets
+using Plots
 
 # ╔═╡ 2ffe09f0-38c6-11eb-1587-ff867b0af6a4
 PlutoUI.LocalResource("./figures/sim_circle.png")
@@ -244,26 +238,9 @@ begin
 		    randn(1000) .* 0.8 .+ 2;
 		    randn(500) .* 1.5 .+ 4]
 	data = filter!(x->-15 < x < 15, data)
-	Axis(Plots.Histogram(data, bins=100), ymin=0, width="25cm", height="10cm")
+	histogram(data, bins=100, size=(600,200), label=nothing)
+	# Axis(Plots.Histogram(data, bins=100), ymin=0, width="25cm", height="10cm")
 end
-
-# ╔═╡ aa1caff0-38cd-11eb-19f5-57831162d0c8
-md"""
-### Sampling from Bayesian network
-"""
-
-# ╔═╡ b553eefe-38cd-11eb-2d2f-4d3cbc577fa4
-begin
-	bn = BayesNet()
-	push!(bn, StaticCPD(:a, Normal(0,1))) # N(0,1)
-	push!(bn, LinearGaussianCPD(:b, [:a], [2.0], 3.0, 1.0)) # N(2a + 3, 1)
-end
-
-# ╔═╡ e10b7e10-38cd-11eb-1655-69a7619b5dc4
-rand(bn) # random assignment
-
-# ╔═╡ e8de3560-38cd-11eb-0f81-09f23491b3f6
-rand(bn, 5)
 
 # ╔═╡ d7ce08a0-38cc-11eb-1246-a9105983f2e6
 md"""
@@ -271,11 +248,10 @@ md"""
 """
 
 # ╔═╡ 616636d2-38ca-11eb-2823-2fd57ad86cea
-# PlutoUI.TableOfContents("Simulation")
+PlutoUI.TableOfContents(title="Simulation")
 
 # ╔═╡ Cell order:
 # ╟─d0efeeb0-38c5-11eb-3b9a-5bcbc9103863
-# ╠═09f7d8d0-38c6-11eb-064b-f74fcccdfc49
 # ╠═2ffe09f0-38c6-11eb-1587-ff867b0af6a4
 # ╟─f3ff3180-38c6-11eb-11e6-83d3677b01b6
 # ╟─53cd4160-38c7-11eb-0d5a-1b9ae090cc30
@@ -283,7 +259,7 @@ md"""
 # ╠═7ffb8710-38c7-11eb-0d37-e92dbf75eea2
 # ╠═8e9fb250-38c7-11eb-2676-6df68ccb5366
 # ╠═964c4400-38c7-11eb-129b-85913ba52576
-# ╠═a4612790-38c7-11eb-2baf-3f03e9aabd00
+# ╟─a4612790-38c7-11eb-2baf-3f03e9aabd00
 # ╠═c1a70d10-38c7-11eb-34bf-cfbd1015ceef
 # ╠═dc84a522-38c7-11eb-0dab-4b7137d2f0b2
 # ╠═e47592d0-38c7-11eb-256d-69c7aa69ad01
@@ -311,10 +287,5 @@ md"""
 # ╠═36088030-38cd-11eb-238b-b18f52b41f00
 # ╠═43b37e60-38cd-11eb-1238-c1f9485e589d
 # ╠═47bf42a0-38cd-11eb-2859-fffd932ca0b8
-# ╟─aa1caff0-38cd-11eb-19f5-57831162d0c8
-# ╠═ae4f0f02-38cd-11eb-3604-b3cc1ad1af36
-# ╠═b553eefe-38cd-11eb-2d2f-4d3cbc577fa4
-# ╠═e10b7e10-38cd-11eb-1655-69a7619b5dc4
-# ╠═e8de3560-38cd-11eb-0f81-09f23491b3f6
 # ╟─d7ce08a0-38cc-11eb-1246-a9105983f2e6
 # ╠═616636d2-38ca-11eb-2823-2fd57ad86cea

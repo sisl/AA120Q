@@ -7,7 +7,6 @@ using InteractiveUtils
 # ╔═╡ 6ec76820-07b1-11eb-1370-332e40369ea0
 begin
 	using PlutoUI
-	# pkg"add https://github.com/shashankp/PlutoUI.jl#TableOfContents-element"
 
 	md"""
 	# Statistical Models
@@ -21,24 +20,16 @@ begin
 	"""
 end
 
-# ╔═╡ 205274e2-07b2-11eb-00c5-bf56693dc351
-using Pkg
-
-# ╔═╡ 15bec8d0-07b2-11eb-3cdf-fb2c3e907f15
-try
-	using AddPackage
-catch
-	Pkg.add("AddPackage")
-	using AddPackage
-end
-
 # ╔═╡ c713edf2-07b1-11eb-31e0-8d1bbd52df85
-@add using PGFPlots, Distributions, BayesNets
+using Plots, Distributions
 
 # ╔═╡ 18baf1ce-07b2-11eb-2f7c-772a9ebc3202
 md"""
 ### Required Packages
 """
+
+# ╔═╡ 91179d43-f4eb-448e-b0c1-db8032b0636c
+pyplot()
 
 # ╔═╡ 620bdd90-07b2-11eb-0eec-8b2cd40146fe
 md"""
@@ -69,15 +60,6 @@ Try out histogram with a variety of different number of bins.
 # ╔═╡ 9d27daa0-07b2-11eb-1219-83892809a84b
 binlengths = [3 10 50 1000];
 
-# ╔═╡ a9b9a0a0-07b2-11eb-0655-1386b00cd8ae
-begin
-	g = GroupPlot(2,2)
-	for bins in binlengths
-		push!(g, Axis(Plots.Histogram(normaldata, bins=bins), ymin=0))
-	end
-	g
-end		
-
 # ╔═╡ 1ffff2a0-07b3-11eb-3758-63bebdfbbd63
 md"""
 Of course, these plots are not of densities (they do not integrate to $1$).
@@ -95,9 +77,8 @@ mixture = MixtureModel([Normal(-3,1), Normal(4,2)], [0.8, 0.2])
 # ╔═╡ 4a0f9e12-07b3-11eb-1cc1-37296c943a89
 mixdata = rand(mixture, 1000);
 
-# ╔═╡ bd2ac7d0-07b3-11eb-0f91-d967041b67ca
-Axis(Plots.Histogram(mixdata, bins=50),
-	 ymin=0, ylabel="Counts", width="20cm", height="8cm")
+# ╔═╡ 8e550590-17aa-4c3f-a2e5-0890fffe34d8
+histogram(mixdata, bins=50, ylabel="Counts", size=(1000,400))
 
 # ╔═╡ f9588302-07b3-11eb-06d7-e72744021ed9
 md"""
@@ -165,28 +146,34 @@ The constructor of `CPDs.Normal` takes a function mapping an assignment to a tup
 # ╔═╡ 0d3627a0-07b5-11eb-1483-37b47fc7cd2b
 a = [5]; b = 0; σ = 1;
 
+# ╔═╡ c1a7bd82-cfc1-40ef-96aa-70817ab72b4f
+histogram(fill(normaldata, 4),
+	      bins=binlengths,
+	      label=binlengths,
+	      layout=@layout([a b; c d]))
+
 # ╔═╡ 19d5a940-07b5-11eb-184f-fd1cb3b4f9cc
 lgcpd = LinearGaussianCPD(:y, [:x], a, b, σ)
 
-# ╔═╡ 498a2f80-07b5-11eb-2fcb-b3c22834a70b
-Axis(Plots.Linear(x->pdf(lgcpd(:x=>1), x), (0, 10)),
-	 xmin=0, xmax=10, width="20cm", height="8cm")
+# ╔═╡ e2ec86c2-ac0b-4a35-9781-ea490df78be7
+plot(x->pdf(lgcpd(:x=>1), x), 0:0.1:10, size=(1000, 400))
 
-# ╔═╡ 70c1b4b0-07b5-11eb-24b3-578bb547dc70
-begin
-	g2 = GroupPlot(3,1)
-	for x in -1:1
-		push!(g2, Plots.Linear(j->pdf(lgcpd(:x=>x), j), (-10, 10)))
-	end
-	g2
-end
+# ╔═╡ da831bc8-00e6-4f16-845f-940b931c60ac
+plot([[pdf(lgcpd(:x=>x), j) for j in -10:0.1:10] for x in -1:1],
+	 layout=@layout([a b c]),
+	 size=(1000, 300))
+
+# ╔═╡ 76bed9b6-ce74-4674-b467-fab1e4dbc62c
+md"---"
+
+# ╔═╡ 7947ce84-0811-46f7-abda-57fe3803474e
+PlutoUI.TableOfContents(title="Statistical Models")
 
 # ╔═╡ Cell order:
 # ╟─6ec76820-07b1-11eb-1370-332e40369ea0
 # ╟─18baf1ce-07b2-11eb-2f7c-772a9ebc3202
-# ╠═205274e2-07b2-11eb-00c5-bf56693dc351
-# ╠═15bec8d0-07b2-11eb-3cdf-fb2c3e907f15
 # ╠═c713edf2-07b1-11eb-31e0-8d1bbd52df85
+# ╠═91179d43-f4eb-448e-b0c1-db8032b0636c
 # ╟─620bdd90-07b2-11eb-0eec-8b2cd40146fe
 # ╟─6e2f2a50-07b2-11eb-00da-f7471cea0159
 # ╠═67387b20-07b2-11eb-134f-fd357e966195
@@ -194,12 +181,12 @@ end
 # ╠═7d3b1812-07b2-11eb-18d1-9b2b7fad09ec
 # ╟─8c823a10-07b2-11eb-2218-0f413adc9742
 # ╠═9d27daa0-07b2-11eb-1219-83892809a84b
-# ╠═a9b9a0a0-07b2-11eb-0655-1386b00cd8ae
+# ╠═c1a7bd82-cfc1-40ef-96aa-70817ab72b4f
 # ╟─1ffff2a0-07b3-11eb-3758-63bebdfbbd63
 # ╟─2b146770-07b3-11eb-2bea-97a975211912
 # ╠═51b66360-07b3-11eb-2223-cbbc34a3a5d7
 # ╠═4a0f9e12-07b3-11eb-1cc1-37296c943a89
-# ╠═bd2ac7d0-07b3-11eb-0f91-d967041b67ca
+# ╠═8e550590-17aa-4c3f-a2e5-0890fffe34d8
 # ╟─f9588302-07b3-11eb-06d7-e72744021ed9
 # ╟─fd9b0eb0-07b3-11eb-0e39-f1efd8768dba
 # ╠═1a635fc0-07b4-11eb-3822-5d56d9126102
@@ -215,5 +202,7 @@ end
 # ╟─bdc45340-07b4-11eb-228e-955251273328
 # ╠═0d3627a0-07b5-11eb-1483-37b47fc7cd2b
 # ╠═19d5a940-07b5-11eb-184f-fd1cb3b4f9cc
-# ╠═498a2f80-07b5-11eb-2fcb-b3c22834a70b
-# ╠═70c1b4b0-07b5-11eb-24b3-578bb547dc70
+# ╠═e2ec86c2-ac0b-4a35-9781-ea490df78be7
+# ╠═da831bc8-00e6-4f16-845f-940b931c60ac
+# ╟─76bed9b6-ce74-4674-b467-fab1e4dbc62c
+# ╠═7947ce84-0811-46f7-abda-57fe3803474e

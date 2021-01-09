@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.16
+# v0.12.18
 
 using Markdown
 using InteractiveUtils
@@ -369,6 +369,12 @@ begin
 	render
 end
 
+# ╔═╡ eacc2cc5-c7a5-4493-a672-cbc0b5178222
+md"---"
+
+# ╔═╡ 02b5d2de-e4d5-4ebb-8f5f-96d4a3e0696e
+PlutoUI.TableOfContents(title="Sensors")
+
 # ╔═╡ Cell order:
 # ╟─5787cad0-38e7-11eb-0b3e-b3e30d553dc6
 # ╟─bc46ced0-38e7-11eb-2798-d34cd2986f26
@@ -413,3 +419,5 @@ end
 # ╠═a4c0e5e0-38ea-11eb-0fc5-fbf62ad8579a
 # ╠═9d387e00-38ea-11eb-1631-81b4f6ae1b13
 # ╠═4b357770-38ea-11eb-0c4d-85ce17c1acf2
+# ╟─eacc2cc5-c7a5-4493-a672-cbc0b5178222
+# ╠═02b5d2de-e4d5-4ebb-8f5f-96d4a3e0696e

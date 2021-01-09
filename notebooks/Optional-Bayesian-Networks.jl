@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.16
+# v0.12.18
 
 using Markdown
 using InteractiveUtils
@@ -10,7 +10,7 @@ begin
 
 	md"""
 	# Bayesian Networks
-	AA120Q: *Building Trust in Autonomy*, Stanford University. 
+	AA120Q: *Building Trust in Autonomy*, Stanford University.
 
 	### Optional Lecture
 	We will discuss Bayesian networks and how to perform inference.
@@ -22,6 +22,9 @@ end
 
 # ╔═╡ f5cc3a00-40c1-11eb-3702-a9c4a755e806
 using BayesNets
+
+# ╔═╡ f0087c34-54a1-48c6-89db-f9a353c04408
+using Plots
 
 # ╔═╡ f5c953d0-40c1-11eb-264a-1fb03c3eb399
 md"""
@@ -155,13 +158,18 @@ begin
 	score_true = [bayesian_score(bn3, data[1:i, :], u_prior) for i in sample_sizes]
 	
 	# plot
-	Axis(Plots.Plot[
-			Plots.Linear(sample_sizes, score_unconnected - score_true,
-				legendentry="unconnected"),
-			Plots.Linear(sample_sizes, score_connected - score_true, 
-				legendentry="connected")],
-		xlabel="Number of samples", ylabel="Score relative to true model",
-		width="25cm", height="8cm")
+	plot(sample_sizes,
+		 score_unconnected - score_true,
+		 marker=".",
+		 markersize=3,
+		 label="unconnected")
+	plot!(sample_sizes,
+		  score_connected - score_true,
+		  marker=".",
+		  markersize=3,
+		  label="connected",
+		  xlabel="Number of samples",
+		  ylabel="Score relative to true model")
 end
 
 # ╔═╡ 373e8ac0-40c6-11eb-1e56-6573521ae2bd
@@ -205,10 +213,12 @@ Function for plotting CPDs (don't worry about the details here).
 # ╔═╡ 378298a0-40c6-11eb-316d-4be2bab82b66
 function plotCPD(cpd::CPD, range::Tuple{Real,Real}, assignments)
 	convert_assignment_to_string(a) = string(["$k = $v, " for (k,v) in a]...)[1:end-2]
-	Axis(Plots.Plot[
-			Plots.Linear(x->pdf(cpd(a), x), range,
-				legendentry=convert_assignment_to_string(a)) for a in assignments],
-		width="25cm", height="8cm")
+	local p = plot()
+	for a in assignments
+		p = plot!(x->pdf(cpd(a), x), xlim=range,
+			      label=convert_assignment_to_string(a))
+	end
+	return p
 end
 
 # ╔═╡ 378a87e0-40c6-11eb-187e-2f6a430e696e
@@ -258,6 +268,24 @@ Now normalize.
 # ╔═╡ 3810cee0-40c6-11eb-2d66-472b5554b2e9
 distr / sum(distr)
 
+# ╔═╡ faedff1e-9dbf-4d79-9ce5-a32b23e15da5
+md"""
+## Sampling from Bayesian network
+"""
+
+# ╔═╡ 6697b805-c76c-469e-a278-e9d950a88967
+begin
+	bn5 = BayesNet()
+	push!(bn5, StaticCPD(:a, Normal(0,1))) # N(0,1)
+	push!(bn5, LinearGaussianCPD(:b, [:a], [2.0], 3.0, 1.0)) # N(2a + 3, 1)
+end
+
+# ╔═╡ 4dd8bfdb-6ae5-4f0c-9855-c98cffc9e7a4
+rand(bn5) # random assignment
+
+# ╔═╡ 324e0b33-24af-4246-b597-47d820b2fc59
+rand(bn5, 5)
+
 # ╔═╡ Cell order:
 # ╟─87b6ba50-40c0-11eb-3e37-99699a3af348
 # ╟─f5c953d0-40c1-11eb-264a-1fb03c3eb399
@@ -284,6 +312,7 @@ distr / sum(distr)
 # ╠═371753b0-40c6-11eb-32fb-c3ac5cf47021
 # ╠═3721b3f0-40c6-11eb-2a5b-1391247d32b2
 # ╠═372efa60-40c6-11eb-2937-858f50ad50d8
+# ╠═f0087c34-54a1-48c6-89db-f9a353c04408
 # ╠═373710b0-40c6-11eb-3242-f5f6e86ac66f
 # ╟─373e8ac0-40c6-11eb-1e56-6573521ae2bd
 # ╟─3749fc70-40c6-11eb-3094-a905e1201827
@@ -304,3 +333,7 @@ distr / sum(distr)
 # ╠═37f0ead2-40c6-11eb-2271-d9f9962b487a
 # ╟─38029e10-40c6-11eb-28ee-0dfb662f4c83
 # ╠═3810cee0-40c6-11eb-2d66-472b5554b2e9
+# ╟─faedff1e-9dbf-4d79-9ce5-a32b23e15da5
+# ╠═6697b805-c76c-469e-a278-e9d950a88967
+# ╠═4dd8bfdb-6ae5-4f0c-9855-c98cffc9e7a4
+# ╠═324e0b33-24af-4246-b597-47d820b2fc59

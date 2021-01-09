@@ -155,6 +155,11 @@ md"""
 Estimate $\pi$ using `n` thrown needles.
 """
 
+# ╔═╡ d4c5e7da-f6b5-46d4-98f4-dd657dfc3a3e
+md"""
+> **Note**: to produce the character `π̂` type `\pi<TAB>` then `\hat<TAB>`
+"""
+
 # ╔═╡ 41787470-3f0d-11eb-0e8c-9bf6be69db81
 function buffon_calc(n::Int)
 	π̂ = 0
@@ -284,6 +289,7 @@ md"""
 # ╟─2416a280-3f0d-11eb-04c2-b34b546b1d50
 # ╟─57ff0e70-3f0d-11eb-0c5a-4759bf1fbc99
 # ╟─4c616c70-3f0d-11eb-1cc9-ab40fe458702
+# ╟─d4c5e7da-f6b5-46d4-98f4-dd657dfc3a3e
 # ╠═41787470-3f0d-11eb-0e8c-9bf6be69db81
 # ╟─6b3b1150-3f0d-11eb-23d5-532804c11870
 # ╠═6cc6e170-3f0d-11eb-1632-0b4d6e0cf9d8

@@ -17,11 +17,11 @@ using Random, BayesNets
 using BSON: @save
 
 # ╔═╡ 8d9a3482-4fbc-11eb-2f97-d7ddc84ed4cf
-include("03-Track-Plotting.jl");
+include("02_Track_Plotting.jl");
 
 # ╔═╡ fe8b582e-4fb7-11eb-0588-a77025e0f59d
 md"""
-# Assignment 3: Learning
+# Optional Assignment: Learning
 """
 
 # ╔═╡ f87323c0-4fbe-11eb-27b2-0f627f703615

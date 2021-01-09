@@ -16,7 +16,6 @@ end
 # ╔═╡ f3d093c0-076b-11eb-21bc-d752119bd59f
 begin
 	using PlutoUI
-	# pkg"add https://github.com/shashankp/PlutoUI.jl#TableOfContents-element"
 
 	md"""
 	# Scientific Computing Tools and Visualizations
@@ -29,9 +28,6 @@ begin
 	- [Julia tutorial](https://learnxinyminutes.com/docs/julia/)
 	"""
 end
-
-# ╔═╡ 7d204a70-076d-11eb-1ead-73d52973b38c
-using Pkg
 
 # ╔═╡ db7cd9e0-0776-11eb-1cd5-d582a6dcfcdd
 using DataFrames
@@ -56,7 +52,7 @@ using SymPy
 
 # ╔═╡ 6536e190-076c-11eb-3c75-7f594ba1ab24
 md"""
-## Scientific Computing
+# Scientific Computing
 Scientific computing is the process of using "advanced computing capabilities to understand and solve complex problems".$^{[\href{https://en.wikipedia.org/wiki/Computational_science}{1}]}$
 
 Scientific computing includes:
@@ -73,11 +69,7 @@ md"""
 
 ![](https://julialang.org/assets/infra/logo.svg)
 
-Julia is a high-level dynamic programming language$^{[\href{https://en.wikipedia.org/wiki/Julia_(programming_language)}{2}]}$ that was designed to solve the two-language problem.
-
-**Two language problem.**$\;\;$One typically uses a high-level language like MATLAB to do scientific computing and create prototypes, but a low-level language like C to implement resulting solutions.
-
-Julia is both fast and easy to prototype in, and supports a wide range of features such as a built-in package manager (so reproducing someone's exact development environment can be done for verification purposes), distributed computing, C and Python interfaces, a powerful REPL (command line, stands for Read, Eval, Print, Loop), and an elegant type system.
+Julia is a high-level dynamic programming language.$^{[\href{https://en.wikipedia.org/wiki/Julia_(programming_language)}{2}]}$
 """
 
 # ╔═╡ 91b3c700-076d-11eb-2090-f340640ff2f0
@@ -88,15 +80,18 @@ Julia makes it easy to install packages (and specific versions of packages too).
 Julia also makes it easy to obtain packages from Github.
 """
 
-# ╔═╡ 7ebbd200-076d-11eb-2c99-1dcc1c8dbe2c
-begin
-	Pkg.add("DataFrames")
-	Pkg.add("Distributions")
-	Pkg.add("Discretizers")
-	Pkg.add("Plots")
-	Pkg.add("Colors")
-	Pkg.add("SymPy")
-end
+# ╔═╡ 6d579664-fe37-4986-aea6-d50b4f1e64af
+md"""
+```julia
+using Pkg
+Pkg.add("DataFrames")
+Pkg.add("Distributions")
+Pkg.add("Discretizers")
+Pkg.add("Plots")
+Pkg.add("Colors")
+Pkg.add("SymPy")
+```
+"""
 
 # ╔═╡ 8a655ae0-076d-11eb-196b-c5af3ec9148f
 md"""
@@ -443,13 +438,18 @@ diff(x^x, x)
 # ╔═╡ cdb95a90-078a-11eb-1f63-4be59b019e55
 integrate(x^3, x)
 
+# ╔═╡ 7d23aab8-1cf5-440b-9a43-b1ef2b15a586
+md"---"
+
+# ╔═╡ de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
+PlutoUI.TableOfContents(title="Computing Tools")
+
 # ╔═╡ Cell order:
 # ╟─f3d093c0-076b-11eb-21bc-d752119bd59f
 # ╟─6536e190-076c-11eb-3c75-7f594ba1ab24
 # ╟─b052f060-076c-11eb-0605-2bda092968da
 # ╟─91b3c700-076d-11eb-2090-f340640ff2f0
-# ╠═7d204a70-076d-11eb-1ead-73d52973b38c
-# ╠═7ebbd200-076d-11eb-2c99-1dcc1c8dbe2c
+# ╟─6d579664-fe37-4986-aea6-d50b4f1e64af
 # ╟─8a655ae0-076d-11eb-196b-c5af3ec9148f
 # ╟─46be8b02-0776-11eb-0a40-b1de3001c2fa
 # ╠═db7cd9e0-0776-11eb-1cd5-d582a6dcfcdd
@@ -543,3 +543,5 @@ integrate(x^3, x)
 # ╠═c58c2730-078a-11eb-07c3-db5c4848e151
 # ╠═ca169150-078a-11eb-2532-472d16f3fb43
 # ╠═cdb95a90-078a-11eb-1f63-4be59b019e55
+# ╟─7d23aab8-1cf5-440b-9a43-b1ef2b15a586
+# ╠═de5cd6f0-5907-45f1-b7b2-fd70dc4debe9

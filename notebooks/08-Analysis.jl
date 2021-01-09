@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.16
+# v0.12.18
 
 using Markdown
 using InteractiveUtils
@@ -31,7 +31,7 @@ begin
 end
 
 # ╔═╡ f7ad7730-38ec-11eb-264e-7df6986ea713
-using PGFPlots
+using Plots
 
 # ╔═╡ e15d3a00-38ed-11eb-0b0a-6198a2729f68
 using Distributions
@@ -47,7 +47,7 @@ using Printf
 
 # ╔═╡ b3587c10-38ec-11eb-3668-c19b178940bf
 md"""
-## Measuring System Effectiveness
+# Measuring System Effectiveness
 
 It is the designer's responsibility to go back to the field and assess the impact that the autonomous system is having. This measurement process must be both qualitative and quantitative.
 
@@ -80,12 +80,10 @@ Which of the following is better?
 - an airborne collision avoidance system that has $2$ collisions and $10$ alerts per million flight hours
 """
 
-# ╔═╡ f51a2220-38ec-11eb-01aa-c174eed26b9c
-Axis(PGFPlots.Plots.Linear([1,2], [1000,10], 
-	style="color=black, mark=*, draw=none, mark options={scale=2, fill=black}"),
-	xlabel="NMACs per million flight hours",
-	ylabel="Alerts per million flight hours",
-	width="15cm")
+# ╔═╡ 8465ff13-d4ea-416e-8ef2-8b64dfef0e02
+scatter([1,2], [1000,10], color=:black, label=nothing,
+	    xlabel="NMACs per million flight hours",
+	    ylabel="Alerts per million flight hours")
 
 # ╔═╡ 0d594190-38ed-11eb-1ff7-e35b4413f64d
 md"""
@@ -94,37 +92,32 @@ Fewer collisions are good, and fewer alerts are good, but we cannot say which co
 We know, therefore, that if we have a set of policies:
 """
 
-# ╔═╡ 11e29a40-38ed-11eb-0146-f565c811c92e
-Axis(PGFPlots.Plots.Linear(
-		[0.5,0.75,1,1.5,2,3,1.8,0.8,2.5,1.2,0.7,1.4],
+# ╔═╡ a47d1795-c181-453c-9104-6cbe1cacc908
+scatter([0.5,0.75,1,1.5,2,3,1.8,0.8,2.5,1.2,0.7,1.4],
 		[1e5,3e4,1e4,1e3,10,2,2e4,5e4,1e4,1.2e4,9e4,5e4],
-		style="thick, black, mark=*, draw=none, mark options={scale=2, fill=black}"),
-	xlabel="NMACs per million flight hours",
-	ylabel="Alerts per million flight hours",
-	width="15cm")
+		color=:black, label=nothing,
+		xlabel="NMACs per million flight hours",
+		ylabel="Alerts per million flight hours")
 
 # ╔═╡ 29628860-38ed-11eb-2522-35309354f407
 md"""
 The policies that are potentially the best are those which cannot be shifted to be made better in both respects:
 """
 
-# ╔═╡ 2c75bbd0-38ed-11eb-37d5-c31be5bed43a
-Axis([
-		Plots.Linear(
-			[0.5,0.75,1,1.5,2,3],
-			[1e5,3e4,1e4,1e3,10,2],
-			style="thick, red, mark=*, mark options={scale=2, fill=red}"),
-		Plots.Linear(
-			[1.8,0.8,2.5,1.2,0.7,1.4],
-			[2e4,5e4,1e4,1.2e4,9e4,5e4],
-			style="color=gray, mark=*, draw=none, mark options={scale=2, fill=gray}"),
-		Plots.Node("\\Large Approx. Pareto Frontier",1.3,7e4,style="red"),
-		Plots.Node("\\Large Suboptimal",2,3e4,style="gray"),
-		Plots.Node("\\Large Infeasible",0.6,5e3,style="black")
-	],
-	xlabel="NMACs per million flight hours",
-	ylabel="Alerts per million flight hours",
-	width="15cm")
+# ╔═╡ c28fa1bd-7bef-4ae9-b3c4-c8f24d2df5b8
+begin
+	plot([0.5,0.75,1,1.5,2,3],
+		 [1e5,3e4,1e4,1e3,10,2],
+		 color=:red, markerstrokecolor=:red, marker="*", label=nothing)
+	scatter!([1.8,0.8,2.5,1.2,0.7,1.4],
+			 [2e4,5e4,1e4,1.2e4,9e4,5e4],
+			 color=:gray, markerstrokecolor=:gray, label=nothing,
+			 xlabel="NMACs per million flight hours",
+			 ylabel="Alerts per million flight hours")
+	annotate!([(1.3, 7e4, text("Approx. Pareto Frontier", 14, :red)),
+			   (1.8, 3e4, text("Suboptimal", 14, :gray)),
+			   (0.7, 5e3, text("Infeasible", 14, :black))])
+end
 
 # ╔═╡ 7c331820-38ed-11eb-290d-813158d5f7ef
 md"""
@@ -211,23 +204,17 @@ true_dist = MixtureModel(
 	[Normal(0.0, 0.3), Normal(-1.0, 0.3), Normal(0.0, 1.0)],
 	[0.125, 0.125, 0.75])
 
-# ╔═╡ de3916a0-38ed-11eb-0db9-67870366c94a
+# ╔═╡ d14c47c7-2527-4bf5-a5a7-bf3aef954548
 begin
 	x_vals = range(-3, stop=3, length=201)
 	y_vals = map(x->pdf(true_dist, x), x_vals)
 
-	line_true = PGFPlots.Plots.Linear(
-		x_vals,
-		y_vals,
-		style="black, ultra thick, mark=none")
-
-	Axis(line_true,
-		 xlabel=L"x",
-		 ylabel=L"pdf(x)",
-		 ymin=0,
-		 xmin=minimum(x_vals),
-		 xmax=maximum(x_vals),
-		 width="15cm")
+	plot(x_vals, y_vals,
+		 color=:black,
+		 linewidth=2,
+		 label=nothing,
+	     xlabel="x",
+		 ylabel="pdf(x)")
 end
 
 # ╔═╡ 31e4c80e-3986-11eb-3e3c-efe073a150c7
@@ -241,14 +228,8 @@ Random.seed!(0);
 # ╔═╡ 44e03f80-3986-11eb-0faf-a115cf8b245a
 samples = rand(true_dist, 100)
 
-# ╔═╡ 3378d58e-3986-11eb-14f6-459e40d833a0
-Axis(PGFPlots.Plots.Histogram(samples, bins=20, density=true), 
-	 xlabel=L"x",
-	 ylabel=L"pdf(x)",
-	 ymin=0,
-	 xmin=minimum(x_vals),
-	 xmax=maximum(x_vals),
-	 width="15cm")
+# ╔═╡ ee2bb4cc-e22f-427d-89f2-93eb023d5704
+histogram(samples, bins=20, normalize=true, xlabel="x", ylabel="pdf(x)")
 
 # ╔═╡ 61b7f9e2-3986-11eb-328f-3b5d75c1fceb
 md"""
@@ -258,14 +239,11 @@ Suppose we want to use a piecewise uniform distribution with even bin widths. Ab
 # ╔═╡ 68bb2c30-3986-11eb-37a7-1de9363d2461
 @bind nbins Select(map(b->Pair(string(b), b), [1,2,3,4,5,10,20,50,100]))
 
-# ╔═╡ 83070b90-3986-11eb-2410-61c9da0938ca
-Axis([Plots.Histogram(samples, bins=parse(Int,nbins), density=true), line_true],
-	 xlabel=L"x",
-	 ylabel=L"pdf(x)",
-	 ymin=0,
-	 xmin=minimum(x_vals),
-	 xmax=maximum(x_vals),
-	 width="15cm")
+# ╔═╡ eae35be5-5ac0-4d64-a8a1-9d02c6736bcc
+begin
+	histogram(samples, bins=parse(Int,nbins), normalize=true)
+	plot!(x_vals, y_vals, color=:black, linewidth=2)
+end
 
 # ╔═╡ 77f9cd40-3987-11eb-21fd-af5508ccffae
 md"""
@@ -316,27 +294,20 @@ end
 begin
 	nbins_int = parse(Int, nbinsₜᵣₐᵢₙ)
 	likelihood = get_likelihood(samples_train, nbins_int, samples_test)
-	
-	Axis([Plots.Histogram(samples_train, bins=nbins_int, density=true), line_true],
-	 	 xlabel=L"x",
-	     ylabel=L"pdf(x)",
-	     title=@sprintf("\\Large Likelihood: %10.8f", likelihood),
-	     ymin=0,
-	     xmin=minimum(x_vals),
-	     xmax=maximum(x_vals),
-	     width="15cm")
-end	
+
+	histogram(samples_train, bins=nbins_int, normalize=true,
+		      title=@sprintf("Likelihood: %10.8f", likelihood))
+	plot!(x_vals, y_vals, color=:black, linewidth=2)
+end
 
 # ╔═╡ 6426ec20-3988-11eb-285b-6bd07a0578cb
 begin
 	x_bins = collect(1:100)
 	y_likelihoods = map(i->get_likelihood(samples_train, i, samples_test), x_bins)
 
-	Axis(Plots.Linear(x_bins, y_likelihoods),
+	plot(x_bins, y_likelihoods, marker=".", markersize=2,
 		 xlabel="number of bins",
-		 ylabel="test likelihood",
-		 ymin=0.0,
-		 width="15cm")
+		 ylabel="test likelihood")
 end
 
 # ╔═╡ bd2583e0-3988-11eb-31bd-cd9e862729c1
@@ -372,10 +343,9 @@ begin
 	y_loglikelihoods =
 		map(i->get_loglikelihood(samples_train, i, samples_test), x_bins)
 
-	Axis(Plots.Linear(x_bins, y_loglikelihoods),
+	plot(x_bins, y_loglikelihoods, marker=".", markersize=2,
 		 xlabel="number of bins",
-		 ylabel="test log likelihood",
-		 width="15cm")
+		 ylabel="test log likelihood")
 end
 
 # ╔═╡ 1b1c89d0-3989-11eb-284c-1996a3fe88a2
@@ -405,8 +375,8 @@ begin
 		mean([score1, score2, score3, score4])
 	end
 
-	Axis(Plots.Linear(collect(1:100), map(i->get_cv_score(i), 1:100)), 
-	xlabel="number of bins", ylabel="cross-validated log likelihood", width="15cm")
+	plot(1:100, map(get_cv_score, 1:100), marker=".", markersize=2,
+		 xlabel="number of bins", ylabel="cross-validated log likelihood")
 end
 
 # ╔═╡ 4862cf30-3989-11eb-1411-dbb29de448e8
@@ -424,16 +394,13 @@ We can all agree that the following two distributions are close.
 real = Normal(0.0, 1.0)
 
 # ╔═╡ 597673d0-3989-11eb-23cc-9f0f87e9522c
-function plot_distr(sim, x_vals)
+function plot_distr(sim, x_vals; title="")
 	style = "mark=none, ultra thick"
-	Axis([PGFPlots.Linear(x_vals, map(x->pdf(real, x), x_vals), style=style), 
-          PGFPlots.Linear(x_vals, map(x->pdf(sim, x), x_vals), style=style)],
-         width="20cm",
-	     height="12cm",
-	     xmin=minimum(x_vals),
-	     xmax=maximum(x_vals),
-	     xlabel=L"x",
-	     ylabel=L"pdf(x)")
+	plot(x_vals, map(x->pdf(real, x), x_vals), linewidth=2)
+	plot!(x_vals, map(x->pdf(sim, x), x_vals), linewidth=2,
+		  xlabel="x",
+		  ylabel="pdf(x)",
+		  title=title)
 end
 
 # ╔═╡ 8c943cc2-3989-11eb-10ff-23707e49ebee
@@ -503,10 +470,9 @@ x_values = range(-5.0, stop=5.0, length=101)
 begin
 	p = real # Normal(0, 1)
 	q = Normal(μ, σ)
-	ax = plot_distr(q, range(-10.0, stop=10.0, length=101))
-	ax.title = @sprintf("KL divergence = %.3f", kldivergence(p, q))
-    ax.ymin = 0
-    ax.ymax = 0.5
+	kl_div = @sprintf("KL divergence = %.3f", kldivergence(p, q))
+	ax = plot_distr(q, range(-10.0, stop=10.0, length=101), title=kl_div)
+	ylims = (0, 0.5)
     ax
 end
 
@@ -528,17 +494,23 @@ Your homework is to:
 Turn in your code and writeup (preferably a single Julia Notebook) to Canvas.
 """
 
+# ╔═╡ 72b35c3a-00da-4fb6-9ae8-b31efca9b587
+md"---"
+
+# ╔═╡ b33467f8-d13b-4a6f-a275-e7d97fd0a9a6
+PlutoUI.TableOfContents(title="Analysis")
+
 # ╔═╡ Cell order:
 # ╟─9380a110-38ec-11eb-19dc-bf52f53962ed
 # ╟─b3587c10-38ec-11eb-3668-c19b178940bf
 # ╟─c6aa02c2-38ec-11eb-2ab6-c9e0bb78c682
 # ╟─d1beecc2-38ec-11eb-3f97-3173a8f71e9e
 # ╠═f7ad7730-38ec-11eb-264e-7df6986ea713
-# ╠═f51a2220-38ec-11eb-01aa-c174eed26b9c
+# ╠═8465ff13-d4ea-416e-8ef2-8b64dfef0e02
 # ╟─0d594190-38ed-11eb-1ff7-e35b4413f64d
-# ╠═11e29a40-38ed-11eb-0146-f565c811c92e
+# ╠═a47d1795-c181-453c-9104-6cbe1cacc908
 # ╟─29628860-38ed-11eb-2522-35309354f407
-# ╠═2c75bbd0-38ed-11eb-37d5-c31be5bed43a
+# ╠═c28fa1bd-7bef-4ae9-b3c4-c8f24d2df5b8
 # ╟─7c331820-38ed-11eb-290d-813158d5f7ef
 # ╟─8202d380-38ed-11eb-25c5-c9a544d969d9
 # ╟─8caface0-38ed-11eb-1bf7-c9519bd208b3
@@ -549,15 +521,15 @@ Turn in your code and writeup (preferably a single Julia Notebook) to Canvas.
 # ╟─d435eac0-38ed-11eb-3ada-73fb39e6d923
 # ╠═e15d3a00-38ed-11eb-0b0a-6198a2729f68
 # ╠═b79d8740-3985-11eb-0f95-1b8a9d1ef77a
-# ╠═de3916a0-38ed-11eb-0db9-67870366c94a
+# ╠═d14c47c7-2527-4bf5-a5a7-bf3aef954548
 # ╟─31e4c80e-3986-11eb-3e3c-efe073a150c7
 # ╠═3ecaefa0-3986-11eb-0acb-4b120b339d16
 # ╠═41730530-3986-11eb-23cd-cdc38b42393a
 # ╠═44e03f80-3986-11eb-0faf-a115cf8b245a
-# ╠═3378d58e-3986-11eb-14f6-459e40d833a0
+# ╠═ee2bb4cc-e22f-427d-89f2-93eb023d5704
 # ╟─61b7f9e2-3986-11eb-328f-3b5d75c1fceb
 # ╠═68bb2c30-3986-11eb-37a7-1de9363d2461
-# ╠═83070b90-3986-11eb-2410-61c9da0938ca
+# ╠═eae35be5-5ac0-4d64-a8a1-9d02c6736bcc
 # ╟─77f9cd40-3987-11eb-21fd-af5508ccffae
 # ╠═7995a2f0-3987-11eb-048e-39e11ee85467
 # ╠═8655f300-3987-11eb-1076-6b24adc1425a
@@ -592,3 +564,5 @@ Turn in your code and writeup (preferably a single Julia Notebook) to Canvas.
 # ╠═88d14be0-398a-11eb-08ff-35693b9bcadf
 # ╠═6426b320-398a-11eb-03b3-6542fd5a167a
 # ╟─b11c15d0-398a-11eb-2099-b105de6da150
+# ╟─72b35c3a-00da-4fb6-9ae8-b31efca9b587
+# ╠═b33467f8-d13b-4a6f-a275-e7d97fd0a9a6
