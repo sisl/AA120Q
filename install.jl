@@ -32,7 +32,10 @@ Pkg.add("TikzPictures")
 
 Pkg.build()
 
-pkg"dev ."
-Pkg.build("AA120Q")
+if !haskey(ENV, "TRAVIS")
+    # Non-Travis CI builds install AA120Q here.
+    pkg"dev ."
+    Pkg.build("AA120Q")
+end
 
 @info "Packages installed."
