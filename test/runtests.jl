@@ -9,7 +9,18 @@ for dir in ["lectures", "assignments"]
     for d in readdir(assignment_dir)
         if (startswith(d, "0") || startswith(d, "1")) && endswith(d, ".jl")
             fullpath = joinpath(assignment_dir, d)
-            include(fullpath)
+            @info d
+            if d == "01_Julia.jl"
+                try
+                    include(fullpath)
+                catch err
+                    if isa(err, LoadError) # expected error in first notebook
+                        continue
+                    else
+                        throw(err)
+                    end
+                end
+            end
         end
     end
 end
