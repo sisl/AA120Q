@@ -4,7 +4,6 @@ authors = ["Robert Moss <mossr@cs.stanford.edu>"]
 version = "0.1.0"
 
 [deps]
-AddPackage = "70d26913-0580-4037-ad67-7d2c365cf5c5"
 BSON = "fbb218c0-5317-5bc6-957e-2ee96dd4b1f0"
 BayesNets = "ba4760a4-c768-5bed-964b-cf806dc591cb"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -29,7 +28,6 @@ Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 SymPy = "24249f21-da20-56a4-8eb1-6a02cf4ae2e6"
 TikzPictures = "37f6aa50-8035-52d0-81c2-5a1d08754b2d"
-WebIO = "0f1e0344-ec1d-5b48-a673-e5cf874b6c29"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

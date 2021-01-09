@@ -32,15 +32,21 @@ This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offere
 
 1. Install Julia version 1.5.3 from https://julialang.org/downloads
    - Add `julia` to the command line PATH: This will make `julia` available anywhere on the command line.
-     - **Windows**:  Follow [these instructions](https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/) and add the Julia `bin` directory to your User PATH environment variable (replacing <PATH_TO_JULIA> with your actual Julia installation location).
+     - <details><summary><b>Windows</b></summary><p>
+        Follow these instructions (https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/) and add the Julia `bin` directory to your User PATH environment variable (replacing <PATH_TO_JULIA> with your actual Julia installation location).
 
            C:\<PATH_TO_JULIA>\Julia-1.5.3\bin\
-     - **Linux**: Edit your `~/.bashrc` to add the following line (replacing <PATH_TO_JULIA> with your actual Julia installation location):
+        </p></details>
+     - <details><summary><b>Linux</b></summary><p>
+        Edit your `~/.bashrc` to add the following line (replacing <PATH_TO_JULIA> with your actual Julia installation location):
 
            export PATH=$PATH:/<PATH_TO_JULIA>/bin/
-     - **Mac OS X**: Open a terminal and run the following (this will create a`julia` alias and place it in `/usr/local/bin` which is already on the terminal path):
+        </p></details>
+     - <details><summary><b>Mac OS X</b></summary><p>
+        Open a terminal and run the following (this will create a`julia` alias and place it in `/usr/local/bin` which is already on the terminal path):
 
            sudo sh -c 'mkdir -p /usr/local/bin && ln -fs "/Applications/Julia-1.5.3.app/Contents/Resources/julia/bin/julia" /usr/local/bin/julia'
+        </p></details>
 2. Install Git from https://git-scm.com/downloads
 3. Open a terminal and run:
     ```bash
@@ -48,7 +54,11 @@ This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offere
     cd AA120Q
     julia install.jl
     ```
-4. Test installation by opening `julia` and running:
+4. Test the installation by opening `julia` and running:
 ```julia
 ] test AA120Q
 ```
+
+
+## Troubleshooting
+Post issues either here on GitHub or on Piazza.
