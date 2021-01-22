@@ -16,17 +16,13 @@ end
 # ╔═╡ 9380a110-38ec-11eb-19dc-bf52f53962ed
 begin
 	using PlutoUI
-	# pkg"add https://github.com/shashankp/PlutoUI.jl#TableOfContents-element"
-
 	md"""
 	# Analysis of Autonomous Systems
 	AA120Q: *Building Trust in Autonomy*, Stanford University. 
 
-	## Lecture 8
 	We will discuss a variety of methods for analyzing the behavior of autonomous systems.
 	
-	**Assignment**:
-	- Run simulations to characterize collision avoidance performance against a variety of metrics; develop methods for visualizing the decision making behavior of your system.
+	**Assignment** Run simulations to characterize collision avoidance performance against a variety of metrics; develop methods for visualizing the decision making behavior of your system.
 	"""
 end
 
@@ -80,6 +76,9 @@ Which of the following is better?
 - an airborne collision avoidance system that has $2$ collisions and $10$ alerts per million flight hours
 """
 
+# ╔═╡ 0ff5b880-5c46-11eb-221d-397213f9755a
+plotly();
+
 # ╔═╡ 8465ff13-d4ea-416e-8ef2-8b64dfef0e02
 scatter([1,2], [1000,10], color=:black, label=nothing,
 	    xlabel="NMACs per million flight hours",
@@ -131,57 +130,6 @@ md"""
 Given a Pareto Frontier, how do we choose the best policy?
 
 This is often a subjective question, and often requires the careful consideration of factors that are not in your optimization objective. Domain experts are often consulted.
-"""
-
-# ╔═╡ 8caface0-38ed-11eb-1bf7-c9519bd208b3
-md"""
-## Inspect the Decision Making Behavior
-
-Has your agent really learned to do what it was designed to do?
-
-If you have trained a neural network to recognize cats, how do you know whether the neural network has really learned what a cat is?
-
-Below we see the result of optimizing a neural network trained to recognize dumbbells. It turns out that the net sees dumbbells as _dumbbells with forearms_.
-"""
-
-# ╔═╡ 90a1f5b0-38ed-11eb-024a-0119c06d5b87
-PlutoUI.LocalResource("./figures/dumbbell.png")
-
-# ╔═╡ 9c506090-38ed-11eb-0216-2f7e2609ef54
-md"""
-## The Black Swan Problem
-
-This problem is known as the Black Swan Problem. The problem gets its name from the black swans of Australia and New Zealand, and the incorrect induction followed by a European:
-
-_All swans I have seen are white, therefore all swans are white_
-
-Of course, once said European goes to southern Australia and sees a black swan they can either change their belief or forever categorize the black swan as an entirely different species.
-
-With autonomous agents we want to make sure that they identify the correct categories. It is often a non-trivial problem.
-
-### For an Autonomous Car, are these Pedestrians?
-"""
-
-# ╔═╡ a2d191a0-38ed-11eb-2129-63f199018437
-md"""
-$(PlutoUI.LocalResource("./figures/pedestrian_1.jpeg"))
-
-Sure looks like a pedestrian.
-
-$(PlutoUI.LocalResource("./figures/pedestrian_2.jpg"))
-
-Also a pedestrian---but this one also has a bike. Maybe our definition should be "A person walking across the street".
-
-$(PlutoUI.LocalResource("./figures/pedestrian_3.jpg"))
-
-Whoops! That didn't work. Hmm. Harder than we thought!
-"""
-
-# ╔═╡ cf9587a0-38ed-11eb-00bf-f10725c0dd6b
-md"""
-### How to Get Past the Black Swan Problem
-
-The Black Swan problem is a fundamental problem in artificial intelligence and machine learning. The best way around it is to have as large and comprehensive dataset as possible and to test on as many corner cases as possible. Visualize your agent's decision making process!
 """
 
 # ╔═╡ d435eac0-38ed-11eb-3ada-73fb39e6d923
@@ -491,7 +439,7 @@ Your homework is to:
    - a scatter plot of vehicle bearing the clockwise bearing from your craft to the intruder at the encounter start vs. the clockwise heading of the intruder relative to the positive north axis (See Lecture 4) for when advisories were issued
 - Choose a meaninful tuneable parameter in your collision avoidance system, or change your system to include a meaningful tuneable parameter. (For example, a parameter in the Alpha-Beta filter). Use $5$-fold cross validation over the training dataset and plot the cross-validated-normalized-penalty with respect to the tuneable parameter.
 
-Turn in your code and writeup (preferably a single Julia Notebook) to Canvas.
+Turn in your code and writeup (preferably a single notebook) to Canvas.
 """
 
 # ╔═╡ 72b35c3a-00da-4fb6-9ae8-b31efca9b587
@@ -506,6 +454,7 @@ PlutoUI.TableOfContents(title="Analysis")
 # ╟─c6aa02c2-38ec-11eb-2ab6-c9e0bb78c682
 # ╟─d1beecc2-38ec-11eb-3f97-3173a8f71e9e
 # ╠═f7ad7730-38ec-11eb-264e-7df6986ea713
+# ╠═0ff5b880-5c46-11eb-221d-397213f9755a
 # ╠═8465ff13-d4ea-416e-8ef2-8b64dfef0e02
 # ╟─0d594190-38ed-11eb-1ff7-e35b4413f64d
 # ╠═a47d1795-c181-453c-9104-6cbe1cacc908
@@ -513,11 +462,6 @@ PlutoUI.TableOfContents(title="Analysis")
 # ╠═c28fa1bd-7bef-4ae9-b3c4-c8f24d2df5b8
 # ╟─7c331820-38ed-11eb-290d-813158d5f7ef
 # ╟─8202d380-38ed-11eb-25c5-c9a544d969d9
-# ╟─8caface0-38ed-11eb-1bf7-c9519bd208b3
-# ╠═90a1f5b0-38ed-11eb-024a-0119c06d5b87
-# ╟─9c506090-38ed-11eb-0216-2f7e2609ef54
-# ╟─a2d191a0-38ed-11eb-2129-63f199018437
-# ╟─cf9587a0-38ed-11eb-00bf-f10725c0dd6b
 # ╟─d435eac0-38ed-11eb-3ada-73fb39e6d923
 # ╠═e15d3a00-38ed-11eb-0b0a-6198a2729f68
 # ╠═b79d8740-3985-11eb-0f95-1b8a9d1ef77a

@@ -22,11 +22,7 @@ begin
 	# Building Autonomous Systems
 	AA120Q: *Building Trust in Autonomy*, Stanford University. 
 
-	## Lecture 6
 	We will discuss a variety of approaches to building autonomous systems.
-
-	Readings:
-	- [Decision Making Under Uncertainty, Chapter 1.1-1.3, *Decision Making*, *Example Applications*, and *Methods for Designing Decision Agents*](https://ieeexplore.ieee.org/document/7288713)
 	"""
 end
 
@@ -35,9 +31,6 @@ using AA120Q, TikzPictures
 
 # ╔═╡ c40dff50-38e5-11eb-01e3-5bc7a839b947
 using Compose
-
-# ╔═╡ 379ff5d2-38dd-11eb-1fb9-a55e857b6a14
-include("gridworld.jl")
 
 # ╔═╡ 1b9f67f0-38e5-11eb-15f5-f958b083c92e
 include("mountaincar.jl")
@@ -127,120 +120,6 @@ $(PlutoUI.LocalResource("./figures/decision_theoretic_planning.png"))
 md"""
 In this class you will build your own collision avoidance system for aircraft.
 """
-
-# ╔═╡ ee64b4ee-38dc-11eb-1481-41ad304fd468
-md"""
-# Decision Making Processes
-
-Computational models of learning have proved largely successful in characterizing potential mechanisms which allow the making of decisions in uncertain and volatile contexts. We can adapt a learning model, depending on separate parameters according to whether we provide a reward or a punishment, can be applied to decision making under uncertainty.
-
-An agent-based decision making model is one of a class of computational models for simulating the actions and interactions of autonomous agents with a view to assessing their effects on the system as a whole. Monte Carlo methods are used to introduce randomness. A central tenet is that the whole is greater than the sum of the parts. Individual agents are typically characterized as boundedly rational, presumed to be acting in what they perceive as their own interests, using heuristics or simple decision-making rules.
-"""
-
-# ╔═╡ 14a44590-38dd-11eb-217b-5b0f50a31a1c
-md"""
-## The Grid-World Process
-
-In the grid world problem we have a $10 \times 10$ grid. Each cell in the grid represents a state in an MDP. The available actions are up, down, left, and right. The effects of these actions are stochastic. We move one step in the specified direction with probability $0.7$, and we move one step in one of the three other directions, each with probability $0.1$. If we bump against the outer border of the grid, we do not move at all.
-
-We receive a cost of $1$ for bumping against the outer border of the grid. There are four cells in which we receive rewards upon entering:
-*  $(8,9)$ has a reward of $+10$
-*  $(3,8)$ has a reward of $+3$
-*  $(5,4)$ has a reward of $-5$
-*  $(8,4)$ has a reward of $-10$
-"""
-
-# ╔═╡ a5a601a0-38dd-11eb-24cf-9758d2e2defe
-g = GridWorld();
-
-# ╔═╡ 889c4fde-38df-11eb-3373-41f55a8874f0
-reward_left = g.R[:, 1] # reward for :left action
-
-# ╔═╡ 235e30d0-38df-11eb-1b52-1b1fbeec4817
-plot(g, reward_left)
-
-# ╔═╡ a7ba29b0-38df-11eb-3a19-5773a81b7583
-md"""
-### Policy evaluation
-
-You can estimate the value of a state by successively propagating the reward from other states.
-"""
-
-# ╔═╡ b4b16840-38df-11eb-2a44-c99e50391797
-function iterative_policy_evaluation(mdp, policy::Function, num_iterations::Integer)
-	(S, A, T, R, discount) = locals(mdp)
-	U = zeros(length(S))
-	for t in 1:num_iterations
-		U = [R(s₀, policy(s₀)) + discount*sum(s₁->T(s₀, policy(s₀), s₁)*U[s₁], S)
-			 for s₀ in S]
-	end
-	return U
-end
-
-# ╔═╡ 1a2eda40-38e0-11eb-38bf-4b2d4a629901
-@bind num_iters Slider(0:10, default=1)
-
-# ╔═╡ 5fe77cb0-38e3-11eb-305e-2f94dbdcebdd
-begin
-	actionstrings =
-		map(p->Pair(string(first(p)), string(first(p))), collect(g.actionIndex))
-	@bind a_name PlutoUI.Select(actionstrings)
-end
-
-# ╔═╡ 9f2568a0-38e4-11eb-0957-df68e2023326
-a = Symbol(a_name)
-
-# ╔═╡ 31e58fd0-38e0-11eb-1af3-c52e4257ac69
-@bind discount_factor Slider(0.1:0.1:0.9, default=0.9)
-
-# ╔═╡ 376e7e30-38e0-11eb-1b9b-7f10502b393d
-begin
-	policy = s -> a
-	g.discount = discount_factor
-	U = iterative_policy_evaluation(g, policy, num_iters)
-	plot(g, U, policy)
-end
-
-# ╔═╡ 49c29210-38e0-11eb-23ec-d129531d93c0
-md"""
-### Value iteration
-Solving for the optimal policy.
-
-$$U_k^*(s) = \max_{a \in A} \left[R(s,a) + \gamma\sum_{s' \in S} T(s' \mid s,a) U_{k+1}^*(s') \right]$$
-
-$$\pi^*(s) = \operatorname*{arg\;max}_{a \in A} \left[ R(s,a) + \gamma\sum_{s' \in S} T(s' \mid s,a)U^*(s')\right]$$
-"""
-
-# ╔═╡ c7f6c47e-38e0-11eb-3d8e-930e2f651268
-function value_iteration(mdp, num_iterations::Integer; discount=0.9)
-	(S, A, T, R, _) = locals(mdp)
-	U = zeros(length(S))
-	for t in 1:num_iterations
-		Q(s₀, a) = R(s₀, a) + discount*sum(s₁->T(s₀, a, s₁)*U[s₁], S)
-		U = [maximum(a->Q(s₀, a), A) for s₀ in S]
-	end
-	return U
-end
-
-# ╔═╡ 1000b150-38e1-11eb-1f87-1f8c28927783
-function extract_policy(mdp, U::Vector)
-	(S, A, T, R, discount) = locals(mdp)
-	Q(s₀, a) = R(s₀, a) + discount*sum(s₁->T(s₀, a, s₁)*U[s₁], S)
-	return [A[argmax([Q(s₀,a) for a in A])] for s₀ in S]
-end
-
-# ╔═╡ 41dc5d50-38e1-11eb-3caa-1df1058a4a4d
-@bind num_itersˢ Slider(0:10, default=2)
-
-# ╔═╡ 4a4c6610-38e1-11eb-3b70-43da883c6197
-@bind discountˢ Slider(0.1:0.1:0.9, default=0.9)
-
-# ╔═╡ 52c6a800-38e1-11eb-1a30-71c38b7e8ea5
-begin
-	Uˢ = value_iteration(g, num_itersˢ, discount=discountˢ)
-	policyˢ = extract_policy(g, Uˢ)
-	plot(g, Uˢ, policyˢ)
-end
 
 # ╔═╡ df864630-38e4-11eb-227e-4be958de9558
 md"""
@@ -372,25 +251,6 @@ PlutoUI.TableOfContents(title="Building Autonomous Systems")
 # ╠═7ce20580-38dc-11eb-3628-ab2ee11214a6
 # ╟─b25dbba0-38dc-11eb-2941-c7397554223c
 # ╟─e50bd2d0-38dc-11eb-3aa7-69da24bdef12
-# ╟─ee64b4ee-38dc-11eb-1481-41ad304fd468
-# ╟─14a44590-38dd-11eb-217b-5b0f50a31a1c
-# ╠═379ff5d2-38dd-11eb-1fb9-a55e857b6a14
-# ╠═a5a601a0-38dd-11eb-24cf-9758d2e2defe
-# ╠═889c4fde-38df-11eb-3373-41f55a8874f0
-# ╠═235e30d0-38df-11eb-1b52-1b1fbeec4817
-# ╟─a7ba29b0-38df-11eb-3a19-5773a81b7583
-# ╠═b4b16840-38df-11eb-2a44-c99e50391797
-# ╠═1a2eda40-38e0-11eb-38bf-4b2d4a629901
-# ╟─5fe77cb0-38e3-11eb-305e-2f94dbdcebdd
-# ╠═9f2568a0-38e4-11eb-0957-df68e2023326
-# ╠═31e58fd0-38e0-11eb-1af3-c52e4257ac69
-# ╠═376e7e30-38e0-11eb-1b9b-7f10502b393d
-# ╟─49c29210-38e0-11eb-23ec-d129531d93c0
-# ╠═c7f6c47e-38e0-11eb-3d8e-930e2f651268
-# ╠═1000b150-38e1-11eb-1f87-1f8c28927783
-# ╠═41dc5d50-38e1-11eb-3caa-1df1058a4a4d
-# ╠═4a4c6610-38e1-11eb-3b70-43da883c6197
-# ╠═52c6a800-38e1-11eb-1a30-71c38b7e8ea5
 # ╟─df864630-38e4-11eb-227e-4be958de9558
 # ╟─03b630ae-38e5-11eb-2017-1d40137afb6c
 # ╠═0f7d53ae-38e5-11eb-226e-994786307178

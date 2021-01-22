@@ -16,20 +16,13 @@ end
 # ╔═╡ 5787cad0-38e7-11eb-0b3e-b3e30d553dc6
 begin
 	using PlutoUI
-	# pkg"add https://github.com/shashankp/PlutoUI.jl#TableOfContents-element"
-
 	md"""
 	# Robustness to Sensor Error
 	AA120Q: *Building Trust in Autonomy*, Stanford University. 
 
-	## Lecture 7
 	We will discuss methods for enhancing the robustness of autonomous systems to sensor error.
 	
-	**Assignment**:
-	- Enhance your collision avoidance system to accommodate sensor error and run it in simulation.
-
-	**Readings**:
-	- [Decision Making Under Uncertainty, Chapter 4.1, 4.2, 4.7, *Formulation*, *Dynamic Programming*, and *Direct Policy Search*](https://ieeexplore.ieee.org/document/7288642)
+	**Assignment**: Enhance your collision avoidance system to accommodate sensor error and run it in simulation.
 	"""
 end
 
@@ -38,18 +31,6 @@ using AA120Q, Compose, Colors, Cairo
 
 # ╔═╡ 8d355472-38e9-11eb-0d1b-4d837618f72a
 include("mountaincar.jl")
-
-# ╔═╡ bc46ced0-38e7-11eb-2798-d34cd2986f26
-md"""
-## What is a Sensor
-
-- we had uncertainty in initial conditions
-- we had uncertainty in transition
-- sensors add uncertainty to your observation, and thus contribute to _state uncertainty_
-"""
-
-# ╔═╡ c6445560-38e7-11eb-1e58-c17c8c3977d2
-PlutoUI.LocalResource("./figures/decision_theoretic_planning.png")
 
 # ╔═╡ d3c31370-38e7-11eb-3dd5-8d923a8e5461
 md"""
@@ -377,8 +358,6 @@ PlutoUI.TableOfContents(title="Sensors")
 
 # ╔═╡ Cell order:
 # ╟─5787cad0-38e7-11eb-0b3e-b3e30d553dc6
-# ╟─bc46ced0-38e7-11eb-2798-d34cd2986f26
-# ╠═c6445560-38e7-11eb-1e58-c17c8c3977d2
 # ╟─d3c31370-38e7-11eb-3dd5-8d923a8e5461
 # ╟─fa26cde2-38e7-11eb-220d-6ff100eae44a
 # ╟─0110abd0-38e8-11eb-173d-0f7d1a29d2b4

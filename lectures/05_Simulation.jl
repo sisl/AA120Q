@@ -22,7 +22,6 @@ begin
 	# Simulation
 	AA120Q: *Building Trust in Autonomy*, Stanford University. 
 
-	## Lecture 5
 	We will discuss how to structure and implement simulation frameworks.
 	
 	## Simulation loop
@@ -46,18 +45,6 @@ using Distributions
 
 # ╔═╡ 43b37e60-38cd-11eb-1238-c1f9485e589d
 using Plots
-
-# ╔═╡ 2ffe09f0-38c6-11eb-1587-ff867b0af6a4
-PlutoUI.LocalResource("./figures/sim_circle.png")
-
-# ╔═╡ f3ff3180-38c6-11eb-11e6-83d3677b01b6
-md"""
-For games with perfect information you don't even need to make observations:
-1. Assess your next action
-2. Act
-
-This extends to physics simulations as well. Here, assessing your next action simply means following the laws of physics.
-"""
 
 # ╔═╡ 53cd4160-38c7-11eb-0d5a-1b9ae090cc30
 md"""
@@ -229,6 +216,9 @@ rand(N)
 # ╔═╡ 36088030-38cd-11eb-238b-b18f52b41f00
 rand(N, 5) # five samples from N
 
+# ╔═╡ cfc6f200-5c46-11eb-388a-3ff00076a41f
+plotly();
+
 # ╔═╡ 47bf42a0-38cd-11eb-2859-fffd932ca0b8
 begin
 	Random.seed!(0)
@@ -239,7 +229,6 @@ begin
 		    randn(500) .* 1.5 .+ 4]
 	data = filter!(x->-15 < x < 15, data)
 	histogram(data, bins=100, size=(600,200), label=nothing)
-	# Axis(Plots.Histogram(data, bins=100), ymin=0, width="25cm", height="10cm")
 end
 
 # ╔═╡ d7ce08a0-38cc-11eb-1246-a9105983f2e6
@@ -252,8 +241,6 @@ PlutoUI.TableOfContents(title="Simulation")
 
 # ╔═╡ Cell order:
 # ╟─d0efeeb0-38c5-11eb-3b9a-5bcbc9103863
-# ╠═2ffe09f0-38c6-11eb-1587-ff867b0af6a4
-# ╟─f3ff3180-38c6-11eb-11e6-83d3677b01b6
 # ╟─53cd4160-38c7-11eb-0d5a-1b9ae090cc30
 # ╠═1c57d390-38c6-11eb-1516-e15b05666ff9
 # ╠═7ffb8710-38c7-11eb-0d37-e92dbf75eea2
@@ -286,6 +273,7 @@ PlutoUI.TableOfContents(title="Simulation")
 # ╠═340a1820-38cd-11eb-3f73-070ec039aa57
 # ╠═36088030-38cd-11eb-238b-b18f52b41f00
 # ╠═43b37e60-38cd-11eb-1238-c1f9485e589d
+# ╠═cfc6f200-5c46-11eb-388a-3ff00076a41f
 # ╠═47bf42a0-38cd-11eb-2859-fffd932ca0b8
 # ╟─d7ce08a0-38cc-11eb-1246-a9105983f2e6
 # ╠═616636d2-38ca-11eb-2823-2fd57ad86cea

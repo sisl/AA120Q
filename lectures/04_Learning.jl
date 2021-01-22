@@ -29,6 +29,9 @@ We will discuss how to learn the parameters and structure of probabilstic models
 
 """
 
+# ╔═╡ c81ca70e-5c42-11eb-3d53-6fbf67312c4c
+plotly();
+
 # ╔═╡ 9351ad30-38bd-11eb-3d7c-99b3f6e91c50
 md"""
 ## Maximum likelihood parameter learning
@@ -39,7 +42,7 @@ The Iris dataset was used in Fisher's classic 1936 paper, [The Use of Multiple M
 D = dataset("datasets", "iris")
 
 # ╔═╡ 54155d00-38be-11eb-3674-b3f8c4bfc6ff
-d = D[:SepalLength]
+d = D[!,:SepalLength]
 
 # ╔═╡ e4447420-2fc2-4979-84fb-c1b9975087da
 histogram(d)
@@ -132,6 +135,7 @@ PlutoUI.TableOfContents(title="Learning")
 # ╟─ed1e11b2-38bc-11eb-07a0-d9b89d86cdd3
 # ╟─484ccfe0-38bd-11eb-1024-2fc198591f32
 # ╠═86261830-38bd-11eb-3c82-d1b1a33d7e67
+# ╠═c81ca70e-5c42-11eb-3d53-6fbf67312c4c
 # ╟─9351ad30-38bd-11eb-3d7c-99b3f6e91c50
 # ╠═ecf389d0-38bd-11eb-0fd2-73943a5e2aec
 # ╠═54155d00-38be-11eb-3674-b3f8c4bfc6ff
