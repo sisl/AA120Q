@@ -22,7 +22,7 @@ flights = CSV.read(joinpath(@__DIR__, "../..", "data", "flights.csv"), DataFrame
 
 function pull_encounter(flights::DataFrame, id::Int)
 
-	flightids = flights[:id] # Gets the data from the specific ID we pass in	
+	flightids = flights[!, :id] # Gets the data from the specific ID we pass in	
 	enc = Encounter()
 
 	# STUDENT CODE START

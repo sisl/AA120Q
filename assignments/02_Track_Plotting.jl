@@ -29,7 +29,7 @@ md"""
 """
 
 # ╔═╡ f4ae58c0-3f12-11eb-2d1b-65a2947915e3
-PlutoUI.LocalResource("./figures/TCAS_Volume.png")
+PlutoUI.LocalResource("figures/TCAS_Volume.png")
 
 # ╔═╡ 081da510-4fb1-11eb-3334-63534dbae588
 md"""
@@ -46,7 +46,7 @@ Edit the contents of this notebook and turn in your final Pluto notebook file (.
 md"""
 ### Aircraft Encounters
 
-$(PlutoUI.LocalResource("./figures/encounter_plot.png"))
+$(PlutoUI.LocalResource("figures/encounter_plot.png"))
 
 An airspace encounter consists of two components: the initial conditions for each aircraft and the transitions over time.
 One file is provided for each.
@@ -166,7 +166,7 @@ html"""
 # ╔═╡ d0557792-3f14-11eb-2771-41457c500985
 function pull_encounter(flights::DataFrame, id::Int)
 
-    flightids = flights[:id] # Gets the data from the specific ID we pass in	
+    flightids = flights[!, :id] # Gets the data from the specific ID we pass in	
 	enc = Encounter()
 
     # STUDENT CODE START

@@ -107,7 +107,7 @@ The policies that are potentially the best are those which cannot be shifted to 
 begin
 	plot([0.5,0.75,1,1.5,2,3],
 		 [1e5,3e4,1e4,1e3,10,2],
-		 color=:red, markerstrokecolor=:red, marker="*", label=nothing)
+		 color=:red, markerstrokecolor=:red, marker=:dot, label=nothing)
 	scatter!([1.8,0.8,2.5,1.2,0.7,1.4],
 			 [2e4,5e4,1e4,1.2e4,9e4,5e4],
 			 color=:gray, markerstrokecolor=:gray, label=nothing,

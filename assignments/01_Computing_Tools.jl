@@ -19,7 +19,7 @@ md"""
 """
 
 # ╔═╡ 1f625420-3f0b-11eb-1a97-73752639a1cd
-PlutoUI.LocalResource("./figures/buffon.png")
+PlutoUI.LocalResource("figures/buffon.png")
 
 # ╔═╡ b583aae0-3f0a-11eb-1560-03c21f877727
 md"""
