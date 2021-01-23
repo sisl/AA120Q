@@ -1,7 +1,7 @@
 # AA120Q
 ## Establishing Trust in Autonomous Systems
 [![Build Status](https://travis-ci.org/sisl/AA120Q.svg?branch=master)](https://travis-ci.org/sisl/AA120Q)
-[![Coverage Status](https://coveralls.io/repos/sisl/AA120Q/badge.svg)](https://coveralls.io/r/sisl/AA120Q)
+<!-- [![Coverage Status](https://coveralls.io/repos/sisl/AA120Q/badge.svg)](https://coveralls.io/r/sisl/AA120Q) -->
 
 This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offered at Stanford.
 
