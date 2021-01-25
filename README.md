@@ -60,5 +60,16 @@ This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offere
 ```
 
 
+## Running Pluto
+
+1. Open a terminal and run `julia` (or you can open the Julia application itself)
+2. Inside Julia, run the following commands:
+```julia
+using Pluto
+Pluto.run()
+```
+- You should see an `http://localhost:####` url you can open in a browser (this will open Pluto!)
+
+
 ## Troubleshooting
 Post issues either here on GitHub or on Piazza.
