@@ -84,7 +84,7 @@ mixture = MixtureModel([Normal(-3,1), Normal(4,2)], [0.8, 0.2])
 mixdata = rand(mixture, 1000);
 
 # ╔═╡ 8e550590-17aa-4c3f-a2e5-0890fffe34d8
-histogram(mixdata, bins=50, ylabel="Counts", size=(1000,400))
+histogram(mixdata, bins=50, ylabel="Counts", size=(650,300))
 
 # ╔═╡ f9588302-07b3-11eb-06d7-e72744021ed9
 md"""
