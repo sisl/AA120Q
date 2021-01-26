@@ -28,9 +28,6 @@ md"""
 # Assignment 2: Encounter Plotting
 """
 
-# ╔═╡ f4ae58c0-3f12-11eb-2d1b-65a2947915e3
-PlutoUI.LocalResource("figures/TCAS_Volume.png")
-
 # ╔═╡ 081da510-4fb1-11eb-3334-63534dbae588
 md"""
 In this assignment, you will become become familiar with loading data and plotting it in Julia. In particular, you will be working with aircraft encounters, which consist of 50 second snippets of the trajectories for two aircraft that come in close proximity with one another. These encounters may be used to test the effectiveness of aircraft collision avoidance systems.
@@ -341,7 +338,6 @@ PlutoUI.TableOfContents(title="Encounter Plotting")
 # ╔═╡ Cell order:
 # ╟─d923dee0-3f12-11eb-0fb8-dffb2e9b3b2a
 # ╠═f2d4b6c0-3f12-11eb-0b8f-abd68dc8ade7
-# ╟─f4ae58c0-3f12-11eb-2d1b-65a2947915e3
 # ╟─081da510-4fb1-11eb-3334-63534dbae588
 # ╟─cfff9088-511c-11eb-36f4-936646282096
 # ╟─31d14960-3f13-11eb-3d8a-7531c02990cf
