@@ -45,7 +45,7 @@ This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offere
      - <details><summary><b>Mac OS X</b></summary><p>
         Open a terminal and run the following (this will create a`julia` alias and place it in `/usr/local/bin` which is already on the terminal path):
 
-           sudo sh -c 'mkdir -p /usr/local/bin && ln -fs "/Applications/Julia-1.5.3.app/Contents/Resources/julia/bin/julia" /usr/local/bin/julia'
+           sudo sh -c 'mkdir -p /usr/local/bin && ln -fs "/Applications/Julia-1.5.app/Contents/Resources/julia/bin/julia" /usr/local/bin/julia'
         </p></details>
 2. Install Git from https://git-scm.com/downloads
 3. Open a terminal and run:
