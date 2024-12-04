@@ -1,5 +1,6 @@
 # AA120Q
 ## Building Trust in Autonomy
+[![website](https://img.shields.io/badge/website-Stanford-b31b1b.svg)](https://aa120q.stanford.edu/)
 [![Build Status](https://travis-ci.org/sisl/AA120Q.svg?branch=main)](https://travis-ci.org/sisl/AA120Q)
 <!-- [![Coverage Status](https://coveralls.io/repos/sisl/AA120Q/badge.svg)](https://coveralls.io/r/sisl/AA120Q) -->
 
@@ -29,8 +30,11 @@ This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offere
 - [Optional Assignment: Bayesian Network Learning](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/assignments/html/Optional_Bayesian_Networks.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/assignments/Optional_Bayesian_Networks.jl)]</sup>
 
 ## Installation
+### Install Git
+- https://git-scm.com/downloads
 
-1. Install Julia version 1.11 from https://julialang.org/downloads. Once installed julia will be available via the command line interface. The commands will also install the Juliaup installation manager, which will automatically install julia and help keep it up to date. The command `juliaup` is also installed. To install different julia versions see `juliaup --help`.
+### Install Julia
+Install Julia version 1.11+ from https://julialang.org/downloads. Once installed julia will be available via the command line interface. The commands will also install the Juliaup installation manager, which will automatically install julia and help keep it up to date. The command `juliaup` is also installed. To install different julia versions see `juliaup --help`.
    - The commands from the Julia website are echoed below:
      - <details><summary><b>Windows</b></summary><p>
         Open the command prompt and run the following:
@@ -42,14 +46,16 @@ This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offere
 
            curl -fsSL https://install.julialang.org | sh
         </p></details>
-2. Install Git from https://git-scm.com/downloads
-3. Open a terminal, navigate to a directory where you want to store the course materials, and run:
+
+### Clone the Repository
+Open a terminal, navigate to a directory where you want to store the course materials, and run:
     ```bash
     git clone https://github.com/sisl/AA120Q
     cd AA120Q
     julia install.jl
     ```
-4. Test the installation by opening `julia` using `julia --project=.` from the AA120Q directory and running:
+### Test the Installation
+Test the installation by opening `julia` using `julia --project=.` from the AA120Q directory and running:
    ```julia
    ] test
    ```
@@ -66,7 +72,7 @@ julia>
 ```
       
 ### Activate the AA120Q Package When Opening Julia
-Another option is to open julia with the AA120Q package activated by running the following in the terminal:
+Another option is to open julia with the AA120Q package activated. From the AA120Q directory, run the following in the terminal:
 ```bash
 julia --project=.
 ```
@@ -116,3 +122,6 @@ You should see a url similar to `http://localhost:####/?secret=####` that you ca
 
 ## Troubleshooting
 Post issues you expereince on Ed or here on GitHub.
+
+## Update AA120Q (if necessary)
+If we update the course materials, you can update your local copy of the repository by running `git pull` from the AA120Q directory.
