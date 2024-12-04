@@ -1,32 +1,26 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.20.3
 
 using Markdown
 using InteractiveUtils
 
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
+    #! format: off
     quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
+    #! format: on
 end
 
-# ╔═╡ f3d093c0-076b-11eb-21bc-d752119bd59f
-begin
+# ╔═╡ 5e7ec050-3ef1-4f7a-bc9c-45f3432970cc
+begin 
+	using Pkg
+	Pkg.activate("../.")
 	using PlutoUI
-
-	md"""
-	# Scientific Computing Tools and Visualizations
-	AA120Q: *Building Trust in Autonomy*, Stanford University. 
-
-	## Lecture 2
-	We will discuss how the Julia programming language is used for scientific computing and data visualization.
-
-	Readings:
-	- [Julia tutorial](https://learnxinyminutes.com/docs/julia/)
-	"""
 end
 
 # ╔═╡ db7cd9e0-0776-11eb-1cd5-d582a6dcfcdd
@@ -48,7 +42,21 @@ using Plots
 using Colors
 
 # ╔═╡ 0590fee0-0787-11eb-2359-21c3bad35e43
-using SymPy
+using Symbolics
+
+# ╔═╡ f3d093c0-076b-11eb-21bc-d752119bd59f
+begin
+	md"""
+	# Scientific Computing Tools and Visualizations
+	AA120Q: *Building Trust in Autonomy*, Stanford University. 
+
+	## Readings/Videos/References
+	- [`Pkg` Documentation](https://docs.julialang.org/en/v1/stdlib/Pkg/)
+	- [`Plots.jl` Documentation](https://docs.juliaplots.org/stable/)
+	- [`DataFrames.jl` Documentation](https://dataframes.juliadata.org/stable/)
+	- [`Distributions.jl` Documentation](https://juliastats.org/Distributions.jl/stable/)
+	"""
+end
 
 # ╔═╡ 6536e190-076c-11eb-3c75-7f594ba1ab24
 md"""
@@ -63,40 +71,10 @@ Scientific computing includes:
 - Optimization
 """
 
-# ╔═╡ b052f060-076c-11eb-0605-2bda092968da
-md"""
-## Julia
-
-![](https://julialang.org/assets/infra/logo.svg)
-
-Julia is a high-level dynamic programming language.$^{[\href{https://en.wikipedia.org/wiki/Julia_(programming_language)}{2}]}$
-"""
-
-# ╔═╡ 91b3c700-076d-11eb-2090-f340640ff2f0
-md"""
-### Installing Packages
-Julia makes it easy to install packages (and specific versions of packages too).
-
-Julia also makes it easy to obtain packages from Github.
-"""
-
-# ╔═╡ 6d579664-fe37-4986-aea6-d50b4f1e64af
-md"""
-```julia
-using Pkg
-Pkg.add("DataFrames")
-Pkg.add("Distributions")
-Pkg.add("Discretizers")
-Pkg.add("Plots")
-Pkg.add("Colors")
-Pkg.add("SymPy")
-```
-"""
-
 # ╔═╡ 8a655ae0-076d-11eb-196b-c5af3ec9148f
 md"""
 # Scientific Computing Packages
-Julia offers a wide range of [official packages](https://juliahub.com/). There are many custom packages that are not in the official listing as well.
+Julia offers a wide range of [official packages]( https://juliahub.com/ui/Packages). There are many custom packages that are not in the official listing as well.
 
 You can go to a package's documentation, typically from Github, to view all of its features.
 
@@ -106,7 +84,7 @@ Some of the packages we will be using are:
 - Discretizers
 - Plots
 - Colors
-- SymPy
+- Symbolics
 """
 
 # ╔═╡ 46be8b02-0776-11eb-0a40-b1de3001c2fa
@@ -232,6 +210,11 @@ md"""
 ###### Decoding
 """
 
+# ╔═╡ bff436a1-75f3-41d3-8f9f-8e561d307b54
+md"""
+As a default, `decode` for a `::LinearDiscretizer` uniformly samples from the bins. Another option is to return the bin center and you can decode using this method by passing `SampleBinCenter()` to `decode`.
+"""
+
 # ╔═╡ 6242d440-077f-11eb-09c2-7d637f3be52d
 decode(lineardisc, 1)
 
@@ -240,6 +223,18 @@ decode(lineardisc, 2)
 
 # ╔═╡ 6accf4b0-077f-11eb-1408-7b86c51641cf
 decode(lineardisc, [2, 1, 2])
+
+# ╔═╡ 343f22a7-92ef-4389-bff9-579ace34c97a
+decode(lineardisc, 1, SampleBinCenter())
+
+# ╔═╡ 332596d0-e62e-4e1a-b26c-216d189b394d
+decode(lineardisc, 2, SampleBinCenter())
+
+# ╔═╡ a36acd5e-e69a-4b2b-9860-35835758e9f8
+md"""
+!!! caution
+	There is an error with decoding an array using a `::LinearDiscretizer` and `SampleBinCenter`. I.e. `decode(lineardisc, [2, 1, 2], SampleBinCenter())` does not work as expected. Please reference the [submitted issue](https://github.com/sisl/Discretizers.jl/issues/37) for updates. (CAO 27 Nov 2024)
+"""
 
 # ╔═╡ c84dc3be-0780-11eb-237a-3b491dae9c4d
 md"""
@@ -309,7 +304,8 @@ histogram(μ .+ σ*randn(1000), bins=20); xlims!(-15, 15); ylims!(0, 250)
 
 # ╔═╡ 48ae1310-0783-11eb-2d09-6b00cca36f26
 md"""
-> Note you can use underscores within numbers as separators for human-readability. 
+!!! note 
+	You can use underscores within numbers as separators for human-readability. E.g. 10_000 is the same as 10000.
 """
 
 # ╔═╡ 3f301cc0-0783-11eb-092a-918535d1bd1c
@@ -378,14 +374,14 @@ plot(x->sin(x^2), 0, π, line=2, color=RGB(0.75, 0, 0.5))
 
 # ╔═╡ b9ced6f0-0784-11eb-0f57-5999bd3df9e2
 md"""
-# SymPy
+# Symbolics
 Symbolic math in Julia!
 """
 
 # ╔═╡ 99274452-078e-11eb-1d23-3528c7bbfe1b
 # Fix LaTeX display issue which was wrapping things with \text{...}
 # https://github.com/fonsp/Pluto.jl/issues/488
-Base.show(io::IO, ::MIME"text/latex", x::SymPy.SymbolicObject) = print(io, sympy.latex(x, mode="inline"))
+# Base.show(io::IO, ::MIME"text/latex", x::SymPy.SymbolicObject) = print(io, sympy.latex(x, mode="inline"))
 
 # ╔═╡ 0ecedef0-0787-11eb-1006-f5e89a94559f
 x = symbols("x")
@@ -442,14 +438,12 @@ integrate(x^3, x)
 md"---"
 
 # ╔═╡ de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
-PlutoUI.TableOfContents(title="Computing Tools")
+PlutoUI.TableOfContents(title="Coding Lecture 1-2: Computing Tools")
 
 # ╔═╡ Cell order:
 # ╟─f3d093c0-076b-11eb-21bc-d752119bd59f
+# ╠═5e7ec050-3ef1-4f7a-bc9c-45f3432970cc
 # ╟─6536e190-076c-11eb-3c75-7f594ba1ab24
-# ╟─b052f060-076c-11eb-0605-2bda092968da
-# ╟─91b3c700-076d-11eb-2090-f340640ff2f0
-# ╟─6d579664-fe37-4986-aea6-d50b4f1e64af
 # ╟─8a655ae0-076d-11eb-196b-c5af3ec9148f
 # ╟─46be8b02-0776-11eb-0a40-b1de3001c2fa
 # ╠═db7cd9e0-0776-11eb-1cd5-d582a6dcfcdd
@@ -488,9 +482,13 @@ PlutoUI.TableOfContents(title="Computing Tools")
 # ╠═49ffbd32-077f-11eb-159e-ef3ca084c9e6
 # ╠═4ae3dba0-077f-11eb-3b1e-79a6d52114ac
 # ╟─5382e3a0-077f-11eb-324b-7f1eae0f0e3e
+# ╟─bff436a1-75f3-41d3-8f9f-8e561d307b54
 # ╠═6242d440-077f-11eb-09c2-7d637f3be52d
 # ╠═680e22d0-077f-11eb-2639-67723187c19f
 # ╠═6accf4b0-077f-11eb-1408-7b86c51641cf
+# ╠═343f22a7-92ef-4389-bff9-579ace34c97a
+# ╠═332596d0-e62e-4e1a-b26c-216d189b394d
+# ╟─a36acd5e-e69a-4b2b-9860-35835758e9f8
 # ╟─c84dc3be-0780-11eb-237a-3b491dae9c4d
 # ╟─e636ee20-0780-11eb-0239-4b58bcae19b7
 # ╠═0384269e-0781-11eb-17a5-7fa7f4db431d
