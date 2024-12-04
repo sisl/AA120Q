@@ -51,14 +51,20 @@ Install Julia version 1.11+ from https://julialang.org/downloads. Once installed
 Open a terminal, navigate to a directory where you want to store the course materials, and run:
     ```bash
     git clone https://github.com/sisl/AA120Q
-    cd AA120Q
-    julia install.jl
     ```
+
+### Install the Packages
+From the AA120Q directory, run:
+```bash
+julia install.jl
+```
+The `install.jl` script will add Pluto and PlutoUI to your default Julia environment. It will also activate the AA120Q package, download the project dependencies, and compile the project.
+
 ### Test the Installation
 Test the installation by opening `julia` using `julia --project=.` from the AA120Q directory and running:
-   ```julia
-   ] test
-   ```
+```julia
+] test
+```
 
 ## Package Management
 There are a couple of ways to open Julia. The following options assume you are in the AA120Q directory.

@@ -213,7 +213,7 @@ In Pluto, the last expression is output by default. The use of `print` and `prin
 md"""
 In the following block, notice only the last expression is output (i.e. sin(π))
 
-*Note*" To use multiple lines of code in a single cell, we need to use `begin` ... `end` blocks (`let` ... `end` blocks are also allowed).
+*Note: To use multiple lines of code in a single cell, we need to use `begin` ... `end` blocks.*
 """
 
 # ╔═╡ 4a2f40a4-029f-43bb-9f55-3bf001861d0c
@@ -445,7 +445,7 @@ haskey(d, 1)
 # ╔═╡ bb233aa0-0748-11eb-3488-8d316224bdf8
 md"""
 ## Control Flow
-`if` statements, `for`-loops, `while`-loops, and error catching
+`if` statements, `for` loops, `while` loops, and error catching
 """
 
 # ╔═╡ d2ec8dd0-0748-11eb-298a-5d94d5da2477
@@ -469,7 +469,7 @@ end
 
 # ╔═╡ 2f09cab2-0749-11eb-3533-79dae3c99545
 md"""
-`for`-loops and `while`-loops iterate over iterables. Iterable types include `Range`, `Array`, `Set`, `Dict`, and `String`.
+`for` loops and `while` loops iterate over an iterable. Iterable types include `Range`, `Array`, `Set`, `Dict`, and `String`.
 """
 
 # ╔═╡ 204a7650-0749-11eb-3bcf-2d2846eb951b
@@ -506,7 +506,7 @@ begin
 		error("help!")
 		println("We do not make it here after the error.")
 	catch err
-		println("caught it $err")
+		println("Caught the error! $err")
 		println("We do continue in this block after catching an error")
 	end
 end
@@ -529,7 +529,9 @@ end
 
 # ╔═╡ 514268b6-e65c-4ba7-b009-c0398e31c890
 md"""
-In the next block, you'll notice the result of the function's `return` (i.e., `x + y`) displayed above, as per Pluto's usual behavior, and the output of the `println` statement echoed below. By default, Julia returns the value of the last expression in a function if the `return` keyword is omitted.
+In the next block, you'll notice the result of the function's `return` (i.e., `x + y`) displayed above, as per Pluto's usual behavior, and the output of the `println` statement echoed below. 
+
+By default, Julia returns the value of the last expression in a function if the `return` keyword is omitted.
 """
 
 # ╔═╡ ba349f70-0749-11eb-3a4a-294a8c484463
@@ -764,7 +766,7 @@ PlutoUI.TableOfContents(title="Coding Lecture 1-1: Julia and Pluto")
 
 # ╔═╡ Cell order:
 # ╟─f1a3a270-073b-11eb-1741-37897aa84974
-# ╠═436036d3-cfdf-40cf-86dc-5d3c91b86d05
+# ╟─436036d3-cfdf-40cf-86dc-5d3c91b86d05
 # ╟─6efb1630-074c-11eb-3186-b3ea3cc6d33b
 # ╠═433a69f0-074d-11eb-0698-f9113d9939c3
 # ╠═4a4f2872-074d-11eb-0ec8-13783b11ffd7
@@ -892,7 +894,7 @@ PlutoUI.TableOfContents(title="Coding Lecture 1-1: Julia and Pluto")
 # ╠═1ae6cdc0-074a-11eb-2415-710522e2ff61
 # ╠═1f2031b0-074a-11eb-2f30-43fa1403837e
 # ╠═2547f820-074a-11eb-2aa5-ffe306f6b1e2
-# ╠═28c44da0-074a-11eb-07cf-21435e264c3b
+# ╟─28c44da0-074a-11eb-07cf-21435e264c3b
 # ╠═39c7ecb0-074a-11eb-0f6a-59d57a454722
 # ╠═40e16622-074a-11eb-1f0d-579043dff6df
 # ╟─71088c86-7253-4b0b-b5eb-86533ca98db1
