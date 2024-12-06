@@ -36,7 +36,7 @@ using Printf
 begin	
 	md"""
 	# Julia and Pluto
-	AA120Q: *Building Trust in Autonomy*, Stanford University. 
+	AA120Q: *Building Trust in Autonomy*
 
 	## Readings/Videos/References
 	
@@ -761,8 +761,11 @@ Pkg.activate(../.)
 ```
 """
 
+# ╔═╡ 721cc411-35d3-4d5b-9219-5dd7a3dc6cb1
+md"---"
+
 # ╔═╡ fc57da22-fb5c-4a95-86f3-d899dfe10043
-PlutoUI.TableOfContents(title="Coding Lecture 1-1: Julia and Pluto")
+PlutoUI.TableOfContents(title="Julia and Pluto")
 
 # ╔═╡ Cell order:
 # ╟─f1a3a270-073b-11eb-1741-37897aa84974
@@ -935,4 +938,5 @@ PlutoUI.TableOfContents(title="Coding Lecture 1-1: Julia and Pluto")
 # ╠═43902359-b6eb-4eb0-aa20-dc3cf913d80e
 # ╟─3ab40be6-9b96-42f8-9a06-0fabd73c8a07
 # ╠═a661329d-af9d-4ada-ac4d-fec68a76b393
+# ╟─721cc411-35d3-4d5b-9219-5dd7a3dc6cb1
 # ╠═fc57da22-fb5c-4a95-86f3-d899dfe10043
