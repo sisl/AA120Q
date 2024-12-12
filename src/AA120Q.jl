@@ -1,12 +1,11 @@
 module AA120Q
 using Pkg
-using Reexport
 using Cairo
 using Printf
-@reexport using DataFrames
-@reexport using Distributions
-@reexport using Discretizers
-@reexport using Plots
+using DataFrames
+using Distributions
+using Discretizers
+using Plots
 
 export
     Advisory,

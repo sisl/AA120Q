@@ -41,12 +41,6 @@ using Plots
 # ╔═╡ e98fd5c0-0783-11eb-0719-8385ba04dcd7
 using Colors
 
-# ╔═╡ 0590fee0-0787-11eb-2359-21c3bad35e43
-begin
-	using Symbolics
-	using Nemo # Needed for `symbolic_solve`
-end
-
 # ╔═╡ f3d093c0-076b-11eb-21bc-d752119bd59f
 begin
 	md"""
@@ -93,18 +87,25 @@ md"""
 """
 
 # ╔═╡ dd115c90-0776-11eb-2a5a-a7a9e12e0b85
-df = DataFrame(animal=["Dog", "Cat", "Mouse", "Snake", "Sparrow"],
-	           legs=[4, 4, 4, 0, 2],
-	           weight=[100, 10, 0.68, 2, 0.2])
+df = DataFrame(
+    timestamp = 1:5,
+    position_x = [0.0, 1.1, 2.3, 3.2, 4.1],
+    position_y = [0.0, 0.3, 0.5, 0.4, 0.6],
+    velocity = [0.0, 1.1, 1.2, 0.9, 1.0],
+	obstacle_detected = [false, false, true, true, false]
+)
 
 # ╔═╡ ff2a26e0-0776-11eb-1543-5b0a27c2eeb9
-df[2, :animal]
+df[2, :position_x] # By index and column name
 
 # ╔═╡ 03025800-0777-11eb-061c-1749664edcaf
-df[2, 1]
+df[2, 2] # By index only
 
 # ╔═╡ 053eb370-0777-11eb-2ae5-f7e866357a0f
-df[!, :legs]
+df[!, :obstacle_detected] # All entries in a column
+
+# ╔═╡ 995fd97e-8b73-467a-8df1-382f6cfc99c5
+df.obstacle_detected # Another way to get all entries in a column
 
 # ╔═╡ 09a93980-0777-11eb-1b25-2154fbb945ec
 md"""
@@ -183,10 +184,10 @@ Here we construct a linear discretizer that maps $[0, 0.5) \to 1$ and $[0.5, 1] 
 """
 
 # ╔═╡ 15e91550-077f-11eb-2469-6f1e90d3491f
-binedges = [0, 0.5, 1]
+speed_edges = [0.0, 5.0, 10.0, 15.0, 20.0, 25.0]
 
 # ╔═╡ 1d4d7a70-077f-11eb-3752-5d42c826d823
-lineardisc = LinearDiscretizer(binedges)
+lineardisc = LinearDiscretizer(speed_edges)
 
 # ╔═╡ 54990e90-077f-11eb-20a0-bbdba8de08a4
 md"""
@@ -194,16 +195,16 @@ md"""
 """
 
 # ╔═╡ 29a67d30-077f-11eb-1bb1-2f5998f4a8bf
-encode(lineardisc, 0.2)
+encode(lineardisc, 17.3)
 
 # ╔═╡ 48855230-077f-11eb-0cc7-e1b3f68c4bbc
-encode(lineardisc, 0.7)
+encode(lineardisc, 1.2)
 
 # ╔═╡ 49ffbd32-077f-11eb-159e-ef3ca084c9e6
-encode(lineardisc, 0.5)
+encode(lineardisc, 120.0)
 
 # ╔═╡ 4ae3dba0-077f-11eb-3b1e-79a6d52114ac
-encode(lineardisc, [0, 0.8, 0.2])
+encode(lineardisc, [17.3, 1.2, 120.0])
 
 # ╔═╡ 5382e3a0-077f-11eb-324b-7f1eae0f0e3e
 md"""
@@ -231,7 +232,7 @@ decode(lineardisc, 1, SampleBinCenter())
 decode(lineardisc, 2, SampleBinCenter())
 
 # ╔═╡ 7d52aea4-4d12-409a-bb7d-9e0b616b7c10
-decode(lineardisc, [2, 1, 2], SampleBinCenter())
+decode(lineardisc, [2, 1, 2, 4, 5], SampleBinCenter())
 
 # ╔═╡ c84dc3be-0780-11eb-237a-3b491dae9c4d
 md"""
@@ -433,39 +434,6 @@ mixdata = rand(mixture, 1000);
 # ╔═╡ 7ea7ab10-c24f-4498-afb2-7c76a1508fa3
 histogram(mixdata, bins=50, ylabel="Counts", size=(650,300), xlim=(-15,15))
 
-# ╔═╡ b9ced6f0-0784-11eb-0f57-5999bd3df9e2
-md"""
-# Symbolics
-Symbolic math in Julia!
-"""
-
-# ╔═╡ 0ecedef0-0787-11eb-1006-f5e89a94559f
-@variables x
-
-# ╔═╡ 08aec432-0788-11eb-209d-017d9bc569e9
-y = sin(π*x)
-
-# ╔═╡ 2fbe1600-078a-11eb-17b5-bf277495fd9f
-substitute(y, x=>1)
-
-# ╔═╡ 3397f4d0-078a-11eb-34b4-d534d90322b0
-symbolic_solve(x^2 + 1, x)
-
-# ╔═╡ 5504045e-078a-11eb-1287-79f40457f8cb
-D = Differential(x)
-
-# ╔═╡ 24250a5b-d82a-4983-8c86-3cf7f686260c
-f = x^2 + x + 1
-
-# ╔═╡ 6230d1e0-078a-11eb-1c2a-ebd4cf7299f9
-D(f)
-
-# ╔═╡ 258ad9f6-6a03-434a-a8ea-642d65c22b0d
-df_dx = expand_derivatives(D(f))
-
-# ╔═╡ 77f37fa2-078a-11eb-130e-43348967a008
-substitute(df_dx, x=>3)
-
 # ╔═╡ 7d23aab8-1cf5-440b-9a43-b1ef2b15a586
 md"---"
 
@@ -482,6 +450,7 @@ PlutoUI.TableOfContents(title="Computing Tools")
 # ╠═ff2a26e0-0776-11eb-1543-5b0a27c2eeb9
 # ╠═03025800-0777-11eb-061c-1749664edcaf
 # ╠═053eb370-0777-11eb-2ae5-f7e866357a0f
+# ╠═995fd97e-8b73-467a-8df1-382f6cfc99c5
 # ╟─09a93980-0777-11eb-1b25-2154fbb945ec
 # ╠═4c3d23b0-0777-11eb-0541-efbd67f06b91
 # ╠═6e8be5e0-40c1-11eb-36a5-976734a0a2cf
@@ -566,16 +535,5 @@ PlutoUI.TableOfContents(title="Computing Tools")
 # ╟─5c9a748f-a87b-4f27-9ba6-ee8dce49259c
 # ╠═ae9c77dc-3058-446d-9b9a-c29f6d6282e4
 # ╠═7ea7ab10-c24f-4498-afb2-7c76a1508fa3
-# ╟─b9ced6f0-0784-11eb-0f57-5999bd3df9e2
-# ╠═0590fee0-0787-11eb-2359-21c3bad35e43
-# ╠═0ecedef0-0787-11eb-1006-f5e89a94559f
-# ╠═08aec432-0788-11eb-209d-017d9bc569e9
-# ╟─2fbe1600-078a-11eb-17b5-bf277495fd9f
-# ╠═3397f4d0-078a-11eb-34b4-d534d90322b0
-# ╠═5504045e-078a-11eb-1287-79f40457f8cb
-# ╠═24250a5b-d82a-4983-8c86-3cf7f686260c
-# ╠═6230d1e0-078a-11eb-1c2a-ebd4cf7299f9
-# ╠═258ad9f6-6a03-434a-a8ea-642d65c22b0d
-# ╠═77f37fa2-078a-11eb-130e-43348967a008
 # ╟─7d23aab8-1cf5-440b-9a43-b1ef2b15a586
 # ╠═de5cd6f0-5907-45f1-b7b2-fd70dc4debe9

@@ -24,7 +24,12 @@ begin
 end
 
 # ╔═╡ 86261830-38bd-11eb-3c82-d1b1a33d7e67
-using RDatasets, Plots, Distributions
+begin
+	using RDatasets
+	using Plots
+	using Distributions
+	plotlyjs()
+end
 
 # ╔═╡ ed1e11b2-38bc-11eb-07a0-d9b89d86cdd3
 begin
@@ -37,15 +42,15 @@ begin
 	"""
 end
 
+# ╔═╡ ecdb3440-7cbf-49c6-baa4-57905c4ca9f2
+md"#### Packages Used in this Notebook"
+
 # ╔═╡ 484ccfe0-38bd-11eb-1024-2fc198591f32
 md"""
 # Parameter Learning
 We will discuss how to learn the parameters and structure of probabilstic models from data.
 
 """
-
-# ╔═╡ c81ca70e-5c42-11eb-3d53-6fbf67312c4c
-plotlyjs()
 
 # ╔═╡ 9351ad30-38bd-11eb-3d7c-99b3f6e91c50
 md"""
@@ -77,6 +82,28 @@ In `Distributions.jl`, this can be done using the `fit_mle` function, which esti
 
 # ╔═╡ 866d8c00-38be-11eb-0011-296e57efb13d
 dist = fit_mle(Normal, d)
+
+# ╔═╡ b8f3e70d-0195-481e-be4c-ede947668f58
+md"#### With other distributions"
+
+# ╔═╡ ce2aab62-f260-4a9a-a0ad-74fdfca5c752
+begin
+	dist_gamma = fit_mle(Gamma, abs.(d))
+	dist_logn = fit_mle(LogNormal, abs.(d))
+end
+
+# ╔═╡ 6f8baa52-d5ac-463a-9145-c5a061444dc0
+md"""
+#### Which is the best fit?
+Let's look at the loglikelihood of each model (using the `loglikelihood` function).
+
+- Normal: $(loglikelihood(dist, d))
+- Gamma: $(loglikelihood(dist_gamma, d))
+- LogNormal: $(loglikelihood(dist_logn, d))
+"""
+
+# ╔═╡ ee8702bc-fbaa-4961-80a4-30ce89ceba64
+loglikelihood(dist_gamma, d)
 
 # ╔═╡ da97c2de-38bf-11eb-01d3-39b22e344502
 # md"""
@@ -142,6 +169,14 @@ end
 begin
 	histogram(d, normalize=true, label="Data")
 	plot!(x->pdf(dist, x), linewidth=3, ylims=(0, 0.51), label="Fit Distribution")
+end
+
+# ╔═╡ 2d6eac6b-fdb5-4d3b-8e3e-a6eed040508a
+begin
+	histogram(d, normalize=true, label="Data")
+	plot!(x->pdf(dist, x), label="Normal", linewidth=2)
+	plot!(x->pdf(dist_gamma, x), label="Gamma", linewidth=2)
+	plot!(x->pdf(dist_logn, x), label="LogNormal", linewidth=2)
 end
 
 # ╔═╡ b54ead52-5171-4101-8a7a-908acff2806e
@@ -319,9 +354,9 @@ PlutoUI.TableOfContents(title="Learning")
 # ╔═╡ Cell order:
 # ╟─ed1e11b2-38bc-11eb-07a0-d9b89d86cdd3
 # ╟─2bd87d5d-2a77-43b4-82af-ee54a3c2a6e2
-# ╟─484ccfe0-38bd-11eb-1024-2fc198591f32
+# ╟─ecdb3440-7cbf-49c6-baa4-57905c4ca9f2
 # ╠═86261830-38bd-11eb-3c82-d1b1a33d7e67
-# ╠═c81ca70e-5c42-11eb-3d53-6fbf67312c4c
+# ╟─484ccfe0-38bd-11eb-1024-2fc198591f32
 # ╟─9351ad30-38bd-11eb-3d7c-99b3f6e91c50
 # ╠═ecf389d0-38bd-11eb-0fd2-73943a5e2aec
 # ╠═54155d00-38be-11eb-3674-b3f8c4bfc6ff
@@ -329,6 +364,11 @@ PlutoUI.TableOfContents(title="Learning")
 # ╟─0de7489d-092a-44ea-b0fc-0372ee54b7ae
 # ╠═866d8c00-38be-11eb-0011-296e57efb13d
 # ╠═c1985628-5694-4be8-a233-69a4394f9662
+# ╟─b8f3e70d-0195-481e-be4c-ede947668f58
+# ╠═ce2aab62-f260-4a9a-a0ad-74fdfca5c752
+# ╠═2d6eac6b-fdb5-4d3b-8e3e-a6eed040508a
+# ╟─6f8baa52-d5ac-463a-9145-c5a061444dc0
+# ╠═ee8702bc-fbaa-4961-80a4-30ce89ceba64
 # ╟─da97c2de-38bf-11eb-01d3-39b22e344502
 # ╟─ab66c05a-196f-4dbb-aa51-0fe3c0a4a8e4
 # ╠═8a46226d-829d-42c9-ab6a-985e53c26503

@@ -1,27 +1,28 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.20.3
 
 using Markdown
 using InteractiveUtils
 
+# ╔═╡ c713edf2-07b1-11eb-31e0-8d1bbd52df85
+begin 
+	using Pkg
+	Pkg.activate("../.")
+	using PlutoUI
+	using Plots
+	using Distributions
+end
+
 # ╔═╡ 6ec76820-07b1-11eb-1370-332e40369ea0
 begin
-	using PlutoUI
-
 	md"""
 	# Statistical Models
-	AA120Q: *Building Trust in Autonomy*, Stanford University. 
+	AA120Q: *Building Trust in Autonomy*
 
-	## Lecture 3
-	We will introduce a variety of statistical models, their representations, and their properties.
-
-	Readings:
+	## Readings/Videos/References
 	- [Decision Making Under Uncertainty, Chapter 2.1, Probabilistic Models](https://ieeexplore.ieee.org/document/7288676)
 	"""
 end
-
-# ╔═╡ c713edf2-07b1-11eb-31e0-8d1bbd52df85
-using Plots, Distributions
 
 # ╔═╡ 18baf1ce-07b2-11eb-2f7c-772a9ebc3202
 md"""
@@ -29,7 +30,7 @@ md"""
 """
 
 # ╔═╡ 91179d43-f4eb-448e-b0c1-db8032b0636c
-plotly()
+plotlyjs()
 
 # ╔═╡ 620bdd90-07b2-11eb-0eec-8b2cd40146fe
 md"""
@@ -102,19 +103,19 @@ PlutoUI.TableOfContents(title="Statistical Models")
 # ╟─18baf1ce-07b2-11eb-2f7c-772a9ebc3202
 # ╠═c713edf2-07b1-11eb-31e0-8d1bbd52df85
 # ╠═91179d43-f4eb-448e-b0c1-db8032b0636c
-# ╟─620bdd90-07b2-11eb-0eec-8b2cd40146fe
-# ╟─6e2f2a50-07b2-11eb-00da-f7471cea0159
+# ╠═620bdd90-07b2-11eb-0eec-8b2cd40146fe
+# ╠═6e2f2a50-07b2-11eb-00da-f7471cea0159
 # ╠═67387b20-07b2-11eb-134f-fd357e966195
-# ╟─778155b0-07b2-11eb-36fc-dfaa5a5dccae
+# ╠═778155b0-07b2-11eb-36fc-dfaa5a5dccae
 # ╠═7d3b1812-07b2-11eb-18d1-9b2b7fad09ec
 # ╟─8c823a10-07b2-11eb-2218-0f413adc9742
 # ╠═9d27daa0-07b2-11eb-1219-83892809a84b
 # ╠═c1a7bd82-cfc1-40ef-96aa-70817ab72b4f
-# ╟─1ffff2a0-07b3-11eb-3758-63bebdfbbd63
-# ╟─2b146770-07b3-11eb-2bea-97a975211912
+# ╠═1ffff2a0-07b3-11eb-3758-63bebdfbbd63
+# ╠═2b146770-07b3-11eb-2bea-97a975211912
 # ╠═51b66360-07b3-11eb-2223-cbbc34a3a5d7
 # ╠═4a0f9e12-07b3-11eb-1cc1-37296c943a89
 # ╠═8e550590-17aa-4c3f-a2e5-0890fffe34d8
-# ╟─f9588302-07b3-11eb-06d7-e72744021ed9
+# ╠═f9588302-07b3-11eb-06d7-e72744021ed9
 # ╟─76bed9b6-ce74-4674-b467-fab1e4dbc62c
 # ╠═7947ce84-0811-46f7-abda-57fe3803474e

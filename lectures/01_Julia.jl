@@ -647,14 +647,19 @@ md"""
 Composite types are user-defined data structures that play a crucial role in enabling multiple dispatch in Julia.
 """
 
-# ╔═╡ 9e1235e0-074a-11eb-0893-cd5617742258
-struct Tiger
-	tail_length::Float64
-	coat_color # not include a type annotation is the same as `::Any`
+# ╔═╡ 28c3d9f6-8666-44fa-b536-7c05149630eb
+struct VehicleState
+	position::Vector{Float64}
+	velocity::Vector{Float64}
+	heading::Float64
+	timestamp::Float64
 end
 
-# ╔═╡ b0a1a510-074a-11eb-3db3-c58a0350c66c
-tiger = Tiger(3.5, "orange")
+# ╔═╡ 755f8671-9076-4f4f-bbbf-1bd214a2d0a9
+car_one = VehicleState([0.0, 0.0], [1.0, 0.0], 0.0, 0.0)
+
+# ╔═╡ 6ed95d98-7d68-41a3-9b01-1fee030138cc
+car_one.heading # access type properties using dot notation
 
 # ╔═╡ bda58dd0-074a-11eb-37e9-a918c670d380
 md"""
@@ -701,17 +706,12 @@ md"""
 
 # ╔═╡ 3827f232-0914-11eb-3365-35e127a537ce
 function meow(animal::Lion)
-	animal.roar # access type properties using dot notation
+	animal.roar 
 end
 
 # ╔═╡ 5d31d2a2-074b-11eb-169a-a7423f75a9e6
 function meow(animal::Panther)
 	"grrr"
-end
-
-# ╔═╡ 437689d0-0914-11eb-173c-573aafe39fd0
-function meow(animal::Tiger)
-	"rawwwr"
 end
 
 # ╔═╡ e534d70a-af4d-4d4b-b844-a5e055af93f2
@@ -723,9 +723,6 @@ We can define functions using our `AbstractType` `Cat` to handle cases where spe
 function meow(cat::Cat)
 	@warn "`meow` not defined for the type $(typeof(cat))"
 end
-
-# ╔═╡ afcfb9a0-074b-11eb-1c21-330e60004755
-meow(tiger)
 
 # ╔═╡ b2b1a3e2-074b-11eb-1a3d-3fb4f9c09ba9
 meow(Lion("brown", "ROAAR"))
@@ -914,8 +911,9 @@ PlutoUI.TableOfContents(title="Julia and Pluto")
 # ╠═fd41492e-9a13-47d1-8f9f-b55edf4a93f3
 # ╠═4e2c0e4a-64be-4bf6-972a-3f4b1d236fb2
 # ╟─90db2f30-074a-11eb-2990-112df2b43ff3
-# ╠═9e1235e0-074a-11eb-0893-cd5617742258
-# ╠═b0a1a510-074a-11eb-3db3-c58a0350c66c
+# ╠═28c3d9f6-8666-44fa-b536-7c05149630eb
+# ╠═755f8671-9076-4f4f-bbbf-1bd214a2d0a9
+# ╠═6ed95d98-7d68-41a3-9b01-1fee030138cc
 # ╟─bda58dd0-074a-11eb-37e9-a918c670d380
 # ╠═b45a403e-074a-11eb-1144-fd4d939b8bc8
 # ╠═ceb62530-074a-11eb-2d0f-7383bc2bb7ea
@@ -927,8 +925,6 @@ PlutoUI.TableOfContents(title="Julia and Pluto")
 # ╟─573a1ce0-074b-11eb-2c5d-8ddb9d0c07ed
 # ╠═3827f232-0914-11eb-3365-35e127a537ce
 # ╠═5d31d2a2-074b-11eb-169a-a7423f75a9e6
-# ╠═437689d0-0914-11eb-173c-573aafe39fd0
-# ╠═afcfb9a0-074b-11eb-1c21-330e60004755
 # ╠═b2b1a3e2-074b-11eb-1a3d-3fb4f9c09ba9
 # ╠═b7cc6720-074b-11eb-31e0-13dea28d37ec
 # ╟─e534d70a-af4d-4d4b-b844-a5e055af93f2
