@@ -291,15 +291,6 @@ end
 # ╔═╡ c17a3780-0781-11eb-386e-83e5c931cc31
 histogram(randn(1000), bins=20)
 
-# ╔═╡ ccc704f0-0782-11eb-1b75-8ddfd5ffb33d
-md"Control the mean: $(@bind μ Slider(-5:0.5:5, default=0, show_value=true))"
-
-# ╔═╡ ce804320-0781-11eb-2b48-9927b05e5bdc
-md"Control the standard deviation: $(@bind σ Slider(0.2:0.2:5, default=1, show_value=true))"
-
-# ╔═╡ fadb8c40-0781-11eb-297e-4db03c0d521b
-histogram(μ .+ σ*randn(1000), bins=20); xlims!(-15, 15); ylims!(0, 250)
-
 # ╔═╡ 48ae1310-0783-11eb-2d09-6b00cca36f26
 md"""
 !!! note 
@@ -308,21 +299,6 @@ md"""
 
 # ╔═╡ 3f301cc0-0783-11eb-092a-918535d1bd1c
 histogram2d(randn(10_000), randn(10_000), bins=20, c=:viridis, showempty=true)
-
-# ╔═╡ 48af1ab0-0a87-11eb-224c-d389ecb189e9
-md"Control the mean (x): $(@bind μx2d Slider(-5:0.5:5, default=0, show_value=true)) |  Control the mean (y): $(@bind μy2d Slider(-5:0.5:5, default=0, show_value=true))"
-
-# ╔═╡ 3d8967d0-0a87-11eb-3d2c-8b15d9e77e12
-md"Control the standard deviation (x): $(@bind σx2d Slider(0.2:0.2:4, default=1, show_value=true)) | Control σ (y): $(@bind σy2d Slider(0.2:0.2:4, default=1, show_value=true))"
-
-# ╔═╡ 5f9030be-0a87-11eb-2035-6d60b017c3c3
-begin
-	X2d = μx2d .+ σx2d*randn(10_000)
-	Y2d = μy2d .+ σy2d*randn(10_000)
-	histogram2d(X2d, Y2d, bins=20, c=:viridis)
-	xlims!(-10,10)
-	ylims!(-10,10)
-end
 
 # ╔═╡ 8fb3fd60-0783-11eb-2f7e-912b2637b908
 begin
@@ -339,28 +315,8 @@ Data visualization is more general than plotting, and often involves interaction
 This class uses `Reactive`, `PlutoUI`, and `Cairo` behind the scenes.
 """
 
-# ╔═╡ fc730a40-0783-11eb-2bd0-cb2cc7c9f987
-md"""
-Red: $(@bind r Slider(0:0.01:1))
-Green: $(@bind g Slider(0:0.01:1))
-Blue: $(@bind b Slider(0:0.01:1))
-"""
-
-# ╔═╡ efd73220-0783-11eb-06aa-c775f6fb89d7
-RGB(r, g, b)
-
 # ╔═╡ 350a7f4e-0784-11eb-1fa5-17cbd9d193c2
 md" $\uparrow$ unhide the above cell to see how these sliders work."
-
-# ╔═╡ 658318e0-0784-11eb-1a47-f7c46d6cb10c
-md"""
-Hue: $(@bind h Slider(0:360))
-Saturation: $(@bind s Slider(0:0.01:1, default=0.5))
-Value (i.e. brightness): $(@bind v Slider(0:0.01:1, default=0.5))
-"""
-
-# ╔═╡ 31b95880-0784-11eb-39f1-332b4ebb8d2a
-HSV(h, s, v)
 
 # ╔═╡ cc62b2f0-0784-11eb-3c99-01342dc67e7d
 md"""
@@ -416,6 +372,115 @@ md"""
 This example will focus on Gaussian mixture components, but the code can support components from other distributions.
 """
 
+# ╔═╡ a08e3a50-0eaa-4cbf-82ed-2ff8d7c50801
+md"""
+# Backend
+_Helper functions and project management. Please do not edit._
+"""
+
+# ╔═╡ de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
+PlutoUI.TableOfContents()
+
+# ╔═╡ a571e201-8ce2-4d6b-9ca6-7860a10eae4e
+begin
+	start_code() = html"""
+	<div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;START CODE&gt;</code></b></span><div class='line'></div></div>
+	<p> </p>
+	<!-- START_CODE -->
+	"""
+
+	end_code() = html"""
+	<!-- END CODE -->
+	<p><div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;END CODE&gt;</code></b></span><div class='line'></div></div></p>
+	"""
+
+	function combine_html_md(contents::Vector; return_html=true)
+		process(str) = str isa HTML ? str.content : html(str)
+		return join(map(process, contents))
+	end
+
+	function html_expand(title, content::Markdown.MD)
+		return HTML("<details><summary>$title</summary>$(html(content))</details>")
+	end
+
+	function html_expand(title, contents::Vector)
+		html_code = combine_html_md(contents; return_html=false)
+		return HTML("<details><summary>$title</summary>$html_code</details>")
+	end
+
+	html_space() = html"<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+	html_half_space() = html"<br><br><br><br><br><br><br>"
+	html_quarter_space() = html"<br><br><br>"
+
+	Bonds = PlutoUI.BuiltinsNotebook.AbstractPlutoDingetjes.Bonds
+
+	struct DarkModeIndicator
+		default::Bool
+	end
+	
+	DarkModeIndicator(; default::Bool=false) = DarkModeIndicator(default)
+
+	function Base.show(io::IO, ::MIME"text/html", link::DarkModeIndicator)
+		print(io, """
+			<span>
+			<script>
+				const span = currentScript.parentElement
+				span.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+			</script>
+			</span>
+		""")
+	end
+
+	Base.get(checkbox::DarkModeIndicator) = checkbox.default
+	Bonds.initial_value(b::DarkModeIndicator) = b.default
+	Bonds.possible_values(b::DarkModeIndicator) = [false, true]
+	Bonds.validate_value(b::DarkModeIndicator, val) = val isa Bool
+end
+
+# ╔═╡ ccc704f0-0782-11eb-1b75-8ddfd5ffb33d
+md"Control the mean: $(@bind μ Slider(-5:0.5:5, default=0, show_value=true))"
+
+# ╔═╡ ce804320-0781-11eb-2b48-9927b05e5bdc
+md"Control the standard deviation: $(@bind σ Slider(0.2:0.2:5, default=1, show_value=true))"
+
+# ╔═╡ fadb8c40-0781-11eb-297e-4db03c0d521b
+histogram(μ .+ σ*randn(1000), bins=20); xlims!(-15, 15); ylims!(0, 250)
+
+# ╔═╡ 48af1ab0-0a87-11eb-224c-d389ecb189e9
+md"Control the mean (x): $(@bind μx2d Slider(-5:0.5:5, default=0, show_value=true)) |  Control the mean (y): $(@bind μy2d Slider(-5:0.5:5, default=0, show_value=true))"
+
+# ╔═╡ 3d8967d0-0a87-11eb-3d2c-8b15d9e77e12
+md"Control the standard deviation (x): $(@bind σx2d Slider(0.2:0.2:4, default=1, show_value=true)) | Control σ (y): $(@bind σy2d Slider(0.2:0.2:4, default=1, show_value=true))"
+
+# ╔═╡ 5f9030be-0a87-11eb-2035-6d60b017c3c3
+begin
+	X2d = μx2d .+ σx2d*randn(10_000)
+	Y2d = μy2d .+ σy2d*randn(10_000)
+	histogram2d(X2d, Y2d, bins=20, c=:viridis)
+	xlims!(-10,10)
+	ylims!(-10,10)
+end
+
+# ╔═╡ fc730a40-0783-11eb-2bd0-cb2cc7c9f987
+md"""
+Red: $(@bind r Slider(0:0.01:1))
+Green: $(@bind g Slider(0:0.01:1))
+Blue: $(@bind b Slider(0:0.01:1))
+"""
+
+# ╔═╡ efd73220-0783-11eb-06aa-c775f6fb89d7
+RGB(r, g, b)
+
+# ╔═╡ 658318e0-0784-11eb-1a47-f7c46d6cb10c
+md"""
+Hue: $(@bind h Slider(0:360))
+Saturation: $(@bind s Slider(0:0.01:1, default=0.5))
+Value (i.e. brightness): $(@bind v Slider(0:0.01:1, default=0.5))
+"""
+
+# ╔═╡ 31b95880-0784-11eb-39f1-332b4ebb8d2a
+HSV(h, s, v)
+
 # ╔═╡ 5c9a748f-a87b-4f27-9ba6-ee8dce49259c
 md"""
 μ₁: $(@bind μ₁ Slider(-10:0.1:10; default=-3, show_value=true)) σ₁: $(@bind σ₁ Slider(0:0.1:5; default=1, show_value=true))
@@ -435,10 +500,86 @@ mixdata = rand(mixture, 1000);
 histogram(mixdata, bins=50, ylabel="Counts", size=(650,300), xlim=(-15,15))
 
 # ╔═╡ 7d23aab8-1cf5-440b-9a43-b1ef2b15a586
-md"---"
+html_half_space()
 
-# ╔═╡ de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
-PlutoUI.TableOfContents(title="Computing Tools")
+# ╔═╡ 4ee2c5fe-e65d-479b-8d1b-fdbcf6fbe78f
+html"""
+	<style>
+		h3 {
+			border-bottom: 1px dotted var(--rule-color);
+		}
+
+		summary {
+			font-weight: 500;
+			font-style: italic;
+		}
+
+		.container {
+	      display: flex;
+	      align-items: center;
+	      width: 100%;
+	      margin: 1px 0;
+	    }
+
+	    .line {
+	      flex: 1;
+	      height: 2px;
+	      background-color: #B83A4B;
+	    }
+
+	    .text {
+	      margin: 0 5px;
+	      white-space: nowrap; /* Prevents text from wrapping */
+	    }
+
+		h2hide {
+			border-bottom: 2px dotted var(--rule-color);
+			font-size: 1.8rem;
+			font-weight: 700;
+			margin-bottom: 0.5rem;
+			margin-block-start: calc(2rem - var(--pluto-cell-spacing));
+		    font-feature-settings: "lnum", "pnum";
+		    color: var(--pluto-output-h-color);
+		    font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		h3hide {
+		    border-bottom: 1px dotted var(--rule-color);
+			font-size: 1.6rem;
+			font-weight: 600;
+			color: var(--pluto-output-h-color);
+		    font-feature-settings: "lnum", "pnum";
+			font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+			margin-block-start: 0;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		.styled-button {
+			background-color: var(--pluto-output-color);
+			color: var(--pluto-output-bg-color);
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-family: Alegreya Sans, Trebuchet MS, sans-serif;
+		}
+	</style>
+
+	<script>
+	const buttons = document.querySelectorAll('input[type="button"]');
+	buttons.forEach(button => button.classList.add('styled-button'));
+	</script>"""
 
 # ╔═╡ Cell order:
 # ╟─f3d093c0-076b-11eb-21bc-d752119bd59f
@@ -506,7 +647,7 @@ PlutoUI.TableOfContents(title="Computing Tools")
 # ╟─ccc704f0-0782-11eb-1b75-8ddfd5ffb33d
 # ╟─ce804320-0781-11eb-2b48-9927b05e5bdc
 # ╠═fadb8c40-0781-11eb-297e-4db03c0d521b
-# ╟─48ae1310-0783-11eb-2d09-6b00cca36f26
+# ╠═48ae1310-0783-11eb-2d09-6b00cca36f26
 # ╠═3f301cc0-0783-11eb-092a-918535d1bd1c
 # ╟─48af1ab0-0a87-11eb-224c-d389ecb189e9
 # ╟─3d8967d0-0a87-11eb-3d2c-8b15d9e77e12
@@ -534,6 +675,9 @@ PlutoUI.TableOfContents(title="Computing Tools")
 # ╠═07ff7471-a164-4f93-8a9a-5736ef825227
 # ╟─5c9a748f-a87b-4f27-9ba6-ee8dce49259c
 # ╠═ae9c77dc-3058-446d-9b9a-c29f6d6282e4
-# ╠═7ea7ab10-c24f-4498-afb2-7c76a1508fa3
+# ╟─7ea7ab10-c24f-4498-afb2-7c76a1508fa3
 # ╟─7d23aab8-1cf5-440b-9a43-b1ef2b15a586
-# ╠═de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
+# ╟─a08e3a50-0eaa-4cbf-82ed-2ff8d7c50801
+# ╟─de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
+# ╟─a571e201-8ce2-4d6b-9ca6-7860a10eae4e
+# ╟─4ee2c5fe-e65d-479b-8d1b-fdbcf6fbe78f

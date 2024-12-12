@@ -758,11 +758,14 @@ Pkg.activate(../.)
 ```
 """
 
-# ╔═╡ 721cc411-35d3-4d5b-9219-5dd7a3dc6cb1
-md"---"
+# ╔═╡ 7bbcfda5-bb49-4e49-9137-c8ac0c6f706a
+md"""
+# Backend
+_Helper functions and project management. Please do not edit._
+"""
 
 # ╔═╡ fc57da22-fb5c-4a95-86f3-d899dfe10043
-PlutoUI.TableOfContents(title="Julia and Pluto")
+PlutoUI.TableOfContents()
 
 # ╔═╡ Cell order:
 # ╟─f1a3a270-073b-11eb-1741-37897aa84974
@@ -934,5 +937,5 @@ PlutoUI.TableOfContents(title="Julia and Pluto")
 # ╠═43902359-b6eb-4eb0-aa20-dc3cf913d80e
 # ╟─3ab40be6-9b96-42f8-9a06-0fabd73c8a07
 # ╠═a661329d-af9d-4ada-ac4d-fec68a76b393
-# ╟─721cc411-35d3-4d5b-9219-5dd7a3dc6cb1
-# ╠═fc57da22-fb5c-4a95-86f3-d899dfe10043
+# ╟─7bbcfda5-bb49-4e49-9137-c8ac0c6f706a
+# ╟─fc57da22-fb5c-4a95-86f3-d899dfe10043

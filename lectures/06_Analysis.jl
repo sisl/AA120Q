@@ -212,15 +212,6 @@ md"""
 Suppose we want to use a piecewise uniform distribution with even bin widths. Above I used 20 bins to create one. How do we select the _best_ number of bins? This is analogous to many tuning decisions in autonomous systems. We want to choose parameters that will generalize well to new data, not just fit our current samples perfectly.
 """
 
-# ╔═╡ 68bb2c30-3986-11eb-37a7-1de9363d2461
-@bind nbins Select(map(b->Pair(string(b), b), [1,2,3,4,5,10,20,50,100]))
-
-# ╔═╡ eae35be5-5ac0-4d64-a8a1-9d02c6736bcc
-begin
-	histogram(samples, bins=parse(Int,nbins), normalize=true)
-	plot!(x_vals, y_vals, color=:black, linewidth=2)
-end
-
 # ╔═╡ c358e584-6dfe-4cd2-9646-8e88481d05a2
 md"""
 ## Train-Test Split
@@ -263,19 +254,6 @@ samples_test = samples[91:end];
 
 # ╔═╡ 4ed51dfb-f6c0-44f1-a3f5-56c75100b312
 md"Now let's look at the likelihood of different number of bins"
-
-# ╔═╡ ba643670-3987-11eb-0b60-0b3e746d61e5
-@bind nbinsₜᵣₐᵢₙ Select(map(b->Pair(string(b), b), [1,2,3,4,5,10,20,50,100]))
-
-# ╔═╡ cf3928d0-3987-11eb-11f3-071958340954
-begin
-	nbins_int = parse(Int, nbinsₜᵣₐᵢₙ)
-	likelihood = get_likelihood(samples_train, nbins_int, samples_test)
-
-	histogram(samples_train, bins=nbins_int, normalize=true,
-		      title=@sprintf("Likelihood: %10.8f", likelihood))
-	plot!(x_vals, y_vals, color=:black, linewidth=2)
-end
 
 # ╔═╡ 23b2e794-f92d-4b69-a29d-0660ca95cb79
 md"Let's compute the likelihood of the test data for all bin numbers 1 to 100"
@@ -329,9 +307,6 @@ begin
 		 ylabel="test log likelihood")
 end
 
-# ╔═╡ 66e9512b-1d87-4793-b311-43594a4f0e73
-
-
 # ╔═╡ c46eef82-af45-46dc-857d-6cd3c4f8018c
 md"""
 ## K-Fold Cross Validation 
@@ -378,17 +353,17 @@ Let's examine this concept with some examples. Consider these two normal distrib
 """
 
 # ╔═╡ 597673d0-3989-11eb-23cc-9f0f87e9522c
-function plot_distr(sim, x_vals; real=Normal(0.0, 1.0), title="")
+function plot_distr(dist1, dist2, x_vals; title="")
 	style = "mark=none, ultra thick"
-	plot(x_vals, map(x->pdf(real, x), x_vals), linewidth=2)
-	plot!(x_vals, map(x->pdf(sim, x), x_vals), linewidth=2,
+	plot(x_vals, map(x->pdf(dist1, x), x_vals), linewidth=2)
+	plot!(x_vals, map(x->pdf(dist2, x), x_vals), linewidth=2,
 		  xlabel="x",
 		  ylabel="pdf(x)",
 		  title=title)
-end
+end;
 
 # ╔═╡ 8c943cc2-3989-11eb-10ff-23707e49ebee
-plot_distr(Normal(0.1, 1.0), range(-3.0, stop=3.0, length=101))
+plot_distr(Normal(0.0, 1.0), Normal(0.1, 1.0), range(-3.0, stop=3.0, length=101))
 
 # ╔═╡ df514480-3989-11eb-2a36-9f9573bc6f80
 md"""
@@ -396,7 +371,7 @@ Visually, these distributions look quite similar. Now consider these distributio
 """
 
 # ╔═╡ e314dc30-3989-11eb-3914-737f9f1e13bc
-plot_distr(Normal(2.0, 1.0), range(-3.0, stop=5.0, length=101))
+plot_distr(Normal(0.0, 1.0), Normal(2.0, 1.0), range(-3.0, stop=5.0, length=101))
 
 # ╔═╡ e91b10e0-3989-11eb-05de-8f723cc1cf38
 md"""
@@ -404,17 +379,17 @@ These are clearly more different. But what about the following distributions?
 """
 
 # ╔═╡ ea40cc30-3989-11eb-2f2c-2d596afb3793
-plot_distr(Normal(0.0, 2.0), range(-5.0, stop=5.0, length=101))
+plot_distr(Normal(0.0, 1.0), Normal(0.0, 2.0), range(-5.0, stop=5.0, length=101))
 
 # ╔═╡ eff66fe0-3989-11eb-2ae7-97df3ea96db8
-plot_distr(MixtureModel([Normal(-1.5, 1.0), Normal(1.5, 1.0)]),
+plot_distr(Normal(0.0, 1.0), MixtureModel([Normal(-1.5, 1.0), Normal(1.5, 1.0)]),
 	       range(-5.0, stop=5.0, length=101))
 
 # ╔═╡ 0c6c5b32-398a-11eb-1f2c-2b48efe703ad
 sim = MixtureModel([Cauchy(-5, 1.8), Cauchy(-4, 0.8), Cauchy(-1, 0.3), Cauchy(2, 0.8), Cauchy(4, 1.5)], [0.1, 0.4, 0.15, 0.2, 0.15])
 
 # ╔═╡ 1ac573ae-398a-11eb-1979-995ca2fbb1a8
-plot_distr(sim, range(-10.0, stop=10.0, length=101))
+plot_distr(Normal(0.0, 1.0), sim, range(-10.0, stop=10.0, length=101))
 
 # ╔═╡ 22b57700-398a-11eb-1a3c-89570be35d12
 md"""
@@ -443,6 +418,114 @@ function kldivergence(p::Normal, q::Normal) # KL divergence for two Gaussians
 	return log(σ₂/σ₁) + (σ₁^2 + (μ₁ - μ₂)^2)/(2σ₂^2) - 0.5
 end
 
+# ╔═╡ 38fb10d6-0af2-49d5-b5b5-e82d5ef2e486
+md"""
+### Other Distribution Metrics
+
+While we focused on KL divergence, it's just one of many ways to measure the similarity between probability distributions. Many of these measures belong to a broader family called f-divergences, which have different mathematical properties that may be more suitable for specific applications.
+
+Some other common distribution metrics include:
+- **Jensen-Shannon divergence**: A symmetric version of KL divergence
+- **Hellinger distance**: Always bounded between 0 and 1, making comparisons easier
+- **Bhattacharyya distance**: Related to the amount of overlap between distributions
+- **Total variation distance**: Maximum difference in probabilities over all events
+
+Each metric has its own strengths and applications. While properties like symmetry, boundedness, and computational tractability are important considerations, the choice of metric often depends primarily on the specific problem domain and what differences between distributions are most meaningful for your application.
+
+For more details on these metrics and their mathematical properties, see the [f-divergence article on Wikipedia](https://en.wikipedia.org/wiki/F-divergence).
+"""
+
+# ╔═╡ 631c69d5-e89c-4c2a-bfac-d84c167b166f
+md"""
+# Backend
+_Helper functions and project management. Please do not edit._
+"""
+
+# ╔═╡ b33467f8-d13b-4a6f-a275-e7d97fd0a9a6
+PlutoUI.TableOfContents()
+
+# ╔═╡ 74ceaaa7-63d3-4bac-8e93-e1dfdf6cb389
+begin
+	start_code() = html"""
+	<div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;START CODE&gt;</code></b></span><div class='line'></div></div>
+	<p> </p>
+	<!-- START_CODE -->
+	"""
+
+	end_code() = html"""
+	<!-- END CODE -->
+	<p><div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;END CODE&gt;</code></b></span><div class='line'></div></div></p>
+	"""
+
+	function combine_html_md(contents::Vector; return_html=true)
+		process(str) = str isa HTML ? str.content : html(str)
+		return join(map(process, contents))
+	end
+
+	function html_expand(title, content::Markdown.MD)
+		return HTML("<details><summary>$title</summary>$(html(content))</details>")
+	end
+
+	function html_expand(title, contents::Vector)
+		html_code = combine_html_md(contents; return_html=false)
+		return HTML("<details><summary>$title</summary>$html_code</details>")
+	end
+
+	html_space() = html"<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+	html_half_space() = html"<br><br><br><br><br><br><br>"
+	html_quarter_space() = html"<br><br><br>"
+
+	Bonds = PlutoUI.BuiltinsNotebook.AbstractPlutoDingetjes.Bonds
+
+	struct DarkModeIndicator
+		default::Bool
+	end
+	
+	DarkModeIndicator(; default::Bool=false) = DarkModeIndicator(default)
+
+	function Base.show(io::IO, ::MIME"text/html", link::DarkModeIndicator)
+		print(io, """
+			<span>
+			<script>
+				const span = currentScript.parentElement
+				span.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+			</script>
+			</span>
+		""")
+	end
+
+	Base.get(checkbox::DarkModeIndicator) = checkbox.default
+	Bonds.initial_value(b::DarkModeIndicator) = b.default
+	Bonds.possible_values(b::DarkModeIndicator) = [false, true]
+	Bonds.validate_value(b::DarkModeIndicator, val) = val isa Bool
+end
+
+# ╔═╡ 68bb2c30-3986-11eb-37a7-1de9363d2461
+md"""
+Number of bins: $(@bind nbins Select(map(b -> string(b), [2,4,6,10,20,50,100])))
+"""
+
+# ╔═╡ eae35be5-5ac0-4d64-a8a1-9d02c6736bcc
+begin
+	histogram(samples, bins=parse(Int, nbins), normalize=true)
+	plot!(x_vals, y_vals, color=:black, linewidth=2, legend=false)
+end
+
+# ╔═╡ ba643670-3987-11eb-0b60-0b3e746d61e5
+md"""
+Number of train bins: $(@bind nbinsₜᵣₐᵢₙ Select(map(b -> string(b), [2,4,6,10,20,50,100])))
+"""
+
+# ╔═╡ cf3928d0-3987-11eb-11f3-071958340954
+begin
+	nbins_int = parse(Int, nbinsₜᵣₐᵢₙ)
+	likelihood = get_likelihood(samples_train, nbins_int, samples_test)
+
+	histogram(samples_train, bins=nbins_int, normalize=true,
+		      title=@sprintf("Likelihood: %10.8f", likelihood))
+	plot!(x_vals, y_vals, color=:black, linewidth=2)
+end
+
 # ╔═╡ 85fd1d40-398a-11eb-3dcf-d1f72c220fe9
 md"""
 Let's explore how the KL divergence changes as we adjust the parameters of two Gaussian distributions. You can modify the mean (μ) and standard deviation (σ) of each distribution to build intuition about:
@@ -464,72 +547,130 @@ begin
 	p = Normal(μ₁, σ₁)
 	q = Normal(μ₂, σ₂)
 	kl_div = @sprintf("KL divergence = %.3f", kldivergence(p, q))
-	ax = plot_distr(q, range(-10.0, stop=10.0, length=101); real=p, title=kl_div)
+	ax = plot_distr(p, q, range(-10.0, stop=10.0, length=101); title=kl_div)
 	ylims = (0, 0.5)
     ax
 end
 
-# ╔═╡ 38fb10d6-0af2-49d5-b5b5-e82d5ef2e486
-md"""
-### Other Distribution Metrics
-
-While we focused on KL divergence, it's just one of many ways to measure the similarity between probability distributions. Many of these measures belong to a broader family called f-divergences, which have different mathematical properties that may be more suitable for specific applications.
-
-Some other common distribution metrics include:
-- **Jensen-Shannon divergence**: A symmetric version of KL divergence
-- **Hellinger distance**: Always bounded between 0 and 1, making comparisons easier
-- **Bhattacharyya distance**: Related to the amount of overlap between distributions
-- **Total variation distance**: Maximum difference in probabilities over all events
-
-Each metric has its own strengths and applications. While properties like symmetry, boundedness, and computational tractability are important considerations, the choice of metric often depends primarily on the specific problem domain and what differences between distributions are most meaningful for your application.
-
-For more details on these metrics and their mathematical properties, see the [f-divergence article on Wikipedia](https://en.wikipedia.org/wiki/F-divergence).
-"""
-
 # ╔═╡ 72b35c3a-00da-4fb6-9ae8-b31efca9b587
-md"---"
+html_half_space()
 
-# ╔═╡ b33467f8-d13b-4a6f-a275-e7d97fd0a9a6
-PlutoUI.TableOfContents(title="Analysis")
+# ╔═╡ ddd15d68-6448-4771-a9a5-93c773209e36
+html"""
+	<style>
+		h3 {
+			border-bottom: 1px dotted var(--rule-color);
+		}
+
+		summary {
+			font-weight: 500;
+			font-style: italic;
+		}
+
+		.container {
+	      display: flex;
+	      align-items: center;
+	      width: 100%;
+	      margin: 1px 0;
+	    }
+
+	    .line {
+	      flex: 1;
+	      height: 2px;
+	      background-color: #B83A4B;
+	    }
+
+	    .text {
+	      margin: 0 5px;
+	      white-space: nowrap; /* Prevents text from wrapping */
+	    }
+
+		h2hide {
+			border-bottom: 2px dotted var(--rule-color);
+			font-size: 1.8rem;
+			font-weight: 700;
+			margin-bottom: 0.5rem;
+			margin-block-start: calc(2rem - var(--pluto-cell-spacing));
+		    font-feature-settings: "lnum", "pnum";
+		    color: var(--pluto-output-h-color);
+		    font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		h3hide {
+		    border-bottom: 1px dotted var(--rule-color);
+			font-size: 1.6rem;
+			font-weight: 600;
+			color: var(--pluto-output-h-color);
+		    font-feature-settings: "lnum", "pnum";
+			font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+			margin-block-start: 0;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		.styled-button {
+			background-color: var(--pluto-output-color);
+			color: var(--pluto-output-bg-color);
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-family: Alegreya Sans, Trebuchet MS, sans-serif;
+		}
+	</style>
+
+	<script>
+	const buttons = document.querySelectorAll('input[type="button"]');
+	buttons.forEach(button => button.classList.add('styled-button'));
+	</script>"""
 
 # ╔═╡ Cell order:
 # ╟─9380a110-38ec-11eb-19dc-bf52f53962ed
-# ╠═c8ff2c72-38fb-4571-bd57-0e3202c8b9e7
+# ╟─c8ff2c72-38fb-4571-bd57-0e3202c8b9e7
 # ╟─532aee86-520f-424f-a8e9-5233b6e61591
 # ╠═c46c649b-c77d-48a8-888e-52bff647e1d9
 # ╟─b3587c10-38ec-11eb-3668-c19b178940bf
 # ╟─d1beecc2-38ec-11eb-3f97-3173a8f71e9e
-# ╠═a47d1795-c181-453c-9104-6cbe1cacc908
+# ╟─a47d1795-c181-453c-9104-6cbe1cacc908
 # ╟─3e710a78-f459-45a8-89fb-3a54b08906af
-# ╠═c28fa1bd-7bef-4ae9-b3c4-c8f24d2df5b8
+# ╟─c28fa1bd-7bef-4ae9-b3c4-c8f24d2df5b8
 # ╟─d372f473-9af0-43e4-b2e8-6d77d930a9dc
 # ╟─d435eac0-38ed-11eb-3ada-73fb39e6d923
 # ╠═b79d8740-3985-11eb-0f95-1b8a9d1ef77a
-# ╠═d14c47c7-2527-4bf5-a5a7-bf3aef954548
+# ╟─d14c47c7-2527-4bf5-a5a7-bf3aef954548
 # ╟─9c79118a-fe34-4eb0-a7d1-aed9a3f2c174
 # ╠═04a9bdcb-92a6-4379-b6a2-dafacbe3041d
 # ╠═ee2bb4cc-e22f-427d-89f2-93eb023d5704
 # ╟─61b7f9e2-3986-11eb-328f-3b5d75c1fceb
-# ╠═68bb2c30-3986-11eb-37a7-1de9363d2461
-# ╠═eae35be5-5ac0-4d64-a8a1-9d02c6736bcc
+# ╟─68bb2c30-3986-11eb-37a7-1de9363d2461
+# ╟─eae35be5-5ac0-4d64-a8a1-9d02c6736bcc
 # ╟─c358e584-6dfe-4cd2-9646-8e88481d05a2
 # ╠═cd099c89-22cf-4ac5-b85b-3bc96fcdf7a5
 # ╟─ed8d5137-13af-4bce-af2d-9f707c0af6c2
 # ╠═7995a2f0-3987-11eb-048e-39e11ee85467
 # ╠═8655f300-3987-11eb-1076-6b24adc1425a
 # ╟─4ed51dfb-f6c0-44f1-a3f5-56c75100b312
-# ╠═ba643670-3987-11eb-0b60-0b3e746d61e5
-# ╠═cf3928d0-3987-11eb-11f3-071958340954
+# ╟─ba643670-3987-11eb-0b60-0b3e746d61e5
+# ╟─cf3928d0-3987-11eb-11f3-071958340954
 # ╟─23b2e794-f92d-4b69-a29d-0660ca95cb79
 # ╠═6426ec20-3988-11eb-285b-6bd07a0578cb
 # ╟─bd2583e0-3988-11eb-31bd-cd9e862729c1
 # ╠═d69b2780-3988-11eb-00e5-ebfcf99ae487
 # ╠═e49c34f0-3988-11eb-28c9-3d1eb163709f
-# ╠═66e9512b-1d87-4793-b311-43594a4f0e73
 # ╟─c46eef82-af45-46dc-857d-6cd3c4f8018c
 # ╠═356a8c10-3989-11eb-219a-09a2063acde1
 # ╟─4862cf30-3989-11eb-1411-dbb29de448e8
-# ╠═597673d0-3989-11eb-23cc-9f0f87e9522c
+# ╟─597673d0-3989-11eb-23cc-9f0f87e9522c
 # ╠═8c943cc2-3989-11eb-10ff-23707e49ebee
 # ╟─df514480-3989-11eb-2a36-9f9573bc6f80
 # ╠═e314dc30-3989-11eb-3914-737f9f1e13bc
@@ -544,4 +685,7 @@ PlutoUI.TableOfContents(title="Analysis")
 # ╠═6426b320-398a-11eb-03b3-6542fd5a167a
 # ╟─38fb10d6-0af2-49d5-b5b5-e82d5ef2e486
 # ╟─72b35c3a-00da-4fb6-9ae8-b31efca9b587
-# ╠═b33467f8-d13b-4a6f-a275-e7d97fd0a9a6
+# ╟─631c69d5-e89c-4c2a-bfac-d84c167b166f
+# ╟─b33467f8-d13b-4a6f-a275-e7d97fd0a9a6
+# ╟─74ceaaa7-63d3-4bac-8e93-e1dfdf6cb389
+# ╟─ddd15d68-6448-4771-a9a5-93c773209e36

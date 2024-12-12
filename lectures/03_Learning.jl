@@ -229,32 +229,6 @@ md"""
 You can experiment with different prior parameters (``\alpha, \beta``) or datasets to see how they affect the posterior distribution.
 """
 
-# ╔═╡ 7cb4767f-aee8-4021-adfd-9416ca06cbab
-md"""
-##### Prior
-- α: $(@bind α Slider(1:100; default=2, show_value=true))
-- β: $(@bind β Slider(1:100; default=2, show_value=true))
-
-##### Data
-- Number of successes (s): $(@bind s Slider(0:100; default=0, show_value=true))
-- Number of failures (f): $(@bind f Slider(0:100; default=5, show_value=true))
-"""
-
-# ╔═╡ ef7081cf-0d98-461e-8764-c6fa332298e4
-begin
-	prior_try = Beta(α, β)
-	data_success = ones(s)
-	data_failure = zeros(f)
-	data_try = [data_success; data_failure]
-
-	# Update and plot
-	post_try = posterior(prior_try, data_try)
-	plot(prior_try, label="Prior", legend=:topright)
-	plot!(post_try, label="Posterior")
-	y_limits = ylims()
-	plot!(; ylims=(0.0, y_limits[2]))
-end
-
 # ╔═╡ 252dffe0-38c0-11eb-0b9f-e19e63641d4a
 md"""
 ## Nonparametric Parameter Learning
@@ -293,22 +267,6 @@ md"""
 Use the slider below to adjust the bandwidth and observe its effect on the KDE.
 """
 
-# ╔═╡ 1677fd3f-6d2d-431e-a85c-7c2e2c82d390
-# Interactive bandwidth slider
-@bind bandwidth Slider(0.01:0.01:1.0, show_value=true, default=0.2)
-
-# ╔═╡ 3b4a1840-38c0-11eb-1724-2385d475868c
-K(x) = pdf(Normal(0, bandwidth), x) # kernel
-
-# ╔═╡ 44777d90-38c0-11eb-2b70-8bafca948d30
-p(x) = sum([K(x - o) for o in d]) / length(d) # nonparametric density function
-
-# ╔═╡ 184e500a-5d04-4bc3-af39-b45a176642c0
-begin
-	histogram(d, normalize=true, bins=30)
-	plot!(p, xlim=(4,8))
-end
-
 # ╔═╡ 9b9800d0-1e07-49fb-b97b-7c5ce30f6e84
 md"""
 #### Effect of Bandwidth on KDE
@@ -345,11 +303,194 @@ md"""
 Experiment with different kernels or apply KDE to other features in the Iris dataset for further exploration!
 """
 
-# ╔═╡ 79e83a35-758f-4ccf-8125-7c77ef45209e
-md"---"
+# ╔═╡ 75825473-af15-45ab-9946-f6670636b616
+md"""
+# Backend
+_Helper functions and project management. Please do not edit._
+"""
 
 # ╔═╡ b81f16d4-c01e-4228-8233-b81c8df42a51
-PlutoUI.TableOfContents(title="Learning")
+PlutoUI.TableOfContents()
+
+# ╔═╡ 0b044f42-39f5-45a5-a9b5-2d6a2e1ffbcd
+begin
+	start_code() = html"""
+	<div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;START CODE&gt;</code></b></span><div class='line'></div></div>
+	<p> </p>
+	<!-- START_CODE -->
+	"""
+
+	end_code() = html"""
+	<!-- END CODE -->
+	<p><div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;END CODE&gt;</code></b></span><div class='line'></div></div></p>
+	"""
+
+	function combine_html_md(contents::Vector; return_html=true)
+		process(str) = str isa HTML ? str.content : html(str)
+		return join(map(process, contents))
+	end
+
+	function html_expand(title, content::Markdown.MD)
+		return HTML("<details><summary>$title</summary>$(html(content))</details>")
+	end
+
+	function html_expand(title, contents::Vector)
+		html_code = combine_html_md(contents; return_html=false)
+		return HTML("<details><summary>$title</summary>$html_code</details>")
+	end
+
+	html_space() = html"<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+	html_half_space() = html"<br><br><br><br><br><br><br>"
+	html_quarter_space() = html"<br><br><br>"
+
+	Bonds = PlutoUI.BuiltinsNotebook.AbstractPlutoDingetjes.Bonds
+
+	struct DarkModeIndicator
+		default::Bool
+	end
+	
+	DarkModeIndicator(; default::Bool=false) = DarkModeIndicator(default)
+
+	function Base.show(io::IO, ::MIME"text/html", link::DarkModeIndicator)
+		print(io, """
+			<span>
+			<script>
+				const span = currentScript.parentElement
+				span.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+			</script>
+			</span>
+		""")
+	end
+
+	Base.get(checkbox::DarkModeIndicator) = checkbox.default
+	Bonds.initial_value(b::DarkModeIndicator) = b.default
+	Bonds.possible_values(b::DarkModeIndicator) = [false, true]
+	Bonds.validate_value(b::DarkModeIndicator, val) = val isa Bool
+end
+
+# ╔═╡ 7cb4767f-aee8-4021-adfd-9416ca06cbab
+md"""
+##### Prior
+- α: $(@bind α Slider(1:100; default=2, show_value=true))
+- β: $(@bind β Slider(1:100; default=2, show_value=true))
+
+##### Data
+- Number of successes (s): $(@bind s Slider(0:100; default=0, show_value=true))
+- Number of failures (f): $(@bind f Slider(0:100; default=5, show_value=true))
+"""
+
+# ╔═╡ ef7081cf-0d98-461e-8764-c6fa332298e4
+begin
+	prior_try = Beta(α, β)
+	data_success = ones(s)
+	data_failure = zeros(f)
+	data_try = [data_success; data_failure]
+
+	# Update and plot
+	post_try = posterior(prior_try, data_try)
+	plot(prior_try, label="Prior", legend=:topright)
+	plot!(post_try, label="Posterior")
+	y_limits = ylims()
+	plot!(; ylims=(0.0, y_limits[2]))
+end
+
+# ╔═╡ 1677fd3f-6d2d-431e-a85c-7c2e2c82d390
+# Interactive bandwidth slider
+@bind bandwidth Slider(0.01:0.01:1.0, show_value=true, default=0.2)
+
+# ╔═╡ 3b4a1840-38c0-11eb-1724-2385d475868c
+K(x) = pdf(Normal(0, bandwidth), x) # kernel
+
+# ╔═╡ 44777d90-38c0-11eb-2b70-8bafca948d30
+p(x) = sum([K(x - o) for o in d]) / length(d) # nonparametric density function
+
+# ╔═╡ 184e500a-5d04-4bc3-af39-b45a176642c0
+begin
+	histogram(d, normalize=true, bins=30)
+	plot!(p, xlim=(4,8))
+end
+
+# ╔═╡ c9975e1b-a925-43e1-8205-0f46499ac04d
+html_half_space()
+
+# ╔═╡ a72dad49-707a-4d97-b2d5-34582c604db2
+html"""
+	<style>
+		h3 {
+			border-bottom: 1px dotted var(--rule-color);
+		}
+
+		summary {
+			font-weight: 500;
+			font-style: italic;
+		}
+
+		.container {
+	      display: flex;
+	      align-items: center;
+	      width: 100%;
+	      margin: 1px 0;
+	    }
+
+	    .line {
+	      flex: 1;
+	      height: 2px;
+	      background-color: #B83A4B;
+	    }
+
+	    .text {
+	      margin: 0 5px;
+	      white-space: nowrap; /* Prevents text from wrapping */
+	    }
+
+		h2hide {
+			border-bottom: 2px dotted var(--rule-color);
+			font-size: 1.8rem;
+			font-weight: 700;
+			margin-bottom: 0.5rem;
+			margin-block-start: calc(2rem - var(--pluto-cell-spacing));
+		    font-feature-settings: "lnum", "pnum";
+		    color: var(--pluto-output-h-color);
+		    font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		h3hide {
+		    border-bottom: 1px dotted var(--rule-color);
+			font-size: 1.6rem;
+			font-weight: 600;
+			color: var(--pluto-output-h-color);
+		    font-feature-settings: "lnum", "pnum";
+			font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+			margin-block-start: 0;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		.styled-button {
+			background-color: var(--pluto-output-color);
+			color: var(--pluto-output-bg-color);
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-family: Alegreya Sans, Trebuchet MS, sans-serif;
+		}
+	</style>
+
+	<script>
+	const buttons = document.querySelectorAll('input[type="button"]');
+	buttons.forEach(button => button.classList.add('styled-button'));
+	</script>"""
 
 # ╔═╡ Cell order:
 # ╟─ed1e11b2-38bc-11eb-07a0-d9b89d86cdd3
@@ -398,5 +539,8 @@ PlutoUI.TableOfContents(title="Learning")
 # ╠═6541a7d0-38c0-11eb-194f-a50cc0f89f5f
 # ╠═9ad3152d-122a-47c3-919f-a12eb0d7373f
 # ╟─66acb3bb-0478-4207-aa6f-ba8cdacbd23f
-# ╟─79e83a35-758f-4ccf-8125-7c77ef45209e
-# ╠═b81f16d4-c01e-4228-8233-b81c8df42a51
+# ╟─c9975e1b-a925-43e1-8205-0f46499ac04d
+# ╟─75825473-af15-45ab-9946-f6670636b616
+# ╟─b81f16d4-c01e-4228-8233-b81c8df42a51
+# ╟─0b044f42-39f5-45a5-a9b5-2d6a2e1ffbcd
+# ╟─a72dad49-707a-4d97-b2d5-34582c604db2

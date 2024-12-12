@@ -30,7 +30,7 @@ begin
 	using Distributions
 	using Compose
 	using Plots
-	plotly()
+	plotlyjs()
 end
 
 # ╔═╡ d0efeeb0-38c5-11eb-3b9a-5bcbc9103863
@@ -66,15 +66,19 @@ md"""
 # The Simulation Loop
 
 The driver of any simulation is the **simulation loop**, a repetitive process that evolves the state of a system over time. This loop allows us to model dynamic systems by:
+
 1. **Updating the system's state** based on predefined rules (e.g., physical laws, agent behaviors).
-2. **Observing the system's outputs** to analyze and evaluate performance.
+2. **Generating observations** both for agents within the simulation and for system analysis.
 
 The simulation loop typically consists of the following steps:
-1. **Initialization**: Define the initial conditions and parameters of the system.
-2. **Action**: Calculate how external forces or agents act on the system.
-3. **State Propagation**: Update the system’s state based on the actions.
-4. **Observation**: Record relevant data for analysis or visualization.
+1. **Initialization**: Define the initial conditions, parameters of the system, and agent knowledge states.
+2. **Observation**:
+   - Agent observations (e.g., partial or noisy measurements of the state) that inform decision-making
+   - System observations that record data for analysis and evaluation
+3. **Action**: Calculate actions based on agent observations.
+4. **State Propagation**: Update the system's state based on the actions and system dynamics.
 5. **Termination Check**: Repeat the loop until a stopping condition is met (e.g., end time or convergence).
+
 
 This loop structure is flexible and can be tailored to both deterministic and stochastic systems.
 """
@@ -85,29 +89,41 @@ md"""
 
 #### 1. Initialization
 Before starting the loop, we define the system's initial state and parameters. For example:
-- The initial position and velocity of a bouncing ball.
-- The number and initial positions of bodies in an $n$-body simulation.
-- The initial beliefs or policies of agents in a multi-agent system.
+- The initial position and velocity of a bouncing ball
+- The number and initial positions of bodies in an $n$-body simulation
+- The initial beliefs or policies of agents in a multi-agent system
+- Data structures for recording system observations
 
-#### 2. Action
-In this step, the system responds to external forces or agent decisions:
-- For physical systems, this could mean calculating gravitational or frictional forces.
-- For agents, this could involve decision-making based on current beliefs or policies.
+#### 2. Observation
+This step involves two distinct types of observations:
 
-#### 3. State Propagation
+**Agent Observations:**
+- Sensors measuring the current state (potentially with noise or limitations)
+- Processed environmental information available to decision-makers
+- Updates to agent beliefs about the environment
+
+**System Observations:**
+- Recording the true state of the system
+- Tracking metrics like energy, distance, or system efficiency
+- Storing data for later analysis and visualization
+
+#### 3. Action
+In this step, the system responds to observations through:
+- Agent decisions based on their observations and current policies
+- Calculation of external forces (e.g., gravity, friction)
+- Resolution of interactions between system components
+
+#### 4. State Propagation
 The system's state is updated based on the computed actions. This step often involves:
-- Solving equations of motion for physical systems.
-- Updating beliefs or internal states for agents.
-
-#### 4. Observation
-Data is recorded for analysis or visualization. Examples include:
-- The position and velocity of objects over time.
-- Metrics like energy, distance, or system efficiency.
+- Solving equations of motion for physical systems
+- Updating internal states and dynamics
+- Enforcing system constraints and bounds
 
 #### 5. Termination Check
 The loop continues until a stopping condition is met, such as:
-- Reaching a maximum number of iterations or a predefined end time.
-- Achieving convergence or a steady-state condition.
+- Reaching a maximum number of iterations or a predefined end time
+- Achieving convergence or a steady-state condition
+- Meeting success criteria or detecting failure conditions
 """
 
 # ╔═╡ ad676bca-ddf7-4289-96b7-534cbbaa5705
@@ -264,22 +280,6 @@ end
 
 # ╔═╡ 1c1783ce-7670-42e8-9c3d-22dfd6210737
 md"#### Animation of the Bouncing Ball"
-
-# ╔═╡ 4eafbe24-d563-411f-b45c-3beff2971885
-@bind t_idx PlutoUI.Clock(interval=dt_bb, max_value=length(times_bb))
-
-# ╔═╡ 40d9c76e-04fa-442d-8ac2-a27cbc6f67e9
-begin
-	scatter([positions_bb[t_idx]], 
-		markersize=15,
-		ylims=(-0.2, x0_bb + 0.5), 
-		xlims=(0.95, 1.05),
-		legend=nothing,
-		xticks=[],
-		xlabel="",
-		size=(100, 500)
-	)
-end
 
 # ╔═╡ 91bbb545-66d9-4660-aa72-1e6c0d01e151
 md"""
@@ -439,12 +439,6 @@ Size of the circles correspond to the mass of each body
 # ╔═╡ 16eafbe0-38ca-11eb-3c19-016eac239877
 animation = animate(10_000; num_bodies=15, rng=MersenneTwister(13));
 
-# ╔═╡ 9c74331b-adfe-41a8-931b-9881c9f09527
-@bind aₜ PlutoUI.Clock(interval=1/60, max_value=length(animation))
-
-# ╔═╡ 48afc480-38ca-11eb-1b69-b3398178811b
-animation[aₜ]
-
 # ╔═╡ 7aa78a8f-694b-405d-bdf9-2785208b8dfe
 md"""
 ## Sampling
@@ -554,13 +548,174 @@ rand(MersenneTwister(0xAA120), 10)
 # ╔═╡ 9b1490bf-e7b7-4e02-ad09-cf1f78552cda
 rand(MersenneTwister(0xAA120), 10)
 
-# ╔═╡ d7ce08a0-38cc-11eb-1246-a9105983f2e6
+# ╔═╡ 58b6cc3f-dd70-466c-8a39-5767b5f3d10d
 md"""
----
+# Backend
+_Helper functions and project management. Please do not edit._
 """
 
 # ╔═╡ 616636d2-38ca-11eb-2823-2fd57ad86cea
-PlutoUI.TableOfContents(title="Simulation")
+PlutoUI.TableOfContents()
+
+# ╔═╡ 28244478-ce12-4a8e-8f39-0fb2a086accf
+begin
+	start_code() = html"""
+	<div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;START CODE&gt;</code></b></span><div class='line'></div></div>
+	<p> </p>
+	<!-- START_CODE -->
+	"""
+
+	end_code() = html"""
+	<!-- END CODE -->
+	<p><div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;END CODE&gt;</code></b></span><div class='line'></div></div></p>
+	"""
+
+	function combine_html_md(contents::Vector; return_html=true)
+		process(str) = str isa HTML ? str.content : html(str)
+		return join(map(process, contents))
+	end
+
+	function html_expand(title, content::Markdown.MD)
+		return HTML("<details><summary>$title</summary>$(html(content))</details>")
+	end
+
+	function html_expand(title, contents::Vector)
+		html_code = combine_html_md(contents; return_html=false)
+		return HTML("<details><summary>$title</summary>$html_code</details>")
+	end
+
+	html_space() = html"<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+	html_half_space() = html"<br><br><br><br><br><br><br>"
+	html_quarter_space() = html"<br><br><br>"
+
+	Bonds = PlutoUI.BuiltinsNotebook.AbstractPlutoDingetjes.Bonds
+
+	struct DarkModeIndicator
+		default::Bool
+	end
+	
+	DarkModeIndicator(; default::Bool=false) = DarkModeIndicator(default)
+
+	function Base.show(io::IO, ::MIME"text/html", link::DarkModeIndicator)
+		print(io, """
+			<span>
+			<script>
+				const span = currentScript.parentElement
+				span.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+			</script>
+			</span>
+		""")
+	end
+
+	Base.get(checkbox::DarkModeIndicator) = checkbox.default
+	Bonds.initial_value(b::DarkModeIndicator) = b.default
+	Bonds.possible_values(b::DarkModeIndicator) = [false, true]
+	Bonds.validate_value(b::DarkModeIndicator, val) = val isa Bool
+end
+
+# ╔═╡ 4eafbe24-d563-411f-b45c-3beff2971885
+@bind t_idx PlutoUI.Clock(interval=dt_bb, max_value=length(times_bb))
+
+# ╔═╡ 40d9c76e-04fa-442d-8ac2-a27cbc6f67e9
+begin
+	scatter([positions_bb[t_idx]], 
+		markersize=15,
+		ylims=(-0.2, x0_bb + 0.5), 
+		xlims=(0.95, 1.05),
+		legend=nothing,
+		xticks=[],
+		xlabel="",
+		size=(100, 500)
+	)
+end
+
+# ╔═╡ 9c74331b-adfe-41a8-931b-9881c9f09527
+@bind aₜ PlutoUI.Clock(interval=1/60, max_value=length(animation))
+
+# ╔═╡ 48afc480-38ca-11eb-1b69-b3398178811b
+animation[aₜ]
+
+# ╔═╡ d7ce08a0-38cc-11eb-1246-a9105983f2e6
+html_half_space()
+
+# ╔═╡ 47e488df-28bc-430f-967c-fc3621ea0537
+html"""
+	<style>
+		h3 {
+			border-bottom: 1px dotted var(--rule-color);
+		}
+
+		summary {
+			font-weight: 500;
+			font-style: italic;
+		}
+
+		.container {
+	      display: flex;
+	      align-items: center;
+	      width: 100%;
+	      margin: 1px 0;
+	    }
+
+	    .line {
+	      flex: 1;
+	      height: 2px;
+	      background-color: #B83A4B;
+	    }
+
+	    .text {
+	      margin: 0 5px;
+	      white-space: nowrap; /* Prevents text from wrapping */
+	    }
+
+		h2hide {
+			border-bottom: 2px dotted var(--rule-color);
+			font-size: 1.8rem;
+			font-weight: 700;
+			margin-bottom: 0.5rem;
+			margin-block-start: calc(2rem - var(--pluto-cell-spacing));
+		    font-feature-settings: "lnum", "pnum";
+		    color: var(--pluto-output-h-color);
+		    font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		h3hide {
+		    border-bottom: 1px dotted var(--rule-color);
+			font-size: 1.6rem;
+			font-weight: 600;
+			color: var(--pluto-output-h-color);
+		    font-feature-settings: "lnum", "pnum";
+			font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+			margin-block-start: 0;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		.styled-button {
+			background-color: var(--pluto-output-color);
+			color: var(--pluto-output-bg-color);
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-family: Alegreya Sans, Trebuchet MS, sans-serif;
+		}
+	</style>
+
+	<script>
+	const buttons = document.querySelectorAll('input[type="button"]');
+	buttons.forEach(button => button.classList.add('styled-button'));
+	</script>"""
 
 # ╔═╡ Cell order:
 # ╟─d0efeeb0-38c5-11eb-3b9a-5bcbc9103863
@@ -572,15 +727,15 @@ PlutoUI.TableOfContents(title="Simulation")
 # ╟─ad676bca-ddf7-4289-96b7-534cbbaa5705
 # ╠═2e69dc10-f376-4137-9acd-20979cc4aa5c
 # ╟─cfe7aba7-5e20-42a2-87c2-5a6eb37c6409
-# ╠═739c7279-bec8-4cec-abcd-582488015529
+# ╟─739c7279-bec8-4cec-abcd-582488015529
 # ╟─86f33071-deed-4daf-a564-ab7421d9da53
 # ╟─57133f48-3a8d-4b3e-af36-d849f89ed90e
 # ╠═ccb2275c-117e-4e6d-8ad1-3144c9d03407
 # ╟─3d90ed79-bbde-4571-af45-2cf94c27c132
-# ╠═98730e6a-b79c-4042-9cdc-fe1f8055f9d4
+# ╟─98730e6a-b79c-4042-9cdc-fe1f8055f9d4
 # ╟─1c1783ce-7670-42e8-9c3d-22dfd6210737
-# ╠═4eafbe24-d563-411f-b45c-3beff2971885
-# ╠═40d9c76e-04fa-442d-8ac2-a27cbc6f67e9
+# ╟─4eafbe24-d563-411f-b45c-3beff2971885
+# ╟─40d9c76e-04fa-442d-8ac2-a27cbc6f67e9
 # ╟─91bbb545-66d9-4660-aa72-1e6c0d01e151
 # ╟─a4612790-38c7-11eb-2baf-3f03e9aabd00
 # ╠═c1a70d10-38c7-11eb-34bf-cfbd1015ceef
@@ -595,9 +750,9 @@ PlutoUI.TableOfContents(title="Simulation")
 # ╠═7ee486e0-38c9-11eb-10c7-ff75447d0850
 # ╠═f8ccb7c0-38c9-11eb-30e4-018c867da0c1
 # ╟─fc17d0a5-3290-4e08-baf5-37df23efe863
-# ╠═16eafbe0-38ca-11eb-3c19-016eac239877
-# ╠═9c74331b-adfe-41a8-931b-9881c9f09527
-# ╠═48afc480-38ca-11eb-1b69-b3398178811b
+# ╟─16eafbe0-38ca-11eb-3c19-016eac239877
+# ╟─9c74331b-adfe-41a8-931b-9881c9f09527
+# ╟─48afc480-38ca-11eb-1b69-b3398178811b
 # ╟─7aa78a8f-694b-405d-bdf9-2785208b8dfe
 # ╟─0548253f-018f-481f-b041-b715648f1a25
 # ╠═ec7693d0-38cc-11eb-1901-bb4359ecf6ed
@@ -619,4 +774,7 @@ PlutoUI.TableOfContents(title="Simulation")
 # ╠═eb124f23-dd38-475a-bc8c-c624d26c4976
 # ╠═9b1490bf-e7b7-4e02-ad09-cf1f78552cda
 # ╟─d7ce08a0-38cc-11eb-1246-a9105983f2e6
-# ╠═616636d2-38ca-11eb-2823-2fd57ad86cea
+# ╟─58b6cc3f-dd70-466c-8a39-5767b5f3d10d
+# ╟─616636d2-38ca-11eb-2823-2fd57ad86cea
+# ╟─28244478-ce12-4a8e-8f39-0fb2a086accf
+# ╟─47e488df-28bc-430f-967c-fc3621ea0537

@@ -27,7 +27,7 @@ end
 # ╠═╡ show_logs = false
 begin
 	if !@isdefined MountainCar
-		include("mountaincar.jl")
+		include("mountaincar.jl") # uses AA120Q, Cairo, Color, Printf
 	end
 end
 
@@ -106,16 +106,6 @@ The dynamics are provided by the function `update(car::MountainCar, a::Symbol)` 
 # ╔═╡ 4129dd45-d0b0-48a0-ad94-0afc65bbc6c2
 md"""
 ## Visualization of Mountain Car"""
-
-# ╔═╡ 365c58a0-38e5-11eb-2652-7f33ce2a63ab
-md"""
-Position: $(@bind pos Slider(-1.2:0.1:0.6; default=-0.5))
-Velocity: $(@bind vel Slider(-0.070:0.01:0.07; default=0.0))
-Action: $(@bind act Select([:left, :right, :coast]))
-"""
-
-# ╔═╡ 45e3b7f0-38e5-11eb-2688-0782700d5bb8
-render_mountain_car(MountainCar(pos, vel); render_pos_overlay=true, action=act)
 
 # ╔═╡ df864630-38e4-11eb-227e-4be958de9558
 md"""
@@ -229,7 +219,7 @@ function animate(policy::Function; number_steps=200)
 	end
 	
 	return frames
-end
+end;
 
 # ╔═╡ 3bafccd4-a910-4131-bbb8-6ea11fd93eb4
 animation_floor_it = animate(policy_floor_it);
@@ -237,17 +227,92 @@ animation_floor_it = animate(policy_floor_it);
 # ╔═╡ 3e323c6a-a07b-47a8-b9f8-bf83a805ccf6
 md"#### Animation of Policy 1: Floor It!"
 
-# ╔═╡ 3854a2b4-3fc7-45a0-980c-f97a4c517efa
-@bind t_1 PlutoUI.Clock(interval=1/10, max_value=length(animation_floor_it))
-
-# ╔═╡ 4a64a3eb-6eed-4839-abe2-68163ac0da54
-animation_floor_it[t_1]
-
 # ╔═╡ b9af3a4d-6cc8-4d4d-893a-9447601294fd
 animation_accel_in_d = animate(policy_accel_in_direc_vel);
 
 # ╔═╡ ba84676f-7427-4126-845e-b21806b48aba
 md"#### Animation of Policy 2: Accelerate in the Direction of Velocity"
+
+# ╔═╡ 58869265-0fe0-470a-bf03-1fe4f887718f
+md"""
+# Backend
+_Helper functions and project management. Please do not edit._
+"""
+
+# ╔═╡ 2c3b3292-38e7-11eb-2ee1-518ce8840823
+PlutoUI.TableOfContents()
+
+# ╔═╡ dd82ccdb-4565-48a1-b037-2b8596e05157
+begin
+	start_code() = html"""
+	<div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;START CODE&gt;</code></b></span><div class='line'></div></div>
+	<p> </p>
+	<!-- START_CODE -->
+	"""
+
+	end_code() = html"""
+	<!-- END CODE -->
+	<p><div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;END CODE&gt;</code></b></span><div class='line'></div></div></p>
+	"""
+
+	function combine_html_md(contents::Vector; return_html=true)
+		process(str) = str isa HTML ? str.content : html(str)
+		return join(map(process, contents))
+	end
+
+	function html_expand(title, content::Markdown.MD)
+		return HTML("<details><summary>$title</summary>$(html(content))</details>")
+	end
+
+	function html_expand(title, contents::Vector)
+		html_code = combine_html_md(contents; return_html=false)
+		return HTML("<details><summary>$title</summary>$html_code</details>")
+	end
+
+	html_space() = html"<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+	html_half_space() = html"<br><br><br><br><br><br><br>"
+	html_quarter_space() = html"<br><br><br>"
+
+	Bonds = PlutoUI.BuiltinsNotebook.AbstractPlutoDingetjes.Bonds
+
+	struct DarkModeIndicator
+		default::Bool
+	end
+	
+	DarkModeIndicator(; default::Bool=false) = DarkModeIndicator(default)
+
+	function Base.show(io::IO, ::MIME"text/html", link::DarkModeIndicator)
+		print(io, """
+			<span>
+			<script>
+				const span = currentScript.parentElement
+				span.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+			</script>
+			</span>
+		""")
+	end
+
+	Base.get(checkbox::DarkModeIndicator) = checkbox.default
+	Bonds.initial_value(b::DarkModeIndicator) = b.default
+	Bonds.possible_values(b::DarkModeIndicator) = [false, true]
+	Bonds.validate_value(b::DarkModeIndicator, val) = val isa Bool
+end
+
+# ╔═╡ 365c58a0-38e5-11eb-2652-7f33ce2a63ab
+md"""
+Position: $(@bind pos Slider(-1.2:0.1:0.6; default=-0.5))
+Velocity: $(@bind vel Slider(-0.070:0.01:0.07; default=0.0))
+Action: $(@bind act Select([:left, :right, :coast]))
+"""
+
+# ╔═╡ 45e3b7f0-38e5-11eb-2688-0782700d5bb8
+render_mountain_car(MountainCar(pos, vel); render_pos_overlay=true, action=act)
+
+# ╔═╡ 3854a2b4-3fc7-45a0-980c-f97a4c517efa
+@bind t_1 PlutoUI.Clock(interval=1/10, max_value=length(animation_floor_it))
+
+# ╔═╡ 4a64a3eb-6eed-4839-abe2-68163ac0da54
+animation_floor_it[t_1]
 
 # ╔═╡ b1bc3676-4764-464c-a5fa-98f4d5f3f677
 @bind t_2 PlutoUI.Clock(interval=1/10, max_value=length(animation_accel_in_d))
@@ -256,24 +321,98 @@ md"#### Animation of Policy 2: Accelerate in the Direction of Velocity"
 animation_accel_in_d[t_2]
 
 # ╔═╡ 2b1661a0-38e7-11eb-0e0a-45a7964fa12f
-md"""
----
-"""
+html_half_space()
 
-# ╔═╡ 2c3b3292-38e7-11eb-2ee1-518ce8840823
-PlutoUI.TableOfContents(title="Building and Evaluating Autonomous Systems")
+# ╔═╡ e02824f3-1728-460c-8f65-a96ce5572778
+html"""
+	<style>
+		h3 {
+			border-bottom: 1px dotted var(--rule-color);
+		}
+
+		summary {
+			font-weight: 500;
+			font-style: italic;
+		}
+
+		.container {
+	      display: flex;
+	      align-items: center;
+	      width: 100%;
+	      margin: 1px 0;
+	    }
+
+	    .line {
+	      flex: 1;
+	      height: 2px;
+	      background-color: #B83A4B;
+	    }
+
+	    .text {
+	      margin: 0 5px;
+	      white-space: nowrap; /* Prevents text from wrapping */
+	    }
+
+		h2hide {
+			border-bottom: 2px dotted var(--rule-color);
+			font-size: 1.8rem;
+			font-weight: 700;
+			margin-bottom: 0.5rem;
+			margin-block-start: calc(2rem - var(--pluto-cell-spacing));
+		    font-feature-settings: "lnum", "pnum";
+		    color: var(--pluto-output-h-color);
+		    font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		h3hide {
+		    border-bottom: 1px dotted var(--rule-color);
+			font-size: 1.6rem;
+			font-weight: 600;
+			color: var(--pluto-output-h-color);
+		    font-feature-settings: "lnum", "pnum";
+			font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+			margin-block-start: 0;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		.styled-button {
+			background-color: var(--pluto-output-color);
+			color: var(--pluto-output-bg-color);
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-family: Alegreya Sans, Trebuchet MS, sans-serif;
+		}
+	</style>
+
+	<script>
+	const buttons = document.querySelectorAll('input[type="button"]');
+	buttons.forEach(button => button.classList.add('styled-button'));
+	</script>"""
 
 # ╔═╡ Cell order:
 # ╟─1ecaaeb0-38ce-11eb-2304-65c70a221e0a
-# ╠═f0ca431d-082b-4a25-8d07-8aea51517435
-# ╠═a6a13246-e465-4ebb-af2c-4eb998f334a9
+# ╟─f0ca431d-082b-4a25-8d07-8aea51517435
+# ╟─a6a13246-e465-4ebb-af2c-4eb998f334a9
 # ╠═359ce3ca-9fe3-4248-808e-52cd58b62bc6
 # ╟─fe2c8100-38ce-11eb-281e-277e6848a981
 # ╟─26fabac1-76ac-4ed6-9032-03bfcbf2eaa1
 # ╟─a7298c09-e0be-41ba-859e-1e523bc75cbf
 # ╟─4129dd45-d0b0-48a0-ad94-0afc65bbc6c2
 # ╟─365c58a0-38e5-11eb-2652-7f33ce2a63ab
-# ╠═45e3b7f0-38e5-11eb-2688-0782700d5bb8
+# ╟─45e3b7f0-38e5-11eb-2688-0782700d5bb8
 # ╟─df864630-38e4-11eb-227e-4be958de9558
 # ╟─aa87ed01-6a92-4dbf-8a60-b8a57767845e
 # ╠═8df03a10-771e-4998-b442-b370a0744982
@@ -285,14 +424,17 @@ PlutoUI.TableOfContents(title="Building and Evaluating Autonomous Systems")
 # ╠═171f5bf8-d210-4f41-9772-191bd9f92368
 # ╠═19480506-a380-4b10-998a-ffd569f7569a
 # ╟─836e7602-b0eb-4265-8cb3-ea75259d9497
-# ╠═1c7a90d3-0d3a-4a1a-8024-551640478d74
-# ╠═3bafccd4-a910-4131-bbb8-6ea11fd93eb4
+# ╟─1c7a90d3-0d3a-4a1a-8024-551640478d74
+# ╟─3bafccd4-a910-4131-bbb8-6ea11fd93eb4
 # ╟─3e323c6a-a07b-47a8-b9f8-bf83a805ccf6
-# ╠═3854a2b4-3fc7-45a0-980c-f97a4c517efa
-# ╠═4a64a3eb-6eed-4839-abe2-68163ac0da54
-# ╠═b9af3a4d-6cc8-4d4d-893a-9447601294fd
+# ╟─3854a2b4-3fc7-45a0-980c-f97a4c517efa
+# ╟─4a64a3eb-6eed-4839-abe2-68163ac0da54
+# ╟─b9af3a4d-6cc8-4d4d-893a-9447601294fd
 # ╟─ba84676f-7427-4126-845e-b21806b48aba
-# ╠═b1bc3676-4764-464c-a5fa-98f4d5f3f677
-# ╠═335e61e8-db8d-4a0d-a0f8-ccd38a2b7ae5
+# ╟─b1bc3676-4764-464c-a5fa-98f4d5f3f677
+# ╟─335e61e8-db8d-4a0d-a0f8-ccd38a2b7ae5
 # ╟─2b1661a0-38e7-11eb-0e0a-45a7964fa12f
-# ╠═2c3b3292-38e7-11eb-2ee1-518ce8840823
+# ╟─58869265-0fe0-470a-bf03-1fe4f887718f
+# ╟─2c3b3292-38e7-11eb-2ee1-518ce8840823
+# ╟─dd82ccdb-4565-48a1-b037-2b8596e05157
+# ╟─e02824f3-1728-460c-8f65-a96ce5572778
