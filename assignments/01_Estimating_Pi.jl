@@ -51,7 +51,13 @@ In this assignment, you will develop an algorithm that estimates $\pi$ based on 
 # ╔═╡ b97e1c52-511b-11eb-0dfe-410b622089cc
 md"""
 ## What is Turned In:
-Edit the contents of this notebook and turn in your final Pluto notebook file (.jl) to Canvas. Do not use any external code or Julia packages other than those used in the class materials.
+1. Export this notebook as a PDF ([how-to in the documentation](https://plutojl.org/en/docs/export-pdf/))
+2. Upload the PDF to [Gradescope](https://www.gradescope.com/)
+3. Tag your pages correctly on Gradescope:
+   - Tag the page containing your Milestone One Check (with the ✅ or ❌) 
+   - Tag the page containing your final convergence plot
+
+**Do not use any external code or Julia packages other than those used in the class materials.**
 """
 
 # ╔═╡ 5b66dc70-3f0b-11eb-00e3-6910d8ffaf21
