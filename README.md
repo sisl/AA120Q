@@ -55,13 +55,7 @@ From the AA120Q directory, run:
 ```bash
 julia install.jl
 ```
-The `install.jl` script will add Pluto and PlutoUI to your default Julia environment. It will also activate the AA120Q package, download the project dependencies, and compile the project.
-
-### Test the Installation
-Test the installation by opening `julia` using `julia --project=.` from the AA120Q directory and running:
-```julia
-] test
-```
+The `install.jl` script will add Pluto and PlutoUI to your default Julia environment. It will also activate the AA120Q package, download the project dependencies, and compile the project. If you do not experience any errors during this process, you are ready to run the notebooks!
 
 ## Package Management
 There are a couple of ways to open Julia. The following options assume you are in the AA120Q directory.
