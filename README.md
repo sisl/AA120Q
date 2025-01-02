@@ -7,12 +7,6 @@
 Coding Lectures and Assignments for Stanford's AA120Q: *Building Trust in Autonomy*
 
 ### Coding Lecture Notebooks
-
-
-
-### Coding Assignment Notebooks
-
-### Coding Lecture Notebooks
 The coding lectures introduce computational tools and concepts through interactive Pluto notebooks. Topics include:
 - Julia programming fundamentals 
 - Scientific computing tools and visualization
