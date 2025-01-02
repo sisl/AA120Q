@@ -20,4 +20,39 @@
 
 ### 3. Complete the assignment.
 
-### 4. Submit !!!TODO!!!
+### 4. Submit
+1. Export this notebook as a PDF ([how-to in the documentation](https://plutojl.org/en/docs/export-pdf/))
+2. Upload the PDF to [Gradescope](https://www.gradescope.com/)
+3. Tag your pages on Gradescope
+
+## Assignment Overview
+
+### Assignment 1: Estimating π 
+[![html](https://img.shields.io/badge/static%20html-Assignment%2001-0072B2)](https://htmlview.glitch.me/?https://github.com/sisl/AA120Q/blob/main/assignments/html/01_Estimating_Pi.html)
+
+Implement Buffon's needle experiment to estimate π through simulation. Learn about random sampling, statistical convergence, and visualization of results.
+
+### Assignment 2: Learning Aircraft Encounter Models
+[![html](https://img.shields.io/badge/static%20html-Assignment%2002-0072B2)](https://htmlview.glitch.me/?https://github.com/sisl/AA120Q/blob/main/assignments/html/02_Learning_Encounter_Models.html)
+
+Develop probabilistic models of aircraft encounters using Bayesian networks. Implement methods for learning both initial conditions and dynamic transitions from data.
+
+### Assignment 3: Encounter Simulation and Analysis
+[![html](https://img.shields.io/badge/static%20html-Assignment%2003-0072B2)](https://htmlview.glitch.me/?https://github.com/sisl/AA120Q/blob/main/assignments/html/03_Encounter_Simulation.html)
+
+Generate and analyze aircraft encounter scenarios. Focus on safety metrics, particularly near mid-air collision (NMAC) analysis in simulated encounters.
+
+### Assignment 4: Simple Collision Avoidance System
+[![html](https://img.shields.io/badge/static%20html-Assignment%2004-0072B2)](https://htmlview.glitch.me/?https://github.com/sisl/AA120Q/blob/main/assignments/html/04_Simple_CAS.html)
+
+Design and implement a basic collision avoidance system. Evaluate system performance through safety and efficiency metrics, exploring fundamental trade-offs in system design.
+
+### Assignment 5: CAS Design
+[![html](https://img.shields.io/badge/static%20html-Assignment%2005-0072B2)](https://htmlview.glitch.me/?https://github.com/sisl/AA120Q/blob/main/assignments/html/05_CAS_Design.html)
+
+Design and implement a more refined collision avoidance system. Build on insights from the simple CAS to create improved collision avoidance logic and demonstrate enhanced performance.
+
+### Assignment 6: Additional Analysis
+[![html](https://img.shields.io/badge/static%20html-Assignment%2006-0072B2)](https://htmlview.glitch.me/?https://github.com/sisl/AA120Q/blob/main/assignments/html/06_Additional_Analysis.html)
+
+Conduct in-depth analysis of your collision avoidance system design. Evaluate improvements, assess performance gains, and provide discussions on system capabilities and limitations.

@@ -1,33 +1,36 @@
 # AA120Q
 ## Building Trust in Autonomy
 [![website](https://img.shields.io/badge/website-Stanford-b31b1b.svg)](https://aa120q.stanford.edu/)
-[![Build Status](https://travis-ci.org/sisl/AA120Q.svg?branch=main)](https://travis-ci.org/sisl/AA120Q)
-<!-- [![Coverage Status](https://coveralls.io/repos/sisl/AA120Q/badge.svg)](https://coveralls.io/r/sisl/AA120Q) -->
+[![Lectures](https://img.shields.io/badge/coding_lectures-Pluto-175E54.svg)](https://github.com/sisl/AA120Q/tree/main/lectures)
+[![Assignments](https://img.shields.io/badge/coding_assignments-Pluto-175E54.svg)](https://github.com/sisl/AA120Q/tree/main/assignments)
 
-This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offered at Stanford.
+Coding Lectures and Assignments for Stanford's AA120Q: *Building Trust in Autonomy*
 
-### Lecture Notebooks
-1. [Introduction to Julia](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/01_Julia.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/01_Julia.jl)]</sup>
-2. [Scientific Computing](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/02_Computing_Tools.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/02_Computing_Tools.jl)]</sup>
-3. [Statistical Models](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/03_Track_Plotting.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/03_Track_Plotting.jl)]</sup>
-4. [Learning](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/04_Learning.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/04_Learning.jl)]</sup>
-5. [Simulation](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/05_Simulation.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/05_Simulation.jl)]</sup>
-6. [Building Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/06_Collision_Avoidance_System.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/06_Collision_Avoidance_System.jl)]</sup>
-7. [Robustness to Sensor Error](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/07_Sensors.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/07_Sensors.jl)]</sup>
-8. [Analysis of Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/08_Analysis.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/08_Analysis.jl)]</sup>
-9. [Case Studies of Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/09_Case_Studies.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/09_Case_Studies.jl)]</sup>
-10. [Societal Impact of Autonomy](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/10_Societal_Impact.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/10_Societal_Impact.jl)]</sup>
-- [Optional: Bayesian Networks](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/lectures/html/Optional_Bayesian_Networks.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/lectures/Optional_Bayesian_Networks.jl)]</sup>
+### Coding Lecture Notebooks
 
 
-### Assignments
-1. [Estimating π](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/assignments/html/01_Computing_Tools.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/assignments/01_Computing_Tools.jl)]</sup>
-2. [Encounter Plotting](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/assignments/html/02_Track_Plotting.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/assignments/02_Track_Plotting.jl)]</sup>
-3. [Simulation](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/assignments/html/03_Simulation.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/assignments/03_Simulation.jl)]</sup>
-4. [Simple Collision Avoidance System](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/assignments/html/04_Simple_CAS.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/assignments/04_Simple_CAS.jl)]</sup>
-5. [Collision Avoidance System Design](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/assignments/html/05_CAS_Design.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/assignments/05_CAS_Design.jl)]</sup>
-6. [Analysis](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/assignments/html/06_Analysis.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/assignments/06_Analysis.jl)]</sup>
-- [Optional Assignment: Bayesian Network Learning](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/main/assignments/html/Optional_Bayesian_Networks.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/main/assignments/Optional_Bayesian_Networks.jl)]</sup>
+
+### Coding Assignment Notebooks
+
+### Coding Lecture Notebooks
+The coding lectures introduce computational tools and concepts through interactive Pluto notebooks. Topics include:
+- Julia programming fundamentals 
+- Scientific computing tools and visualization
+- Machine learning and probabilistic modeling
+- Simulation and analysis techniques
+- System evaluation and testing
+
+See the [lectures directory](lectures/) for more information about each lecture notebook.
+
+### Coding Assignment Notebooks
+The coding assignments provide hands-on experience implementing key concepts through guided Pluto notebooks. Projects include:
+- Estimating π using Monte Carlo methods
+- Learning aircraft encounter models
+- Simulating collision avoidance scenarios  
+- Implementing and analyzing safety systems
+
+See the [assignments directory](assignments/) for more information about each assignment.
+
 
 ## Installation
 ### Install Git
@@ -89,25 +92,23 @@ The Julia package manager is a useful tool for managing packages used for a proj
 (AA120Q) pkg> status
 Project AA120Q v0.2.0
 Status `~/Documents/AA120Q/AA120Q/Project.toml`
-  [fbb218c0] BSON v0.3.9
+  [ba4760a4] BayesNets v3.4.1
   [336ed68f] CSV v0.10.15
-  [5d742f6a] CSVFiles v1.0.2
-  [159f3aea] Cairo v1.1.0
+  [159f3aea] Cairo v1.1.1
 ⌅ [5ae59095] Colors v0.12.11
   [a81c6b42] Compose v0.9.5
   [a93c6f00] DataFrames v1.7.0
-  [6e83dbb3] Discretizers v3.2.3
-  [31c24e10] Distributions v0.25.112
-  [86223c79] Graphs v1.12.0
-  [c601a237] Interact v0.10.5
-  [91a5bcdd] Plots v1.40.8
-  [c3e4b0f8] Pluto v0.20.1
+  [6e83dbb3] Discretizers v3.2.4
+  [31c24e10] Distributions v0.25.115
+  [033835bb] JLD2 v0.5.10
+  [f0f68f2c] PlotlyJS v0.18.15
+⌃ [91a5bcdd] Plots v1.40.7
+  [c3e4b0f8] Pluto v0.20.4
   [7f904dfe] PlutoUI v0.7.60
   [ce6b1742] RDatasets v0.7.7
-  [a223df75] Reactive v0.8.3
-  [189a3867] Reexport v1.2.2
   [10745b16] Statistics v1.11.1
-  [24249f21] SymPy v2.2.0
+⌅ [2913bbd2] StatsBase v0.33.21
+  [37f6aa50] TikzPictures v3.5.0
   [37e2e46d] LinearAlgebra v1.11.0
   [44cfe95a] Pkg v1.11.0
   [de0858da] Printf v1.11.0
