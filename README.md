@@ -1,75 +1,122 @@
 # AA120Q
-## Establishing Trust in Autonomous Systems
-[![Build Status](https://travis-ci.org/sisl/AA120Q.svg?branch=master)](https://travis-ci.org/sisl/AA120Q)
-<!-- [![Coverage Status](https://coveralls.io/repos/sisl/AA120Q/badge.svg)](https://coveralls.io/r/sisl/AA120Q) -->
+## Building Trust in Autonomy
+[![website](https://img.shields.io/badge/website-Stanford-b31b1b.svg)](https://aa120q.stanford.edu/)
+[![Lectures](https://img.shields.io/badge/coding_lectures-Pluto-175E54.svg)](https://github.com/sisl/AA120Q/tree/main/lectures)
+[![Assignments](https://img.shields.io/badge/coding_assignments-Pluto-175E54.svg)](https://github.com/sisl/AA120Q/tree/main/assignments)
 
-This package supports AA120Q: *Establishing Trust in Autonomous Systems*, offered at Stanford.
+Coding Lectures and Assignments for Stanford's AA120Q: *Building Trust in Autonomy*
 
-### Lecture Notebooks
-1. [Introduction to Julia](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/01_Julia.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/01_Julia.jl)]</sup>
-2. [Scientific Computing](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/02_Computing_Tools.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/02_Computing_Tools.jl)]</sup>
-3. [Statistical Models](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/03_Track_Plotting.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/03_Track_Plotting.jl)]</sup>
-4. [Learning](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/04_Learning.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/04_Learning.jl)]</sup>
-5. [Simulation](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/05_Simulation.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/05_Simulation.jl)]</sup>
-6. [Building Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/06_Collision_Avoidance_System.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/06_Collision_Avoidance_System.jl)]</sup>
-7. [Robustness to Sensor Error](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/07_Sensors.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/07_Sensors.jl)]</sup>
-8. [Analysis of Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/08_Analysis.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/08_Analysis.jl)]</sup>
-9. [Case Studies of Autonomous Systems](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/09_Case_Studies.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/09_Case_Studies.jl)]</sup>
-10. [Societal Impact of Autonomy](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/10_Societal_Impact.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/10_Societal_Impact.jl)]</sup>
-- [Optional: Bayesian Networks](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/lectures/html/Optional_Bayesian_Networks.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/lectures/Optional_Bayesian_Networks.jl)]</sup>
+### Coding Lecture Notebooks
+The coding lectures introduce computational tools and concepts through interactive Pluto notebooks. Topics include:
+- Julia programming fundamentals 
+- Scientific computing tools and visualization
+- Machine learning and probabilistic modeling
+- Simulation and analysis techniques
+- System evaluation and testing
 
+See the [lectures directory](lectures/) for more information about each lecture notebook.
 
-### Assignments
-1. [Estimating π](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/01_Computing_Tools.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/01_Computing_Tools.jl)]</sup>
-2. [Encounter Plotting](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/02_Track_Plotting.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/02_Track_Plotting.jl)]</sup>
-3. [Simulation](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/03_Simulation.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/03_Simulation.jl)]</sup>
-4. [Simple Collision Avoidance System](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/04_Simple_CAS.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/04_Simple_CAS.jl)]</sup>
-5. [Collision Avoidance System Design](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/05_CAS_Design.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/05_CAS_Design.jl)]</sup>
-6. [Analysis](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/06_Analysis.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/06_Analysis.jl)]</sup>
-- [Optional Assignment: Bayesian Network Learning](http://htmlpreview.github.io/?https://raw.githubusercontent.com/sisl/AA120Q/master/assignments/html/Optional_Bayesian_Networks.jl.html) <sup>[[Pluto](https://github.com/sisl/AA120Q/blob/master/assignments/Optional_Bayesian_Networks.jl)]</sup>
+### Coding Assignment Notebooks
+The coding assignments provide hands-on experience implementing key concepts through guided Pluto notebooks. Projects include:
+- Estimating π using Monte Carlo methods
+- Learning aircraft encounter models
+- Simulating collision avoidance scenarios  
+- Implementing and analyzing safety systems
+
+See the [assignments directory](assignments/) for more information about each assignment.
+
 
 ## Installation
+### Install Git
+- https://git-scm.com/downloads
 
-1. Install Julia version 1.5.3 from https://julialang.org/downloads
-   - Add `julia` to the command line PATH: This will make `julia` available anywhere on the command line.
+### Install Julia
+Install Julia version 1.11+ from https://julialang.org/downloads. Once installed julia will be available via the command line interface. The commands will also install the Juliaup installation manager, which will automatically install julia and help keep it up to date. The command `juliaup` is also installed. To install different julia versions see `juliaup --help`.
+   - The commands from the Julia website are echoed below:
      - <details><summary><b>Windows</b></summary><p>
-        Follow these instructions (https://helpdeskgeek.com/windows-10/add-windows-path-environment-variable/) and add the Julia `bin` directory to your User PATH environment variable (replacing <PATH_TO_JULIA> with your actual Julia installation location).
+        Open the command prompt and run the following:
 
-           C:\<PATH_TO_JULIA>\Julia-1.5.3\bin\
+           winget install julia -s msstore
         </p></details>
-     - <details><summary><b>Linux</b></summary><p>
-        Edit your `~/.bashrc` to add the following line (replacing <PATH_TO_JULIA> with your actual Julia installation location):
+     - <details><summary><b>MacOS & Linux</b></summary><p>
+        Open a terminal and run the following:
 
-           export PATH=$PATH:/<PATH_TO_JULIA>/bin/
+           curl -fsSL https://install.julialang.org | sh
         </p></details>
-     - <details><summary><b>Mac OS X</b></summary><p>
-        Open a terminal and run the following (this will create a`julia` alias and place it in `/usr/local/bin` which is already on the terminal path):
 
-           sudo sh -c 'mkdir -p /usr/local/bin && ln -fs "/Applications/Julia-1.5.app/Contents/Resources/julia/bin/julia" /usr/local/bin/julia'
-        </p></details>
-2. Install Git from https://git-scm.com/downloads
-3. Open a terminal and run:
+### Clone the Repository
+Open a terminal, navigate to a directory where you want to store the course materials, and run:
     ```bash
     git clone https://github.com/sisl/AA120Q
-    cd AA120Q
-    julia install.jl
     ```
-4. Test the installation by opening `julia` and running:
+
+### Install the Packages
+From the AA120Q directory, run:
+```bash
+julia install.jl
+```
+The `install.jl` script will add Pluto and PlutoUI to your default Julia environment. It will also activate the AA120Q package, download the project dependencies, and compile the project. If you do not experience any errors during this process, you are ready to run the notebooks!
+
+## Package Management
+There are a couple of ways to open Julia. The following options assume you are in the AA120Q directory.
+
+### Activate the AA120Q Package After Opening Julia
+Typeing `julia` will open julia, and then you can use `]` to open the package manager. You should see `(@v1.11) pkg> ` in the prompt and then run `activate .` to activate the AA120Q package. You should see `(@v1.11) Pkg> ` change to `(@AA120Q) Pkg> ` to confirm that the AA120Q package is active. Then you can press backspace to return to the normal prompt.
 ```julia
-] test AA120Q
+(@v1.11) pkg> activate .
+(AA120Q) pkg>
+julia>
+```
+      
+### Activate the AA120Q Package When Opening Julia
+Another option is to open julia with the AA120Q package activated. From the AA120Q directory, run the following in the terminal:
+```bash
+julia --project=.
 ```
 
+### Using the Julia Package Manger
+The Julia package manager is a useful tool for managing packages used for a projct and to help with reproducibility. To inspect the packages used in the AA120Q project, you can type `]` to open the package manager and then type `status`. You should see something similar to the following:
+```julia
+(AA120Q) pkg> status
+Project AA120Q v0.2.0
+Status `~/Documents/AA120Q/AA120Q/Project.toml`
+  [ba4760a4] BayesNets v3.4.1
+  [336ed68f] CSV v0.10.15
+  [159f3aea] Cairo v1.1.1
+⌅ [5ae59095] Colors v0.12.11
+  [a81c6b42] Compose v0.9.5
+  [a93c6f00] DataFrames v1.7.0
+  [6e83dbb3] Discretizers v3.2.4
+  [31c24e10] Distributions v0.25.115
+  [033835bb] JLD2 v0.5.10
+  [f0f68f2c] PlotlyJS v0.18.15
+⌃ [91a5bcdd] Plots v1.40.7
+  [c3e4b0f8] Pluto v0.20.4
+  [7f904dfe] PlutoUI v0.7.60
+  [ce6b1742] RDatasets v0.7.7
+  [10745b16] Statistics v1.11.1
+⌅ [2913bbd2] StatsBase v0.33.21
+  [37f6aa50] TikzPictures v3.5.0
+  [37e2e46d] LinearAlgebra v1.11.0
+  [44cfe95a] Pkg v1.11.0
+  [de0858da] Printf v1.11.0
+(AA120Q) pkg>
+```
 
 ## Running Pluto
 
-1. Open a terminal and run `julia` (or you can open the Julia application itself)
-2. Inside Julia, run the following commands:
+To run Pluto to interact with the notebooks:
+1. Open Julia and activate the AA120Q package (above options)
+2. Run `using Pluto` followed by `Pluto.run()`:
 ```julia
 using Pluto
 Pluto.run()
 ```
-- You should see an `http://localhost:####` url you can open in a browser (this will open Pluto!)
+You should see a url similar to `http://localhost:####/?secret=####` that you can open in a browser (this will open Pluto!).
 
 
 ## Troubleshooting
-Post issues either here on GitHub or on Piazza.
+Post issues you expereince on Ed or here on GitHub.
+
+## Update AA120Q (if necessary)
+If we update the course materials, you can update your local copy of the repository by running `git pull` from the AA120Q directory.

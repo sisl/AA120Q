@@ -1,32 +1,26 @@
 ### A Pluto.jl notebook ###
-# v0.12.18
+# v0.20.3
 
 using Markdown
 using InteractiveUtils
 
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
+    #! format: off
     quote
+        local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
-        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
+        global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
+    #! format: on
 end
 
-# ╔═╡ f3d093c0-076b-11eb-21bc-d752119bd59f
-begin
+# ╔═╡ 5e7ec050-3ef1-4f7a-bc9c-45f3432970cc
+begin 
+	using Pkg
+	Pkg.activate("../.")
 	using PlutoUI
-
-	md"""
-	# Scientific Computing Tools and Visualizations
-	AA120Q: *Building Trust in Autonomy*, Stanford University. 
-
-	## Lecture 2
-	We will discuss how the Julia programming language is used for scientific computing and data visualization.
-
-	Readings:
-	- [Julia tutorial](https://learnxinyminutes.com/docs/julia/)
-	"""
 end
 
 # ╔═╡ db7cd9e0-0776-11eb-1cd5-d582a6dcfcdd
@@ -47,8 +41,20 @@ using Plots
 # ╔═╡ e98fd5c0-0783-11eb-0719-8385ba04dcd7
 using Colors
 
-# ╔═╡ 0590fee0-0787-11eb-2359-21c3bad35e43
-using SymPy
+# ╔═╡ f3d093c0-076b-11eb-21bc-d752119bd59f
+begin
+	md"""
+	# Scientific Computing Tools and Visualizations
+	AA120Q: *Building Trust in Autonomy*
+
+	## Readings/Videos/References
+	- [`Pkg` Documentation](https://docs.julialang.org/en/v1/stdlib/Pkg/)
+	- [`Plots.jl` Documentation](https://docs.juliaplots.org/stable/)
+	- [`DataFrames.jl` Documentation](https://dataframes.juliadata.org/stable/)
+	- [`Distributions.jl` Documentation](https://juliastats.org/Distributions.jl/stable/)
+	- [Decision Making Under Uncertainty, Chapter 2.1, Probabilistic Models](https://ieeexplore.ieee.org/document/7288676)
+	"""
+end
 
 # ╔═╡ 6536e190-076c-11eb-3c75-7f594ba1ab24
 md"""
@@ -61,42 +67,8 @@ Scientific computing includes:
 - Model fitting
 - Data analysis
 - Optimization
-"""
 
-# ╔═╡ b052f060-076c-11eb-0605-2bda092968da
-md"""
-## Julia
-
-![](https://julialang.org/assets/infra/logo.svg)
-
-Julia is a high-level dynamic programming language.$^{[\href{https://en.wikipedia.org/wiki/Julia_(programming_language)}{2}]}$
-"""
-
-# ╔═╡ 91b3c700-076d-11eb-2090-f340640ff2f0
-md"""
-### Installing Packages
-Julia makes it easy to install packages (and specific versions of packages too).
-
-Julia also makes it easy to obtain packages from Github.
-"""
-
-# ╔═╡ 6d579664-fe37-4986-aea6-d50b4f1e64af
-md"""
-```julia
-using Pkg
-Pkg.add("DataFrames")
-Pkg.add("Distributions")
-Pkg.add("Discretizers")
-Pkg.add("Plots")
-Pkg.add("Colors")
-Pkg.add("SymPy")
-```
-"""
-
-# ╔═╡ 8a655ae0-076d-11eb-196b-c5af3ec9148f
-md"""
-# Scientific Computing Packages
-Julia offers a wide range of [official packages](https://juliahub.com/). There are many custom packages that are not in the official listing as well.
+Julia offers a wide range of [official packages]( https://juliahub.com/ui/Packages). There are many custom packages that are not in the official listing as well.
 
 You can go to a package's documentation, typically from Github, to view all of its features.
 
@@ -106,7 +78,7 @@ Some of the packages we will be using are:
 - Discretizers
 - Plots
 - Colors
-- SymPy
+- Symbolics
 """
 
 # ╔═╡ 46be8b02-0776-11eb-0a40-b1de3001c2fa
@@ -115,18 +87,25 @@ md"""
 """
 
 # ╔═╡ dd115c90-0776-11eb-2a5a-a7a9e12e0b85
-df = DataFrame(animal=["Dog", "Cat", "Mouse", "Snake", "Sparrow"],
-	           legs=[4, 4, 4, 0, 2],
-	           weight=[100, 10, 0.68, 2, 0.2])
+df = DataFrame(
+    timestamp = 1:5,
+    position_x = [0.0, 1.1, 2.3, 3.2, 4.1],
+    position_y = [0.0, 0.3, 0.5, 0.4, 0.6],
+    velocity = [0.0, 1.1, 1.2, 0.9, 1.0],
+	obstacle_detected = [false, false, true, true, false]
+)
 
 # ╔═╡ ff2a26e0-0776-11eb-1543-5b0a27c2eeb9
-df[2, :animal]
+df[2, :position_x] # By index and column name
 
 # ╔═╡ 03025800-0777-11eb-061c-1749664edcaf
-df[2, 1]
+df[2, 2] # By index only
 
 # ╔═╡ 053eb370-0777-11eb-2ae5-f7e866357a0f
-df[!, :legs]
+df[!, :obstacle_detected] # All entries in a column
+
+# ╔═╡ 995fd97e-8b73-467a-8df1-382f6cfc99c5
+df.obstacle_detected # Another way to get all entries in a column
 
 # ╔═╡ 09a93980-0777-11eb-1b25-2154fbb945ec
 md"""
@@ -205,10 +184,10 @@ Here we construct a linear discretizer that maps $[0, 0.5) \to 1$ and $[0.5, 1] 
 """
 
 # ╔═╡ 15e91550-077f-11eb-2469-6f1e90d3491f
-binedges = [0, 0.5, 1]
+speed_edges = [0.0, 5.0, 10.0, 15.0, 20.0, 25.0]
 
 # ╔═╡ 1d4d7a70-077f-11eb-3752-5d42c826d823
-lineardisc = LinearDiscretizer(binedges)
+lineardisc = LinearDiscretizer(speed_edges)
 
 # ╔═╡ 54990e90-077f-11eb-20a0-bbdba8de08a4
 md"""
@@ -216,20 +195,25 @@ md"""
 """
 
 # ╔═╡ 29a67d30-077f-11eb-1bb1-2f5998f4a8bf
-encode(lineardisc, 0.2)
+encode(lineardisc, 17.3)
 
 # ╔═╡ 48855230-077f-11eb-0cc7-e1b3f68c4bbc
-encode(lineardisc, 0.7)
+encode(lineardisc, 1.2)
 
 # ╔═╡ 49ffbd32-077f-11eb-159e-ef3ca084c9e6
-encode(lineardisc, 0.5)
+encode(lineardisc, 120.0)
 
 # ╔═╡ 4ae3dba0-077f-11eb-3b1e-79a6d52114ac
-encode(lineardisc, [0, 0.8, 0.2])
+encode(lineardisc, [17.3, 1.2, 120.0])
 
 # ╔═╡ 5382e3a0-077f-11eb-324b-7f1eae0f0e3e
 md"""
 ###### Decoding
+"""
+
+# ╔═╡ bff436a1-75f3-41d3-8f9f-8e561d307b54
+md"""
+As a default, `decode` for a `::LinearDiscretizer` uniformly samples from the bins. Another option is to return the bin center and you can decode using this method by passing `SampleBinCenter()` to `decode`.
 """
 
 # ╔═╡ 6242d440-077f-11eb-09c2-7d637f3be52d
@@ -240,6 +224,15 @@ decode(lineardisc, 2)
 
 # ╔═╡ 6accf4b0-077f-11eb-1408-7b86c51641cf
 decode(lineardisc, [2, 1, 2])
+
+# ╔═╡ 343f22a7-92ef-4389-bff9-579ace34c97a
+decode(lineardisc, 1, SampleBinCenter())
+
+# ╔═╡ 332596d0-e62e-4e1a-b26c-216d189b394d
+decode(lineardisc, 2, SampleBinCenter())
+
+# ╔═╡ 7d52aea4-4d12-409a-bb7d-9e0b616b7c10
+decode(lineardisc, [2, 1, 2, 4, 5], SampleBinCenter())
 
 # ╔═╡ c84dc3be-0780-11eb-237a-3b491dae9c4d
 md"""
@@ -254,7 +247,7 @@ md"""
 """
 
 # ╔═╡ 069adc80-0781-11eb-1aad-abb11200e9cf
-plotly() # one of many different backends
+plotlyjs() # one of many different backends
 
 # ╔═╡ 60250140-0a88-11eb-1d92-99f3cc279e4a
 XY = Plots.fakedata(50, 10)
@@ -298,37 +291,14 @@ end
 # ╔═╡ c17a3780-0781-11eb-386e-83e5c931cc31
 histogram(randn(1000), bins=20)
 
-# ╔═╡ ccc704f0-0782-11eb-1b75-8ddfd5ffb33d
-md"Control the mean: $(@bind μ Slider(-5:0.5:5, default=0, show_value=true))"
-
-# ╔═╡ ce804320-0781-11eb-2b48-9927b05e5bdc
-md"Control the standard deviation: $(@bind σ Slider(0.2:0.2:5, default=1, show_value=true))"
-
-# ╔═╡ fadb8c40-0781-11eb-297e-4db03c0d521b
-histogram(μ .+ σ*randn(1000), bins=20); xlims!(-15, 15); ylims!(0, 250)
-
 # ╔═╡ 48ae1310-0783-11eb-2d09-6b00cca36f26
 md"""
-> Note you can use underscores within numbers as separators for human-readability. 
+!!! note 
+	You can use underscores within numbers as separators for human-readability. E.g. 10_000 is the same as 10000.
 """
 
 # ╔═╡ 3f301cc0-0783-11eb-092a-918535d1bd1c
 histogram2d(randn(10_000), randn(10_000), bins=20, c=:viridis, showempty=true)
-
-# ╔═╡ 48af1ab0-0a87-11eb-224c-d389ecb189e9
-md"Control the mean (x): $(@bind μx2d Slider(-5:0.5:5, default=0, show_value=true)) |  Control the mean (y): $(@bind μy2d Slider(-5:0.5:5, default=0, show_value=true))"
-
-# ╔═╡ 3d8967d0-0a87-11eb-3d2c-8b15d9e77e12
-md"Control the standard deviation (x): $(@bind σx2d Slider(0.2:0.2:4, default=1, show_value=true)) | Control σ (y): $(@bind σy2d Slider(0.2:0.2:4, default=1, show_value=true))"
-
-# ╔═╡ 5f9030be-0a87-11eb-2035-6d60b017c3c3
-begin
-	X2d = μx2d .+ σx2d*randn(10_000)
-	Y2d = μy2d .+ σy2d*randn(10_000)
-	histogram2d(X2d, Y2d, bins=20, c=:viridis)
-	xlims!(-10,10)
-	ylims!(-10,10)
-end
 
 # ╔═╡ 8fb3fd60-0783-11eb-2f7e-912b2637b908
 begin
@@ -345,6 +315,152 @@ Data visualization is more general than plotting, and often involves interaction
 This class uses `Reactive`, `PlutoUI`, and `Cairo` behind the scenes.
 """
 
+# ╔═╡ 350a7f4e-0784-11eb-1fa5-17cbd9d193c2
+md" $\uparrow$ unhide the above cell to see how these sliders work."
+
+# ╔═╡ cc62b2f0-0784-11eb-3c99-01342dc67e7d
+md"""
+You can use `RGB` with plots as well (try changing this to use `r`, `g`, and `b` bound to sliders from above).
+"""
+
+# ╔═╡ acd1f310-0784-11eb-2e4f-7d2da86dbee0
+plot(x->sin(x^2), 0, π, line=2, color=RGB(0.75, 0, 0.5))
+
+# ╔═╡ 6de2d1be-124c-45f8-b7b4-e866100bf56b
+md"""
+## Statistcal Models
+"""
+
+# ╔═╡ 6296fddf-92f9-4107-b74b-81f1b5480f53
+md"""
+### Piecewise Constant Distributions
+"""
+
+# ╔═╡ f6fa805e-451b-4b3e-ab53-87253ff8e56e
+md"""
+A normal distribution with mean 3 and standard deviation 2.
+"""
+
+# ╔═╡ 5fd3d217-09d0-4b98-9b7e-5cae1689bf96
+normal_dist = Normal(3, 2)
+
+# ╔═╡ f42a9e79-9a74-43d6-867b-2e5c8ec71395
+md"""
+Generate 1000 samples.
+"""
+
+# ╔═╡ 9858284d-7f31-4b4b-a5a2-4607b91e4f68
+normaldata = rand(normal_dist, 1000)
+
+# ╔═╡ 0df8db0a-400f-459c-a5bb-9a4f8d827656
+binlengths = [3 10 50 1000]
+
+# ╔═╡ 654bcf1e-0392-4b33-bf24-3d63b48d5e71
+histogram(fill(normaldata, 4),
+	      bins=binlengths,
+	      label=binlengths,
+	      layout=@layout([a b; c d]))
+
+# ╔═╡ 45c292b5-7d7e-460b-9de3-e220e41cb5a4
+md"""
+These plots are not of densities (they do not integrate to $1$).
+"""
+
+# ╔═╡ 50fb398f-bb65-4bd5-8224-274cb38adcd8
+md"""
+### Mixture Model
+This example will focus on Gaussian mixture components, but the code can support components from other distributions.
+"""
+
+# ╔═╡ a08e3a50-0eaa-4cbf-82ed-2ff8d7c50801
+md"""
+# Backend
+_Helper functions and project management. Please do not edit._
+"""
+
+# ╔═╡ de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
+PlutoUI.TableOfContents()
+
+# ╔═╡ a571e201-8ce2-4d6b-9ca6-7860a10eae4e
+begin
+	start_code() = html"""
+	<div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;START CODE&gt;</code></b></span><div class='line'></div></div>
+	<p> </p>
+	<!-- START_CODE -->
+	"""
+
+	end_code() = html"""
+	<!-- END CODE -->
+	<p><div class='container'><div class='line'></div><span class='text' style='color:#B1040E'><b><code>&lt;END CODE&gt;</code></b></span><div class='line'></div></div></p>
+	"""
+
+	function combine_html_md(contents::Vector; return_html=true)
+		process(str) = str isa HTML ? str.content : html(str)
+		return join(map(process, contents))
+	end
+
+	function html_expand(title, content::Markdown.MD)
+		return HTML("<details><summary>$title</summary>$(html(content))</details>")
+	end
+
+	function html_expand(title, contents::Vector)
+		html_code = combine_html_md(contents; return_html=false)
+		return HTML("<details><summary>$title</summary>$html_code</details>")
+	end
+
+	html_space() = html"<br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+	html_half_space() = html"<br><br><br><br><br><br><br>"
+	html_quarter_space() = html"<br><br><br>"
+
+	Bonds = PlutoUI.BuiltinsNotebook.AbstractPlutoDingetjes.Bonds
+
+	struct DarkModeIndicator
+		default::Bool
+	end
+	
+	DarkModeIndicator(; default::Bool=false) = DarkModeIndicator(default)
+
+	function Base.show(io::IO, ::MIME"text/html", link::DarkModeIndicator)
+		print(io, """
+			<span>
+			<script>
+				const span = currentScript.parentElement
+				span.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+			</script>
+			</span>
+		""")
+	end
+
+	Base.get(checkbox::DarkModeIndicator) = checkbox.default
+	Bonds.initial_value(b::DarkModeIndicator) = b.default
+	Bonds.possible_values(b::DarkModeIndicator) = [false, true]
+	Bonds.validate_value(b::DarkModeIndicator, val) = val isa Bool
+end
+
+# ╔═╡ ccc704f0-0782-11eb-1b75-8ddfd5ffb33d
+md"Control the mean: $(@bind μ Slider(-5:0.5:5, default=0, show_value=true))"
+
+# ╔═╡ ce804320-0781-11eb-2b48-9927b05e5bdc
+md"Control the standard deviation: $(@bind σ Slider(0.2:0.2:5, default=1, show_value=true))"
+
+# ╔═╡ fadb8c40-0781-11eb-297e-4db03c0d521b
+histogram(μ .+ σ*randn(1000), bins=20); xlims!(-15, 15); ylims!(0, 250)
+
+# ╔═╡ 48af1ab0-0a87-11eb-224c-d389ecb189e9
+md"Control the mean (x): $(@bind μx2d Slider(-5:0.5:5, default=0, show_value=true)) |  Control the mean (y): $(@bind μy2d Slider(-5:0.5:5, default=0, show_value=true))"
+
+# ╔═╡ 3d8967d0-0a87-11eb-3d2c-8b15d9e77e12
+md"Control the standard deviation (x): $(@bind σx2d Slider(0.2:0.2:4, default=1, show_value=true)) | Control σ (y): $(@bind σy2d Slider(0.2:0.2:4, default=1, show_value=true))"
+
+# ╔═╡ 5f9030be-0a87-11eb-2035-6d60b017c3c3
+begin
+	X2d = μx2d .+ σx2d*randn(10_000)
+	Y2d = μy2d .+ σy2d*randn(10_000)
+	histogram2d(X2d, Y2d, bins=20, c=:viridis)
+	xlims!(-10,10)
+	ylims!(-10,10)
+end
+
 # ╔═╡ fc730a40-0783-11eb-2bd0-cb2cc7c9f987
 md"""
 Red: $(@bind r Slider(0:0.01:1))
@@ -354,9 +470,6 @@ Blue: $(@bind b Slider(0:0.01:1))
 
 # ╔═╡ efd73220-0783-11eb-06aa-c775f6fb89d7
 RGB(r, g, b)
-
-# ╔═╡ 350a7f4e-0784-11eb-1fa5-17cbd9d193c2
-md" $\uparrow$ unhide the above cell to see how these sliders work."
 
 # ╔═╡ 658318e0-0784-11eb-1a47-f7c46d6cb10c
 md"""
@@ -368,95 +481,117 @@ Value (i.e. brightness): $(@bind v Slider(0:0.01:1, default=0.5))
 # ╔═╡ 31b95880-0784-11eb-39f1-332b4ebb8d2a
 HSV(h, s, v)
 
-# ╔═╡ cc62b2f0-0784-11eb-3c99-01342dc67e7d
+# ╔═╡ 5c9a748f-a87b-4f27-9ba6-ee8dce49259c
 md"""
-You can use `RGB` with plots as well (try changing this to use `r`, `g`, and `b` bound to sliders from above).
+μ₁: $(@bind μ₁ Slider(-10:0.1:10; default=-3, show_value=true)) σ₁: $(@bind σ₁ Slider(0:0.1:5; default=1, show_value=true))
+
+μ₂: $(@bind μ₂ Slider(-10:0.1:10; default=4, show_value=true)) σ₂: $(@bind σ₂ Slider(0:0.1:5; default=2, show_value=true))
+
+w₁: $(@bind w₁ Slider(0.0:0.1:1.0; default=0.8, show_value=true)) 1-w₁: $(1-w₁)
 """
 
-# ╔═╡ acd1f310-0784-11eb-2e4f-7d2da86dbee0
-plot(x->sin(x^2), 0, π, line=2, color=RGB(0.75, 0, 0.5))
+# ╔═╡ 07ff7471-a164-4f93-8a9a-5736ef825227
+mixture = MixtureModel([Normal(μ₁,σ₁), Normal(μ₂,σ₂)], [w₁, 1-w₁])
 
-# ╔═╡ b9ced6f0-0784-11eb-0f57-5999bd3df9e2
-md"""
-# SymPy
-Symbolic math in Julia!
-"""
+# ╔═╡ ae9c77dc-3058-446d-9b9a-c29f6d6282e4
+mixdata = rand(mixture, 1000);
 
-# ╔═╡ 99274452-078e-11eb-1d23-3528c7bbfe1b
-# Fix LaTeX display issue which was wrapping things with \text{...}
-# https://github.com/fonsp/Pluto.jl/issues/488
-Base.show(io::IO, ::MIME"text/latex", x::SymPy.SymbolicObject) = print(io, sympy.latex(x, mode="inline"))
-
-# ╔═╡ 0ecedef0-0787-11eb-1006-f5e89a94559f
-x = symbols("x")
-
-# ╔═╡ 08aec432-0788-11eb-209d-017d9bc569e9
-y = sin(π*x)
-
-# ╔═╡ 2fbe1600-078a-11eb-17b5-bf277495fd9f
-y(1)
-
-# ╔═╡ 3397f4d0-078a-11eb-34b4-d534d90322b0
-solve(x^2 + 1)
-
-# ╔═╡ 2e137340-078a-11eb-2020-a99eb75e14fb
-z = symbols("z", real=true)
-
-# ╔═╡ 4fe856c0-078a-11eb-1f87-03f36f56e416
-solve(z^2 + 1)
-
-# ╔═╡ 4dc82700-0918-11eb-1d2c-7728dad5b2f9
-y1, y2 = symbols("y1, y2", positive=true)
-
-# ╔═╡ 5504045e-078a-11eb-1287-79f40457f8cb
-solve(y1 + 1) # -1 is not positive
-
-# ╔═╡ 6230d1e0-078a-11eb-1c2a-ebd4cf7299f9
-ex = x^2 + 2x + 1
-
-# ╔═╡ 6aac7360-078a-11eb-0cee-e5780438eb5e
-subs(ex, x, y)
-
-# ╔═╡ 77f37fa2-078a-11eb-130e-43348967a008
-subs(ex, x, 0)
-
-# ╔═╡ 7c2d31b2-078a-11eb-1ddc-e547ad6cef98
-w = x^2 + 3x + 2
-
-# ╔═╡ b3b384e0-078a-11eb-02e1-d98d80d9c457
-factor(w)
-
-# ╔═╡ ba511790-078a-11eb-0d2c-451cc28851cd
-solve(cos(x) - sin(x))
-
-# ╔═╡ c58c2730-078a-11eb-07c3-db5c4848e151
-limit(sin(x)/x, x, 0)
-
-# ╔═╡ ca169150-078a-11eb-2532-472d16f3fb43
-diff(x^x, x)
-
-# ╔═╡ cdb95a90-078a-11eb-1f63-4be59b019e55
-integrate(x^3, x)
+# ╔═╡ 7ea7ab10-c24f-4498-afb2-7c76a1508fa3
+histogram(mixdata, bins=50, ylabel="Counts", size=(650,300), xlim=(-15,15))
 
 # ╔═╡ 7d23aab8-1cf5-440b-9a43-b1ef2b15a586
-md"---"
+html_half_space()
 
-# ╔═╡ de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
-PlutoUI.TableOfContents(title="Computing Tools")
+# ╔═╡ 4ee2c5fe-e65d-479b-8d1b-fdbcf6fbe78f
+html"""
+	<style>
+		h3 {
+			border-bottom: 1px dotted var(--rule-color);
+		}
+
+		summary {
+			font-weight: 500;
+			font-style: italic;
+		}
+
+		.container {
+	      display: flex;
+	      align-items: center;
+	      width: 100%;
+	      margin: 1px 0;
+	    }
+
+	    .line {
+	      flex: 1;
+	      height: 2px;
+	      background-color: #B83A4B;
+	    }
+
+	    .text {
+	      margin: 0 5px;
+	      white-space: nowrap; /* Prevents text from wrapping */
+	    }
+
+		h2hide {
+			border-bottom: 2px dotted var(--rule-color);
+			font-size: 1.8rem;
+			font-weight: 700;
+			margin-bottom: 0.5rem;
+			margin-block-start: calc(2rem - var(--pluto-cell-spacing));
+		    font-feature-settings: "lnum", "pnum";
+		    color: var(--pluto-output-h-color);
+		    font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		h3hide {
+		    border-bottom: 1px dotted var(--rule-color);
+			font-size: 1.6rem;
+			font-weight: 600;
+			color: var(--pluto-output-h-color);
+		    font-feature-settings: "lnum", "pnum";
+			font-family: Vollkorn, Palatino, Georgia, serif;
+		    line-height: 1.25em;
+			margin-block-start: 0;
+		    margin-block-end: 0;
+		    display: block;
+		    margin-inline-start: 0px;
+		    margin-inline-end: 0px;
+		    unicode-bidi: isolate;
+		}
+
+		.styled-button {
+			background-color: var(--pluto-output-color);
+			color: var(--pluto-output-bg-color);
+			border: none;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			font-family: Alegreya Sans, Trebuchet MS, sans-serif;
+		}
+	</style>
+
+	<script>
+	const buttons = document.querySelectorAll('input[type="button"]');
+	buttons.forEach(button => button.classList.add('styled-button'));
+	</script>"""
 
 # ╔═╡ Cell order:
 # ╟─f3d093c0-076b-11eb-21bc-d752119bd59f
+# ╟─5e7ec050-3ef1-4f7a-bc9c-45f3432970cc
 # ╟─6536e190-076c-11eb-3c75-7f594ba1ab24
-# ╟─b052f060-076c-11eb-0605-2bda092968da
-# ╟─91b3c700-076d-11eb-2090-f340640ff2f0
-# ╟─6d579664-fe37-4986-aea6-d50b4f1e64af
-# ╟─8a655ae0-076d-11eb-196b-c5af3ec9148f
 # ╟─46be8b02-0776-11eb-0a40-b1de3001c2fa
 # ╠═db7cd9e0-0776-11eb-1cd5-d582a6dcfcdd
 # ╠═dd115c90-0776-11eb-2a5a-a7a9e12e0b85
 # ╠═ff2a26e0-0776-11eb-1543-5b0a27c2eeb9
 # ╠═03025800-0777-11eb-061c-1749664edcaf
 # ╠═053eb370-0777-11eb-2ae5-f7e866357a0f
+# ╠═995fd97e-8b73-467a-8df1-382f6cfc99c5
 # ╟─09a93980-0777-11eb-1b25-2154fbb945ec
 # ╠═4c3d23b0-0777-11eb-0541-efbd67f06b91
 # ╠═6e8be5e0-40c1-11eb-36a5-976734a0a2cf
@@ -488,9 +623,13 @@ PlutoUI.TableOfContents(title="Computing Tools")
 # ╠═49ffbd32-077f-11eb-159e-ef3ca084c9e6
 # ╠═4ae3dba0-077f-11eb-3b1e-79a6d52114ac
 # ╟─5382e3a0-077f-11eb-324b-7f1eae0f0e3e
+# ╟─bff436a1-75f3-41d3-8f9f-8e561d307b54
 # ╠═6242d440-077f-11eb-09c2-7d637f3be52d
 # ╠═680e22d0-077f-11eb-2639-67723187c19f
 # ╠═6accf4b0-077f-11eb-1408-7b86c51641cf
+# ╠═343f22a7-92ef-4389-bff9-579ace34c97a
+# ╠═332596d0-e62e-4e1a-b26c-216d189b394d
+# ╠═7d52aea4-4d12-409a-bb7d-9e0b616b7c10
 # ╟─c84dc3be-0780-11eb-237a-3b491dae9c4d
 # ╟─e636ee20-0780-11eb-0239-4b58bcae19b7
 # ╠═0384269e-0781-11eb-17a5-7fa7f4db431d
@@ -516,32 +655,29 @@ PlutoUI.TableOfContents(title="Computing Tools")
 # ╠═8fb3fd60-0783-11eb-2f7e-912b2637b908
 # ╟─aa2f2a20-0783-11eb-1969-3d44dd557c93
 # ╠═e98fd5c0-0783-11eb-0719-8385ba04dcd7
-# ╠═efd73220-0783-11eb-06aa-c775f6fb89d7
+# ╟─efd73220-0783-11eb-06aa-c775f6fb89d7
 # ╟─fc730a40-0783-11eb-2bd0-cb2cc7c9f987
 # ╟─350a7f4e-0784-11eb-1fa5-17cbd9d193c2
 # ╠═31b95880-0784-11eb-39f1-332b4ebb8d2a
 # ╟─658318e0-0784-11eb-1a47-f7c46d6cb10c
 # ╟─cc62b2f0-0784-11eb-3c99-01342dc67e7d
 # ╠═acd1f310-0784-11eb-2e4f-7d2da86dbee0
-# ╟─b9ced6f0-0784-11eb-0f57-5999bd3df9e2
-# ╠═0590fee0-0787-11eb-2359-21c3bad35e43
-# ╠═99274452-078e-11eb-1d23-3528c7bbfe1b
-# ╠═0ecedef0-0787-11eb-1006-f5e89a94559f
-# ╠═08aec432-0788-11eb-209d-017d9bc569e9
-# ╠═2fbe1600-078a-11eb-17b5-bf277495fd9f
-# ╠═3397f4d0-078a-11eb-34b4-d534d90322b0
-# ╠═2e137340-078a-11eb-2020-a99eb75e14fb
-# ╠═4fe856c0-078a-11eb-1f87-03f36f56e416
-# ╠═4dc82700-0918-11eb-1d2c-7728dad5b2f9
-# ╠═5504045e-078a-11eb-1287-79f40457f8cb
-# ╠═6230d1e0-078a-11eb-1c2a-ebd4cf7299f9
-# ╠═6aac7360-078a-11eb-0cee-e5780438eb5e
-# ╠═77f37fa2-078a-11eb-130e-43348967a008
-# ╠═7c2d31b2-078a-11eb-1ddc-e547ad6cef98
-# ╠═b3b384e0-078a-11eb-02e1-d98d80d9c457
-# ╠═ba511790-078a-11eb-0d2c-451cc28851cd
-# ╠═c58c2730-078a-11eb-07c3-db5c4848e151
-# ╠═ca169150-078a-11eb-2532-472d16f3fb43
-# ╠═cdb95a90-078a-11eb-1f63-4be59b019e55
+# ╟─6de2d1be-124c-45f8-b7b4-e866100bf56b
+# ╟─6296fddf-92f9-4107-b74b-81f1b5480f53
+# ╟─f6fa805e-451b-4b3e-ab53-87253ff8e56e
+# ╟─5fd3d217-09d0-4b98-9b7e-5cae1689bf96
+# ╟─f42a9e79-9a74-43d6-867b-2e5c8ec71395
+# ╠═9858284d-7f31-4b4b-a5a2-4607b91e4f68
+# ╠═0df8db0a-400f-459c-a5bb-9a4f8d827656
+# ╠═654bcf1e-0392-4b33-bf24-3d63b48d5e71
+# ╟─45c292b5-7d7e-460b-9de3-e220e41cb5a4
+# ╟─50fb398f-bb65-4bd5-8224-274cb38adcd8
+# ╠═07ff7471-a164-4f93-8a9a-5736ef825227
+# ╟─5c9a748f-a87b-4f27-9ba6-ee8dce49259c
+# ╠═ae9c77dc-3058-446d-9b9a-c29f6d6282e4
+# ╟─7ea7ab10-c24f-4498-afb2-7c76a1508fa3
 # ╟─7d23aab8-1cf5-440b-9a43-b1ef2b15a586
-# ╠═de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
+# ╟─a08e3a50-0eaa-4cbf-82ed-2ff8d7c50801
+# ╟─de5cd6f0-5907-45f1-b7b2-fd70dc4debe9
+# ╟─a571e201-8ce2-4d6b-9ca6-7860a10eae4e
+# ╟─4ee2c5fe-e65d-479b-8d1b-fdbcf6fbe78f
