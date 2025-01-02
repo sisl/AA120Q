@@ -46,6 +46,6 @@ Explore methods for simulating dynamic systems. Learn about the simulation loop,
 Develop a foundation for constructing autonomous systems. Topics include decision-making processes, policy evaluation, and system implementation.
 
 ### Notebook 6: Analysis of Autonomous Systems
-[![html](https://img.shields.io/badge/static%20html-Coding_Notebook%2006-0072B2)](https://htmlview.glitch.me/?https://github.com/sisl/AA120Q/blob/main/lectures/html/06_Analysis.jl.html)
+[![html](https://img.shields.io/badge/static%20html-Coding_Notebook%2006-0072B2)](https://htmlview.glitch.me/?https://github.com/sisl/AA120Q/blob/main/lectures/html/06_Analysis.html)
 
 Methods for analyzing autonomous system performance including metrics definition, trade-off analysis using Pareto frontiers, and quantitative evaluation techniques.
