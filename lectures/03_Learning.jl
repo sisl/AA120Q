@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.3
+# v0.20.4
 
 using Markdown
 using InteractiveUtils
@@ -28,6 +28,7 @@ begin
 	using RDatasets
 	using Plots
 	using Distributions
+	using BayesNets
 	plotlyjs()
 end
 
@@ -229,11 +230,98 @@ md"""
 You can experiment with different prior parameters (``\alpha, \beta``) or datasets to see how they affect the posterior distribution.
 """
 
+# ╔═╡ c2ef12e2-7b3a-4ae7-b5bf-6c8a2acb0a65
+md"""
+# Bayesian Networks
+
+So far we've looked at ways to learn individual probability distributions and their parameters from data. However, many systems involve multiple interacting variables with complex dependencies. Bayesian networks provide a powerful framework for representing and learning these relationships.
+
+## Additional Readings (optional)
+
+If you want to deepen your understanding of Bayesian networks, we recommend the following resources:
+
+- Kochenderfer, M. J., Wheeler, T. A., & Wray, K. H. (2022). *Algorithms for Decision Making*
+  - Chapters 3-5 cover probabilistic modeling, inference, and structure learning
+  - Available open access at [algorithmsbook.com](https://algorithmsbook.com)
+
+- Kochenderfer, M. J. (2015). *Decision Making Under Uncertainty: Theory and Application*
+  - Chapter 2: Probabilistic Models
+  - Available at [http://web.stanford.edu/group/sisl/public/dmu.pdf](http://web.stanford.edu/group/sisl/public/dmu.pdf)
+
+- Koller, D., & Friedman, N. (2009). *Probabilistic Graphical Models: Principles and Techniques*
+  - Comprehensive coverage of Bayesian networks and parameter learning
+  - Recommended for deeper theoretical understanding
+"""
+
+# ╔═╡ bdfe9697-8224-4a22-9229-458297153693
+md"""
+## What is a Bayesian Network?
+
+A Bayesian network is a probabilistic graphical model that represents the dependencies between random variables using a directed acyclic graph (DAG). Each node represents a random variable, and edges represent direct dependencies between variables. If we have a dataset, we can learn the structure of the network (the relationship between the variables) and the parameters of the distribution.
+
+## Example: Learning Dependencies from Data
+
+Let's work through a simple example to see how Bayesian networks can learn relationships from data. Consider three binary variables that might be related:
+
+- `cloudy`: Whether it's cloudy (true/false)
+- `rain`: Whether it rained (true/false)
+- `wet_grass`: Whether the grass is wet (true/false)
+
+While we might have intuition about how these variables relate (e.g., cloudy weather often correlates with rain), let's see what we can learn directly from a notional dataset.
+"""
+
+# ╔═╡ 76337315-9fad-4a62-8d51-b238e1254c17
+md"""
+### Example Dataset
+
+We will use 1 to represent False and 2 to represent True.
+"""
+
+# ╔═╡ b861c5f8-4ed1-4575-86e7-60664a35af51
+df_rain = DataFrame(
+	:cloudy =>     [2, 2, 2, 2, 2, 1, 1, 2, 1, 2, 2, 1, 1, 2, 2, 2, 1, 1, 1],
+	:rain =>       [2, 1, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 2, 1, 1, 1],
+	:wet_grass =>  [2, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2, 1]
+)
+
+# ╔═╡ f0fda9ac-2772-4e24-b10d-9e18a0ba523a
+md"""
+### Learning the Network
+We can use the BayesNets.jl package to learn both the structure and parameters of our network:
+"""
+
+# ╔═╡ 9af73f4c-16e3-4757-b96e-456d7aa81024
+begin
+	# Set up the algorithm we will use to learn the structure/parameters
+	params = GreedyHillClimbing(
+		ScoreComponentCache(df_rain), # Cache for score calculations
+		max_n_parents=2,         # Maximum parents per node
+		prior=UniformPrior()     # Prior
+	)
+
+	# Learn the network (ncategories is the number of possible values our variables can be. Since our variables are binary, we have 2 for each variable).
+	bn = fit(DiscreteBayesNet, df_rain, params; ncategories=[2,2,2])
+end
+
+# ╔═╡ 6db32b85-0184-4911-99c6-4c56673b2954
+md"""
+### Understanding the Results
+Interestingly, some of these arrows might seem "backwards" from our causal intuition---for instance, we typically think of cloudy conditions causing rain, not the other way around. This highlights an important aspect of Bayesian networks: the arrows represent statistical dependencies, not necessarily causal relationships.
+
+Interestingly, some of these arrows might seem "backwards" from our causal intuition---for instance, we typically think of cloudy conditions causing rain, not the other way around. This highlights an important aspect of Bayesian networks: the arrows represent statistical dependencies, not necessarily causal relationships.
+
+What matters in a Bayesian network is capturing the joint probability distribution correctly, and there can be multiple network structures that represent the same distribution. For example, if rain and cloudy conditions are strongly correlated, the network might represent this dependency with an arrow in either direction while still making accurate probabilistic predictions.
+
+The distinction between statistical and causal relationships is important when we interpret results from learned models. **A learned Bayesian network tells us about probabilistic relationships in the data, but we should be cautious about inferring cause and effect from these relationships.**
+
+In Assignment 2, we will use a learned network to help us generate aircraft encounters. Our goal isn't to interpret the learned relationships between variables, but rather to use the network to capture statistical dependencies that help us generate realistic encounters. The network will serve this purpose effectively even if some arrows don't align with our intuition about causation.
+"""
+
 # ╔═╡ 252dffe0-38c0-11eb-0b9f-e19e63641d4a
 md"""
-## Nonparametric Parameter Learning
+# Nonparametric Learning
 
-Nonparametric parameter learning refers to methods that do not assume a fixed parametric form for the underlying data distribution. Instead, these methods let the data dictate the structure of the model. One common approach is **Kernel Density Estimation (KDE)**, which estimates the probability density function of a random variable by placing a smooth kernel (e.g., a Gaussian) at each data point.
+Nonparametric learning refers to methods that do not assume a fixed parametric form for the underlying data distribution. Instead, these methods let the data dictate the structure of the model. One common approach is **Kernel Density Estimation (KDE)**, which estimates the probability density function of a random variable by placing a smooth kernel (e.g., a Gaussian) at each data point.
 
 Key features of nonparametric learning:
 - **Flexibility**: Captures complex patterns in the data that parametric models might miss.
@@ -245,7 +333,7 @@ However, nonparametric methods often struggle with high-dimensional data due to 
 
 # ╔═╡ 09ea445c-cd6a-40d4-8585-92645f06a685
 md"""
-### Example: Kernel Density Estimation
+## Example: Kernel Density Estimation
 
 Kernel Density Estimation (KDE) uses a kernel function to approximate the probability density function of data. The kernel is a smooth, symmetric function (e.g., Gaussian), and the bandwidth parameter controls the smoothness of the estimate. The KDE formula is:
 
@@ -293,7 +381,7 @@ end
 
 # ╔═╡ 66acb3bb-0478-4207-aa6f-ba8cdacbd23f
 md"""
-### Key Takeaways
+## Key Takeaways
 1. Nonparametric methods like KDE are powerful tools for exploring data without strong distributional assumptions.
 2. The choice of bandwidth critically affects the smoothness of the estimated density:
    - Small bandwidths can overfit (high variance).
@@ -393,6 +481,12 @@ begin
 	y_limits = ylims()
 	plot!(; ylims=(0.0, y_limits[2]))
 end
+
+# ╔═╡ f75e3b29-e817-4f92-8469-ec7cda9b0218
+html_quarter_space()
+
+# ╔═╡ 48884c8f-ea4e-490b-aabe-611e7e08b7f3
+html_quarter_space()
 
 # ╔═╡ 1677fd3f-6d2d-431e-a85c-7c2e2c82d390
 # Interactive bandwidth slider
@@ -528,6 +622,15 @@ html"""
 # ╟─462b7734-c3e0-44b2-8555-3d40c1bf0cd4
 # ╟─7cb4767f-aee8-4021-adfd-9416ca06cbab
 # ╟─ef7081cf-0d98-461e-8764-c6fa332298e4
+# ╟─f75e3b29-e817-4f92-8469-ec7cda9b0218
+# ╟─c2ef12e2-7b3a-4ae7-b5bf-6c8a2acb0a65
+# ╟─bdfe9697-8224-4a22-9229-458297153693
+# ╟─76337315-9fad-4a62-8d51-b238e1254c17
+# ╠═b861c5f8-4ed1-4575-86e7-60664a35af51
+# ╟─f0fda9ac-2772-4e24-b10d-9e18a0ba523a
+# ╠═9af73f4c-16e3-4757-b96e-456d7aa81024
+# ╟─6db32b85-0184-4911-99c6-4c56673b2954
+# ╟─48884c8f-ea4e-490b-aabe-611e7e08b7f3
 # ╟─252dffe0-38c0-11eb-0b9f-e19e63641d4a
 # ╟─09ea445c-cd6a-40d4-8585-92645f06a685
 # ╟─7a694323-0ea1-478a-8aff-9cb33a41d583
