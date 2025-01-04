@@ -1,4 +1,5 @@
-using AA120Q, Cairo, Colors, Printf
+using Cairo, Colors, Printf
+
 mutable struct MountainCar
     x::Float64 # position
     v::Float64 # speed
@@ -207,4 +208,24 @@ function render_mountain_car(car::MountainCar, color::Colorant=colorant"blue";
     end
     
     s
+end
+
+function get_canvas_and_context(canvas_width::Int, canvas_height::Int;
+    camera_pos::Tuple{Float64,Float64} = (0.0,0.0), # [m]
+    camera_zoom::Float64 = 0.5, # [pix/m]
+    )
+    s = CairoRGBSurface(canvas_width, canvas_height)
+    ctx = creategc(s)
+
+    # clear background
+    set_source_rgb(ctx, 1.0,1.0,1.0)
+    paint(ctx)
+
+    # reset the transform such that (0,0) is the middle of the image
+    reset_transform(ctx)
+    Cairo.translate(ctx, canvas_width/2, canvas_height/2)                 # translate to image center
+    Cairo.scale(ctx, camera_zoom, -camera_zoom )  # [pix -> m]
+    Cairo.translate(ctx, -camera_pos[1], -camera_pos[2]) # translate to camera location
+
+    (s, ctx)
 end
