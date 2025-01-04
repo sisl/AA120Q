@@ -38,6 +38,8 @@ begin
 	# Julia and Pluto
 	AA120Q: *Building Trust in Autonomy*
 
+	v2025.0.1
+
 	## Readings/Videos/References
 	
 	Readings/Videos:

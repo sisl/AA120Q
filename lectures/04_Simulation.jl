@@ -38,6 +38,8 @@ md"""
 # Simulation
 AA120Q: *Building Trust in Autonomy*
 
+v2025.0.1
+
 Simulation is a powerful tool used to model, analyze, and predict the behavior of complex systems. By creating a virtual environment that replicates real-world dynamics, we can:
 - Test hypotheses without risking resources or safety.
 - Explore "what-if" scenarios to make better decisions.

@@ -36,7 +36,9 @@ end
 begin
 	md"""
 	# Learning
-	AA120Q: *Building Trust in Autonomy* 
+	AA120Q: *Building Trust in Autonomy*
+
+	v2025.0.1
 
 	## Readings/Videos/References
 	- [Decision Making Under Uncertainty, Chapter 2.3, *Parameter Learning*](https://ieeexplore.ieee.org/document/7288676)

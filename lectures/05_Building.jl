@@ -36,6 +36,8 @@ md"""
 # Building and Evaluating Autonomous Systems
 AA120Q: *Building Trust in Autonomy*
 
+v2025.0.1
+
 ## Why Build Autonomous Systems?
 
 Autonomous systems are transforming industries, from aerospace to self-driving cars, by enabling machines to perform complex tasks with minimal human intervention. These systems must:

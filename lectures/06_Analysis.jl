@@ -40,6 +40,8 @@ md"""
 # Analysis of Autonomous Systems
 AA120Q: *Building Trust in Autonomy*
 
+v2025.0.1
+
 An important component for building trust and ensuring safe, effective deployment of autonomous systems is rigorous analysis. When developing systems like collision avoidance algorithms, self-driving cars, or medical diagnosis tools, we need systematic methods to validate performance, understand behavior, compare different approaches, identify weaknesses, and verify robustness under varying conditions.
 
 In this notebook, we'll explore techniques for analyzing autonomous systems. We'll examine both quantitative and qualitative analysis methods, discuss how to handle multiple competing objectives, explore statistical tools for comparing distributions, and learn about cross-validation techniques for model evaluation. Through these tools, we'll develop frameworks to evaluate whether systems are working correctly, determine appropriate performance metrics, balance competing objectives like safety and efficiency, and ensure our analysis generalizes to real-world conditions.

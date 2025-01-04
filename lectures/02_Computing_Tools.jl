@@ -44,8 +44,10 @@ using Colors
 # ╔═╡ f3d093c0-076b-11eb-21bc-d752119bd59f
 begin
 	md"""
-	# Scientific Computing Tools and Visualizations
+	# Scientific Computing Tools and Visualizations	
 	AA120Q: *Building Trust in Autonomy*
+
+	v2025.0.1
 
 	## Readings/Videos/References
 	- [`Pkg` Documentation](https://docs.julialang.org/en/v1/stdlib/Pkg/)
