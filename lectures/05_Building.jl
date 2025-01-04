@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.3
+# v0.20.4
 
 using Markdown
 using InteractiveUtils
@@ -27,7 +27,7 @@ end
 # ╠═╡ show_logs = false
 begin
 	if !@isdefined MountainCar
-		include("mountaincar.jl") # uses AA120Q, Cairo, Color, Printf
+		include("mountaincar.jl") # uses Cairo, Color, Printf
 	end
 end
 
