@@ -57,7 +57,7 @@ end
 # ╔═╡ d923dee0-3f12-11eb-0fb8-dffb2e9b3b2a
 md"""
 # Assignment 2: Learning Aircraft Encounter Models
-v2025.0.1
+v2025.0.2
 """
 
 # ╔═╡ a3648e27-ede6-4941-82d4-3698d8be1407
@@ -1249,7 +1249,7 @@ end
 html_half_space()
 
 # ╔═╡ d80a50f0-dbf0-41fa-b287-5beb4edc01aa
-html_expand("Expand for hint on how to ensure Δx ≥ 0", md"""
+html_expand("Hinkt: How to ensure Δx ≥ 0", md"""
 Think about what Δx represents in the encounter geometry:
 - What does a negative Δx mean about the relative positioning of the aircraft?
 - How could you view the same encounter from a different perspective to make Δx positive?
@@ -1259,11 +1259,22 @@ The underlying encounter geometry stays the same - we're just choosing how to de
 """)
 
 # ╔═╡ a3b564aa-2e6e-4ede-bad2-1dcc1ce9ab0c
-html_expand("Expand for a more explicit hint on how to ensure Δx ≥ 0", md"""
+html_expand("Hint: More explicit hint on how to ensure Δx ≥ 0", md"""
 If Δx is negative, you can view the encounter from the opposite direction by reversing the sign of Δx. When you do this transformation, think about what happens to Δu:
   - If aircraft 2 was moving rightward relative to aircraft 1 before...What direction is it moving after we flip our perspective?
 
 Try working through a simple example with two aircraft and see what happens to their relative velocity when you "flip" your viewpoint!
+""")
+
+# ╔═╡ 07f82794-804c-47e0-acc4-99d25d2821e4
+html_expand("Hint: Accessing fields in a struct", md"""
+Remember that `EncounterState` contains two `AircraftState` structs and we can access their fields using dot notation:
+
+```julia
+# Example accessing the x positions of the aircraft:
+encounter.plane1.x  # x position of plane 1
+encounter.plane2.x  # x position of plane 2
+```
 """)
 
 # ╔═╡ ea332118-52da-4dee-ac3e-73d23609a3f5
@@ -1274,6 +1285,31 @@ end_code()
 
 # ╔═╡ b9741f71-1157-4af2-ae63-d9d5cb8acc53
 html_quarter_space()
+
+# ╔═╡ 072b4008-c6a5-4df0-9d09-1c738683a90a
+html_expand("Hint: Adding data to a DataFrame", md"""
+There are a few ways to add rows to a DataFrame in Julia. Here is a couple of examples:
+
+```julia
+# Add a single row from values in order of columns
+push!(df, (value1, value2, value3))
+
+# Add a single row from a tuple matching column names
+push!(df, (col1=value1, col2=value2))
+
+# If we have a function that returns a tuple in the order of the columns
+push!(df, some_func(some_input))
+```
+
+"""
+)
+
+# ╔═╡ e13a7f36-c333-41ef-b188-1f64c5e48c57
+html_expand("Hint: Solution length", md"""A good solution is typically 2-3 lines of code:
+1. A loop or comprehension to iterate through encounters 
+2. Code to add each encounter's initial conditions to the DataFrame
+"""
+)
 
 # ╔═╡ 775a17e1-8eb9-497f-98bb-19896400b96c
 start_code()
@@ -1302,6 +1338,9 @@ The `fit` function returns a Bayesian network and requires the following argumen
 
 Make sure these are passed in the correct order!
 """)
+
+# ╔═╡ 422031e7-8385-47e9-8e62-624c0ececa11
+html_expand("Hint: Solution length", md"""Your solution should be a single line of code""")
 
 # ╔═╡ fdd4a73c-c91f-4d5f-93df-101f93a3ca4a
 start_code()
@@ -1431,6 +1470,9 @@ The `nlabels` function returns the number of categories associated with a discre
 
 Reference the starter code for Milestone One - Part 2 on a way to apply this function to each column of the DataFrame.
 """)
+
+# ╔═╡ 8dbeb314-2d90-4815-9f51-d19b83b79806
+html_expand("Hint: Solution length", md"""A good solutions is typically 2-3 lines of code.""")
 
 # ╔═╡ f7d43c27-46b5-4dc6-8db1-3f6e7e4be5e8
 start_code()
@@ -1567,6 +1609,7 @@ PlutoUI.TableOfContents()
 # ╟─3623eaa8-0b38-4787-9839-c9aa959d1d3d
 # ╟─d80a50f0-dbf0-41fa-b287-5beb4edc01aa
 # ╟─a3b564aa-2e6e-4ede-bad2-1dcc1ce9ab0c
+# ╟─07f82794-804c-47e0-acc4-99d25d2821e4
 # ╟─ea332118-52da-4dee-ac3e-73d23609a3f5
 # ╠═4d0a3c12-3410-4b4f-941a-1dfe6c9870bc
 # ╟─dc04a0e8-1bcb-472b-8297-b66e5c4afc9f
@@ -1574,6 +1617,8 @@ PlutoUI.TableOfContents()
 # ╟─151a5840-4f9b-415e-823f-322fd4ca194d
 # ╟─b9741f71-1157-4af2-ae63-d9d5cb8acc53
 # ╟─e74cfb06-933d-43d9-8bb2-5f0c40775ce6
+# ╟─072b4008-c6a5-4df0-9d09-1c738683a90a
+# ╟─e13a7f36-c333-41ef-b188-1f64c5e48c57
 # ╟─775a17e1-8eb9-497f-98bb-19896400b96c
 # ╠═d0366eb2-6829-4cce-9e9a-0954c547cb7c
 # ╟─64ad7c01-3df7-4c55-be82-e88e135dc554
@@ -1583,6 +1628,7 @@ PlutoUI.TableOfContents()
 # ╟─5e9fca68-4016-40ee-b0ba-1db008efee99
 # ╟─ad2c2e63-bbf8-4fa9-a095-c300eb7b1363
 # ╟─e5ff92f4-26ba-465d-83ff-8bfd3e8171c9
+# ╟─422031e7-8385-47e9-8e62-624c0ececa11
 # ╟─fdd4a73c-c91f-4d5f-93df-101f93a3ca4a
 # ╠═a2029e97-7907-456f-baea-7fc4a7ac7feb
 # ╟─bff41c61-e1b1-446c-86a9-f27866623c96
@@ -1626,6 +1672,7 @@ PlutoUI.TableOfContents()
 # ╟─565d70e4-a6eb-4598-906c-4939b4e70e9c
 # ╟─8f459152-d2f7-466c-9da2-ddf603fc308a
 # ╟─84cf4097-e3b3-4c5a-869a-f3f10e2e109a
+# ╟─8dbeb314-2d90-4815-9f51-d19b83b79806
 # ╟─f7d43c27-46b5-4dc6-8db1-3f6e7e4be5e8
 # ╠═b3bebc6c-a0fb-4ed2-b9e6-c325786ec1fe
 # ╟─fc762362-baf3-4c3d-9732-019d4041145a

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.3
+# v0.20.4
 
 using Markdown
 using InteractiveUtils
@@ -57,7 +57,7 @@ end
 # ╔═╡ 91ad6858-5045-11eb-3385-e5ba7a7a2d9f
 md"""
 # Assignment 3: Encounter Simulation and Analysis
-v2025.0.1
+v2025.0.2
 """
 
 # ╔═╡ 14963911-171a-4d32-aad8-7eb3c573ffc2
@@ -829,6 +829,9 @@ enc_set[1] != enc_set[2]  # Different encounters should have different states
 ```
 """)
 
+# ╔═╡ da4b96fa-b4ef-49f9-9106-3bb4c2786d97
+html_expand("Hint: Solution length", md"""A good solution is typically 3-4 lines of code""")
+
 # ╔═╡ aa1c8ed2-9689-4e4b-ace7-83e7a611d3a2
 start_code()
 
@@ -872,6 +875,9 @@ Your results should make sense:
 - A few encounters might have very close approaches
 - Vector length should match number of encounters
 """)
+
+# ╔═╡ 70d33856-7e26-4889-b7fd-f633ffcfbf7e
+html_expand("Hint: Solution length", md"""A solution can be accomplished in a single line of code. Other good solutions are typically 3-4 lines of code.""")
 
 # ╔═╡ ea326710-f9f4-4639-a46d-20a86bed13e9
 start_code()
@@ -1129,6 +1135,7 @@ PlutoUI.TableOfContents(title="Simulation")
 # ╟─2a45113a-6526-4a8f-9412-fc378611719e
 # ╟─d60370a4-d790-466c-a115-565bf53b38c6
 # ╟─d60e33d2-a1d5-4704-8783-3f91d0ab1b1d
+# ╟─da4b96fa-b4ef-49f9-9106-3bb4c2786d97
 # ╟─aa1c8ed2-9689-4e4b-ace7-83e7a611d3a2
 # ╠═7bd42806-5071-11eb-2dc7-a30af2d936cd
 # ╟─cebaa4f0-9cfd-488e-a51f-ed1f3df1d9ee
@@ -1146,6 +1153,7 @@ PlutoUI.TableOfContents(title="Simulation")
 # ╟─81cba53e-5073-11eb-0e5b-4b1fd9e86bbb
 # ╟─75724533-1c74-41c7-bb73-e829941d990c
 # ╟─7aaace56-07a8-4545-a9fa-56354b738e8f
+# ╟─70d33856-7e26-4889-b7fd-f633ffcfbf7e
 # ╟─ea326710-f9f4-4639-a46d-20a86bed13e9
 # ╠═96480fb6-5073-11eb-0bcd-3b877ff5a879
 # ╟─5a46f317-9450-4bac-9b27-b09919b96dca

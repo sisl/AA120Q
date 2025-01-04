@@ -32,7 +32,7 @@ end
 # ╔═╡ 2ed7b212-3f0b-11eb-21f0-3d47dc28865b
 md"""
 # Assignment 1: Estimating $\pi$
-v2025.0.1
+v2025.0.2
 """
 
 # ╔═╡ 1cf22288-de2e-408a-ac8b-7b2470da7271
@@ -377,7 +377,7 @@ md"""
 # ╔═╡ 0d43eca0-4f8b-11eb-0c89-5d63aeb992cd
 function run_trials()
 
-    # 15 sample sizes
+    # 15 sample sizes. This creates a Vector{Int64}
     nsamples = round.(Int, collect(exp10.(range(1, stop=5, length=15))))
 	
 	# Populate these arrays with the results from the trials
@@ -507,6 +507,14 @@ html_expand("Expand for `rand()` usage hint", md"""
 To get a random number between $0$ and $10$, you can use `rand() * 10`.
 """)
 
+# ╔═╡ 1e6db323-ac4c-4b88-b3b4-dc102abcb230
+html_expand("Hint: Breaking down `throw_needle()`", md"""
+- A typical solution is 2-3 lines of code
+- Think about:
+  1. What range of x values can the center of the needle have? 
+  2. What range of angles (θ) do we need to consider?
+""")
+
 # ╔═╡ 0692bf72-6669-4936-aa09-c380d78b0684
 start_code()
 
@@ -543,6 +551,18 @@ html_expand("Expand for hint", md"""
 According to our definition, the value we sample for $x$ corresponds to the center of the needle. It may be useful to determine the location of the tips of the needle based on the sampled value of $θ$. Is there a simple trigonometric relationship to provide us with this?
 """)
 
+# ╔═╡ d762b65d-f14f-477a-8229-82a951ec012a
+html_expand("Hint: Steps for `needle_overlaps`", md"""
+A good solution is typically 4-5 lines of code. Consider breaking it down into steps:
+
+1. Calculate positions of both needle tips using:
+   - Center position (x)
+   - Angle (θ)
+   - Needle length (which equals board width)
+2. Determine which board sections the tips lie in
+3. Compare the sections to check for overlap
+""")
+
 # ╔═╡ 06c09405-2e90-4534-80a9-d1af8321a9f4
 start_code()
 
@@ -551,6 +571,15 @@ end_code()
 
 # ╔═╡ 093bf4c4-5c32-4d17-a2ef-1ff21f26759e
 html_quarter_space()
+
+# ╔═╡ 537df431-94be-4a48-8333-11e9448d33f9
+html_expand("Hint: Steps for `buffon_calc`", md"""
+A good solution is typically 4-5 lines of code. Recommended steps to consider:
+
+1. Generate n random needle throws 
+2. Count how many needles overlap board edges
+3. Use the ratio to estimate π
+""")
 
 # ╔═╡ 99963b79-9da4-4c2c-9d7c-b41f068ca470
 start_code()
@@ -580,6 +609,23 @@ std(x)   # ≈1.58
 html_expand("Expand for standard error formula", md"""
 Standard error = ``\frac{\sigma}{\sqrt{n}}``
 where ``\sigma`` is the standard deviation of your estimates and ``n`` is the number of trials (100 in our case).
+""")
+
+# ╔═╡ cc34bc66-a9b9-4637-8c6a-eca209aea411
+html_expand("Hint: Steps for run_trials", md"""
+A complete solution is typically 4-5 lines of code. Break it down into these steps:
+
+For each sample size in `nsamples` (think for loop):
+   - Run 100 trials using that sample size
+   - Calculate statistics across those trials
+   - Store those calculated values in `mean_y` and `stderr_y`
+
+More things to consider:
+- Use can use `enumerate` to loop through `nsamples` with an index. [Link to `enumerate` documentation.](https://docs.julialang.org/en/v1/base/iterators/#Base.Iterators.enumerate).
+- For each sample size, you need:
+  * 100 estimates of π
+  * The mean of those estimates
+  * The standard error of those estimates
 """)
 
 # ╔═╡ 2bacebf3-5c44-457f-bcac-d8dfe0a63a09
@@ -691,6 +737,7 @@ PlutoUI.TableOfContents()
 # ╟─890f8d20-3f0b-11eb-0ab6-b54cd1c0f0e7
 # ╟─8cc8f630-3f0c-11eb-2906-9ffe051b6fb8
 # ╟─5baea115-3c4b-4966-a5be-fbc340ecb924
+# ╟─1e6db323-ac4c-4b88-b3b4-dc102abcb230
 # ╟─0692bf72-6669-4936-aa09-c380d78b0684
 # ╠═a689a200-3f0b-11eb-2354-357e2b8a25aa
 # ╟─9278a00f-f311-41a6-907a-6d980adef27b
@@ -701,6 +748,7 @@ PlutoUI.TableOfContents()
 # ╟─fd1e7040-3f0c-11eb-3b27-69a7f8aee903
 # ╟─49fe7c6a-f229-456e-901f-a8e1cebc62cd
 # ╟─fd9246ca-4f88-11eb-0619-9b337632c1cd
+# ╟─d762b65d-f14f-477a-8229-82a951ec012a
 # ╟─06c09405-2e90-4534-80a9-d1af8321a9f4
 # ╠═1c42b2b0-3f0d-11eb-1b92-4b252ac6c319
 # ╟─f0182f4e-838a-4dc9-8628-cd9259007dfe
@@ -709,6 +757,7 @@ PlutoUI.TableOfContents()
 # ╟─093bf4c4-5c32-4d17-a2ef-1ff21f26759e
 # ╟─2416a280-3f0d-11eb-04c2-b34b546b1d50
 # ╟─57ff0e70-3f0d-11eb-0c5a-4759bf1fbc99
+# ╟─537df431-94be-4a48-8333-11e9448d33f9
 # ╟─99963b79-9da4-4c2c-9d7c-b41f068ca470
 # ╠═41787470-3f0d-11eb-0e8c-9bf6be69db81
 # ╟─d018a395-0ea5-40c1-968a-717bd1c6736c
@@ -722,6 +771,7 @@ PlutoUI.TableOfContents()
 # ╟─ab4b84f0-3f0d-11eb-246d-894db1e511dd
 # ╟─96c9f5cf-43db-4cfa-b3e4-f915e7d85f51
 # ╟─b8b3fbe0-3f0d-11eb-07d1-35926101d464
+# ╟─cc34bc66-a9b9-4637-8c6a-eca209aea411
 # ╟─f48a9660-3f0d-11eb-3244-2bedb4858323
 # ╟─2bacebf3-5c44-457f-bcac-d8dfe0a63a09
 # ╠═0d43eca0-4f8b-11eb-0c89-5d63aeb992cd
