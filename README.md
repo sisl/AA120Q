@@ -46,7 +46,7 @@ Install Julia version 1.11+ from https://julialang.org/downloads. Once installed
 
 ### Clone the Repository
 Open a terminal, navigate to a directory where you want to store the course materials, and run:
-    ```bash
+    ```
     git clone https://github.com/sisl/AA120Q
     ```
 
