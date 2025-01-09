@@ -1,8 +1,3 @@
-name = "AA120Q"
-uuid = "31b54b08-bf08-43c2-b18f-126f51c8dcbd"
-authors = ["Dylan Asmar < asmar@stanford.edu", "Robert Moss <mossr@cs.stanford.edu>"]
-version = "0.2.0"
-
 [deps]
 BayesNets = "ba4760a4-c768-5bed-964b-cf806dc591cb"
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
