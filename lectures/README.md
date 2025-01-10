@@ -2,7 +2,7 @@
 [![website](https://img.shields.io/badge/website-Stanford-b31b1b.svg)](https://aa120q.stanford.edu/)
 
 ## Steps
-### 1. Open Pluto:
+1. Open Pluto:
     - Run `julia` in a terminal.
     - Within Julia, run:
         ```julia
@@ -15,7 +15,7 @@
             ┌ Info:
             └ Opening http://localhost:1234/ in your default browser... ~ have fun!
             ```
-### 2. Open the desired notebook from Pluto through this box (`<PATH_TO_AA120Q>/lectures/<DESIRED_NOTEBOOK.jl>`): <p align="center"> <img src="./figures/pluto-open.png#gh-light-mode-only"> </p><p align="center"> <img src="./figures/pluto-open-dark.png#gh-dark-mode-only"> </p>
+2. Open the desired notebook from Pluto through this box (`<PATH_TO_AA120Q>/lectures/<DESIRED_NOTEBOOK.jl>`): <p align="center"> <img src="./figures/pluto-open.png#gh-light-mode-only"> </p><p align="center"> <img src="./figures/pluto-open-dark.png#gh-dark-mode-only"> </p>
     - Click `Run notebook code` (on the top right).
 
 ## Notebook Overview
