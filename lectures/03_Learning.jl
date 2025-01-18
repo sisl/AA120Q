@@ -340,7 +340,7 @@ md"""
 Kernel Density Estimation (KDE) uses a kernel function to approximate the probability density function of data. The kernel is a smooth, symmetric function (e.g., Gaussian), and the bandwidth parameter controls the smoothness of the estimate. The KDE formula is:
 
 ``
-\hat{f}(x) = \frac{1}{n h} \sum_{i=1}^n K\left(\frac{x - x_i}{h}\right),
+\hat{f}(x) = \frac{1}{n} \sum_{i=1}^n K\left(\frac{x - x_i}{h}\right),
 ``
 
 where:
