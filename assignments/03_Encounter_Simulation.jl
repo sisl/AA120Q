@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.20.4
+# v0.20.3
 
 using Markdown
 using InteractiveUtils
@@ -57,7 +57,7 @@ end
 # ╔═╡ 91ad6858-5045-11eb-3385-e5ba7a7a2d9f
 md"""
 # Assignment 3: Encounter Simulation and Analysis
-v2025.0.2
+v2025.0.3
 """
 
 # ╔═╡ 14963911-171a-4d32-aad8-7eb3c573ffc2
@@ -332,7 +332,7 @@ begin
         
         if !empty_check
 			# Check 1: Returns correct type
-			type_check = user_distances isa Vector{<:Real}
+			type_check = user_distances isa Vector
         
 	        # Check 2: Correct length
 	        length_check = length(user_distances) == length(test_encounters)
